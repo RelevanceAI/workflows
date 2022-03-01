@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from nbformat import read, NO_CONVERT
+
 # Each of the below aims to extract the lreevant cell metadata
 def get_cell_type(cell):
     print(cell)
