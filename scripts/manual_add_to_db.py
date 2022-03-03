@@ -1,7 +1,8 @@
 from relevanceai import Client
 
 # TODO: Add Github Action
-client = Client(token="")
+import os
+client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 
 ds = client.Dataset("workflows-data")
 
@@ -48,6 +49,17 @@ DOCS = [
             "prerequisites": ["No requirements."],
             "use_cases": ["Analysing which tweets are the most popular."],
             "documentation_links": [],
+            "video_links": [],
+            "new": True
+        },
+        {
+            "_id": "keyphrases",
+            "colab_link": "",
+            "title": "Keyphrases",
+            "description": "Identify the most common keyphrases in a text field and clusters and see how we enable infinite hacking to finetune your keyphrases.",
+            "prerequisites": ["Text fields", "*(Optional) Cluster fields"],
+            "use_cases": ["Automated keyphrase detection in clusters"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
             "new": True
         }
