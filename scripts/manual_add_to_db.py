@@ -54,10 +54,10 @@ DOCS = [
         },
         {
             "_id": "keyphrases",
-            "colab_link": "",
+            "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
             "title": "Keyphrases",
             "description": "Identify the most common keyphrases in a text field and clusters and see how we enable infinite hacking to finetune your keyphrases.",
-            "prerequisites": ["Text fields", "*(Optional) Cluster fields"],
+            "prerequisites": ["Text fields", "(Optional) Cluster fields"],
             "use_cases": ["Automated keyphrase detection in clusters"],
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
