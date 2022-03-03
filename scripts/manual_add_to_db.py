@@ -40,6 +40,17 @@ DOCS = [
             "video_links": [],
             "new": True
         },
+        {
+            "_id": "twitter-analysis",
+            "colab_link": "https://colab.research.google.com/drive/1mPxekiRFEPea6XuOMIHMq54kCGBtMe26?usp=sharing",
+            "title": "Twitter Analysis",
+            "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
+            "prerequisites": ["No requirements."],
+            "use_cases": ["Analysing which tweets are the most popular."],
+            "documentation_links": [],
+            "video_links": [],
+            "new": True
+        }
     ]
 
 results = ds.upsert_documents(DOCS)
