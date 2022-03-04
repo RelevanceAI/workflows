@@ -43,7 +43,7 @@ DOCS = [
         },
         {
             "_id": "twitter-analysis",
-            "colab_link": "https://colab.research.google.com/drive/1mPxekiRFEPea6XuOMIHMq54kCGBtMe26?usp=sharing",
+            "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
             "title": "Twitter Analysis",
             "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
             "prerequisites": ["No requirements."],
