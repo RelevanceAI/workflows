@@ -62,7 +62,18 @@ DOCS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
             "new": True
-        }
+        },
+        {
+            "_id" : "vector-rake",
+            "title": "Vector Rake",
+            "description": "Updates docs with a subset of keywords selected using Rake and Cosine distance in vector space",
+            "colab_link": COLAB_PREFIX + "workflows/vector-rake/vector_rake.ipynb",
+            "use_cases": ["auto-labeling documents"],
+            "documentation_links": [],
+            "video_links": [],
+            "new": True,
+            "prerequisites": ["dataset with text field", "vectorized text field", "vectorizer"],
+        },
     ]
 
 results = ds.upsert_documents(DOCS)
