@@ -1,13 +1,24 @@
+"""
+This file uploads 2 things: 
+- workflows 
+- recipes
+
+Workflows go into "workflows-data"
+Recipes go into "workflows-recipes"
+"""
+import os
 from relevanceai import Client
 
-# TODO: Add Github Action
-import os
 client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 
+# Workflows data
 ds = client.Dataset("workflows-data")
 
+# Recipes data
+recipes_ds = client.Dataset("workflows-recipes")
+
 COLAB_PREFIX = "https://colab.research.google.com/github/RelevanceAI/workflows/blob/main/"
-DOCS = [
+WORKFLOWS = [
         {
             "_id" : "bias-detection",
             "title": "Bias Detection",
@@ -101,5 +112,58 @@ DOCS = [
         }
     ]
 
-results = ds.upsert_documents(DOCS)
+
+results = ds.upsert_documents(WORKFLOWS)
+print(results)
+RECIPES_DOCS = [
+        {
+            "_id": "twitter-analysis",
+            "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
+            "title": "Twitter Analysis",
+            "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
+            "prerequisites": ["No requirements."],
+            "use_cases": ["Analysing which tweets are the most popular."],
+            "documentation_links": [],
+            "video_links": [],
+            "new": True
+        },
+        {
+            "_id": "figma-search",
+            "colab_link": None,
+            "title": "Figma Illustration Search",
+            "description": "Upload all figma images and instantly be able to search them.",
+            "prerequisites": ["Figma account"],
+            "use_cases": ["Image Search", "Illustration search", "Designer Showcase"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
+            "video_links": [],
+#             "new": True,
+            "coming": True
+        },
+        {
+            "_id": "figma-clusters",
+            "colab_link": None,
+            "title": "Figma Illustration Clusters",
+            "description": "Group your illustrations to promote natural discovery of your illustrations.",
+            "prerequisites": ["Figma account"],
+            "use_cases": ["Illustration Search", "Designer Discovery", "Drawing Discovery"],
+            "documentation_links": [],
+            "video_links": [],
+#             "new": True,
+            "coming": True
+        },
+        {
+            "_id": "crunchbase-clusters",
+            "colab_link": None,
+            "title": "Crunchbase Cluster Analysis",
+            "description": "Group companies to discover similar properties between your companies.",
+            "prerequisites": ["Crunchbase account"],
+            "use_cases": ["Competitor Analysis", "Crunchbase"],
+            "documentation_links": [],
+            "video_links": [],
+#             "new": True,
+            "coming": True
+        }
+    ]
+
+results = recipes_ds.upsert_documents(RECIPES_DOCS)
 print(results)
