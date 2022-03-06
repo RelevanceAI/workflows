@@ -13,7 +13,7 @@ client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 
 # Workflows data
 ds = client.Dataset("workflows-data")
-ds.delete()
+# ds.delete()
 
 # Recipes data
 recipes_ds = client.Dataset("workflows-recipes")
@@ -58,11 +58,13 @@ WORKFLOWS = [
             "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
             "title": "Twitter Analysis",
             "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
-            "prerequisites": ["No requirements."],
-            "use_cases": ["Analysing which tweets are the most popular."],
-            "documentation_links": [],
-            "video_links": [],
-            "new": True
+            "prerequisites": ["No requirements."], # not needed in future
+            "use_cases": ["Analysing which tweets are the most popular."], # not needed in future
+            "documentation_links": [], # not needed in future
+            "video_links": [], # not needed in future
+            "new": True,
+            "recipe": True, # Required for recipes
+            "recipe_url": "https://relevance.ai"
         },
         {
             "_id": "keyphrases",
