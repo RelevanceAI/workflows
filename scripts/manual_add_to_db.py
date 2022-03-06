@@ -87,7 +87,7 @@ WORKFLOWS = [
 #             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
 #             "video_links": [],
 # #             "new": True,
-#             "coming": True
+#             "coming_soon": True
 #         },
 #         {
 #             "_id": "figma-clusters",
@@ -99,7 +99,7 @@ WORKFLOWS = [
 #             "documentation_links": [],
 #             "video_links": [],
 # #             "new": True,
-#             "coming": True
+#             "coming_soon": True
 #         },
 #         {
 #             "_id": "crunchbase-clusters",
@@ -111,7 +111,7 @@ WORKFLOWS = [
 #             "documentation_links": [],
 #             "video_links": [],
 # #             "new": True,
-#             "coming": True
+#             "coming_soon": True
 #         }
     ]
 
