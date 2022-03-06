@@ -77,6 +77,18 @@ WORKFLOWS = [
             "video_links": [],
             "new": True
         },
+        {
+            "_id": "video-searcg",
+            "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "title": "Video Search",
+            "description": "Search videos using text to find the right frame you want.",
+            "prerequisites": ["Mp4 video"],
+            "use_cases": ["Video Search"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+            "video_links": [],
+            "new": True,
+            "coming_soon": True
+        },
 #         {
 #             "_id": "figma-search",
 #             "colab_link": None,
