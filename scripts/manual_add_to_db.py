@@ -109,7 +109,8 @@ WORKFLOWS = [
             "use_cases": [],
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/auto_reduce_dimensions.html"}],
             "video_links": [{"dr-workflows": "https://files.relevance.ai/v/2kFOGHU2jN6sKOx4NGl4"}],
-            "new": False
+            "new": False,
+            "core": True,
         }
 #         {
 #             "_id": "figma-search",
