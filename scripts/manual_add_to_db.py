@@ -92,7 +92,7 @@ WORKFLOWS = [
         {
             "_id": "community-detection",
             "colab_link": COLAB_PREFIX + "workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
-            "title": "Community Detection with Relevance AI",
+            "title": "Community Detection",
             "description": "Detect communities, or clusters, among embedding-transformed text fields or vectors.",
             "prerequisites": ["Text fields", "(Optional) Cluster fields"],
             "use_cases": ["Community detection of text fields and vectors"],
