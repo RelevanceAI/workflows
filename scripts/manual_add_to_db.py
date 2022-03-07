@@ -100,6 +100,17 @@ WORKFLOWS = [
             "video_links": [],
             "new": True
         },
+        {
+            "_id": "dimensionality-reduction",
+            "colab_link": COLAB_PREFIX + "workflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb",
+            "title": "Dimensionality Reduction",
+            "description": "Run dimensionality reduction via a given token.",
+            "prerequisites": [],
+            "use_cases": [],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/auto_reduce_dimensions.html"}],
+            "video_links": [{"dr-workflows": "https://files.relevance.ai/v/2kFOGHU2jN6sKOx4NGl4"}],
+            "new": False
+        }
 #         {
 #             "_id": "figma-search",
 #             "colab_link": None,
