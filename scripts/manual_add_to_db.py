@@ -136,6 +136,18 @@ WORKFLOWS = [
             "new": False,
             "core": True,
         },
+        {
+            "_id": "media-upload",
+            "colab_link": COLAB_PREFIX + "workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
+            "title": "Media Upload",
+            "description": "Learn how to upload images/videos/audio files to Relevance AI!",
+            "prerequisites": ["Images or other media files to upload. These can be local or hosted online somewhere else already."],
+            "use_cases": [],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest"}],
+            "video_links": [],
+            "new": True,
+            "core": False,
+        },
         
 #         {
 #             "_id": "figma-search",
