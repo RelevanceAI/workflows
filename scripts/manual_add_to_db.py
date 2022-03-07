@@ -13,7 +13,7 @@ client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 
 # Workflows data
 ds = client.Dataset("workflows-data")
-# ds.delete()
+ds.delete()
 
 # Recipes data
 recipes_ds = client.Dataset("workflows-recipes")
@@ -78,7 +78,7 @@ WORKFLOWS = [
             "new": True
         },
         {
-            "_id": "video-searcg",
+            "_id": "video-search",
             "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
             "title": "Video Search",
             "description": "Search videos using text to find the right frame you want.",
