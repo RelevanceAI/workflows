@@ -1,0 +1,5 @@
+# The workflows that should be ignored should be the full path name relative
+# The path of the workflows to be ignored should be written out in full, 
+# relative to the current directory. For example, if the workflow 
+# "workflow.ipynb" exists in "directory", then to ignore it be sure to write
+# out "directory/workflow.ipynb". 
