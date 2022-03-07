@@ -90,6 +90,30 @@ WORKFLOWS = [
             "coming_soon": True
         },
         {
+            "_id": "video-clusters",
+            "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "title": "Video Clustering",
+            "description": "Get clusters to determine key different scenes in your video.",
+#             "prerequisites": ["Mp4 video"],
+#             "use_cases": ["Video Search"],
+#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+#             "video_links": [],
+#             "new": True,
+            "coming_soon": True
+        },
+        {
+            "_id": "impact-analysis",
+            "colab_link": None,
+            "title": "Impact Analysis",
+            "description": "Analyse the impact of your labels and features on direct KPIs.",
+#             "prerequisites": ["Mp4 video"],
+#             "use_cases": ["Video Search"],
+#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+#             "video_links": [],
+            "new": True,
+            "coming_soon": True
+        },
+        {
             "_id": "community-detection",
             "colab_link": COLAB_PREFIX + "workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
             "title": "Community Detection",
@@ -104,14 +128,15 @@ WORKFLOWS = [
             "_id": "dimensionality-reduction",
             "colab_link": COLAB_PREFIX + "workflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb",
             "title": "Dimensionality Reduction",
-            "description": "Run dimensionality reduction via a given token.",
+            "description": "Reduce vector fields in your dataset down to fewer dimensions for easier visualisation (e.g. our 3D projector)",
             "prerequisites": [],
             "use_cases": [],
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/auto_reduce_dimensions.html"}],
             "video_links": [{"dr-workflows": "https://files.relevance.ai/v/2kFOGHU2jN6sKOx4NGl4"}],
             "new": False,
             "core": True,
-        }
+        },
+        
 #         {
 #             "_id": "figma-search",
 #             "colab_link": None,
