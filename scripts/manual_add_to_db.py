@@ -62,6 +62,17 @@ DOCS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
             "new": True
+        },
+        {
+            "_id": "community-detection",
+            "colab_link": COLAB_PREFIX + "workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
+            "title": "Community Detection with Relevance AI",
+            "description": "Detect communities, or clusters, among embedding-transformed text fields or vectors.",
+            "prerequisites": ["Text fields", "(Optional) Cluster fields"],
+            "use_cases": ["Community detection of text fields and vectors"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html?highlight=community#relevanceai.dataset_api.dataset_operations.Operations.community_detection"}],
+            "video_links": [],
+            "new": True
         }
     ]
 
