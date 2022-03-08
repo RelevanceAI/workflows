@@ -65,8 +65,8 @@ DOCS = [
         },
         {
             "_id" : "vector-rake",
-            "title": "Vector Rake",
-            "description": "Updates docs with a subset of keywords selected using Rake and Cosine distance in vector space",
+            "title": "Vector-Rake Keyphrases",
+            "description": "Keyphrase extraction using a nearest-neighbor algorithm on top of the normal RAKE algorithm",
             "colab_link": COLAB_PREFIX + "workflows/vector-rake/vector_rake.ipynb",
             "use_cases": ["auto-labeling documents"],
             "documentation_links": [],
