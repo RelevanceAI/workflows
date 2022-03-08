@@ -10,7 +10,6 @@ from typing import List, Optional, Tuple
 import nbformat
 
 from nbclient import NotebookClient
-from nbclient.exceptions import CellExecutionError
 
 WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
 
