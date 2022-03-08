@@ -3,3 +3,11 @@
 # relative to the current directory. For example, if the workflow 
 # "workflow.ipynb" exists in "directory", then to ignore it be sure to write
 # out "directory/workflow.ipynb". 
+cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb
+cluster/Cluster_Your_Data_with_Relevance_AI.ipynb
+dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb
+impact-analysis/impact-analysis.ipynb
+keyphrases/KeyPhrases_Workflow.ipynb
+media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb
+mongodb/MongoDB_Workflow.ipynb
+vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb
