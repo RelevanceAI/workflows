@@ -5,7 +5,7 @@ import re
 from collections import namedtuple
 from multiprocessing import Pool
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
 import nbformat
 
