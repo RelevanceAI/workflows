@@ -117,7 +117,7 @@ WORKFLOWS = [
             "_id": "pdf-ingestion",
             "colab_link": None,
             "title": "Insert PDFs",
-            "description": "Insert highly unstructured PDFs and break them down into smaller documents.",
+            "description": "Insert highly unstructured PDFs in order to search images, flowcharts and build other vector applications/insights.",
 #             "prerequisites": ["Mp4 video"],
 #             "use_cases": ["Video Search"],
 #             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
