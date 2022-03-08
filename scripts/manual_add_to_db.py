@@ -1,13 +1,25 @@
+"""
+This file uploads 2 things: 
+- workflows 
+- recipes
+
+Workflows go into "workflows-data"
+Recipes go into "workflows-recipes"
+"""
+import os
 from relevanceai import Client
 
-# TODO: Add Github Action
-import os
 client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 
+# Workflows data
 ds = client.Dataset("workflows-data")
+ds.delete()
+
+# Recipes data
+recipes_ds = client.Dataset("workflows-recipes")
 
 COLAB_PREFIX = "https://colab.research.google.com/github/RelevanceAI/workflows/blob/main/"
-DOCS = [
+WORKFLOWS = [
         {
             "_id" : "bias-detection",
             "title": "Bias Detection",
@@ -46,11 +58,13 @@ DOCS = [
             "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
             "title": "Twitter Analysis",
             "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
-            "prerequisites": ["No requirements."],
-            "use_cases": ["Analysing which tweets are the most popular."],
-            "documentation_links": [],
-            "video_links": [],
-            "new": True
+            "prerequisites": ["No requirements."], # not needed in future
+            "use_cases": ["Analysing which tweets are the most popular."], # not needed in future
+            "documentation_links": [], # not needed in future
+            "video_links": [], # not needed in future
+            "new": True,
+            "recipe": True, # Required for recipes
+            "recipe_url": "https://relevance.ai"
         },
         {
             "_id": "keyphrases",
@@ -64,6 +78,179 @@ DOCS = [
             "new": True
         },
         {
+            "_id": "video-search",
+            "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "title": "Video Search",
+            "description": "Search videos using text to find the right frame you want.",
+            "prerequisites": ["Mp4 video"],
+            "use_cases": ["Video Search"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+            "video_links": [],
+            "new": True,
+            "coming_soon": True
+        },
+        {
+            "_id": "video-clusters",
+            "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "title": "Video Clustering",
+            "description": "Get clusters to determine key different scenes in your video.",
+#             "prerequisites": ["Mp4 video"],
+#             "use_cases": ["Video Search"],
+#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+#             "video_links": [],
+#             "new": True,
+            "coming_soon": True
+        },
+        {
+            "_id": "impact-analysis",
+            "colab_link": None,
+            "title": "Impact Analysis",
+            "description": "Analyse the impact of your labels and features on direct KPIs.",
+#             "prerequisites": ["Mp4 video"],
+#             "use_cases": ["Video Search"],
+#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+#             "video_links": [],
+            "new": True,
+            "coming_soon": True
+        },
+         {
+            "_id": "pdf-ingestion",
+            "colab_link": None,
+            "title": "Insert PDFs",
+            "description": "Insert highly unstructured PDFs in order to search images, flowcharts and build other vector applications/insights.",
+#             "prerequisites": ["Mp4 video"],
+#             "use_cases": ["Video Search"],
+#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+#             "video_links": [],
+            "new": True,
+            "coming_soon": True
+        },
+        {
+            "_id": "community-detection",
+            "colab_link": COLAB_PREFIX + "workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
+            "title": "Community Detection",
+            "description": "Detect communities, or clusters, among embedding-transformed text fields or vectors.",
+            "prerequisites": ["Text fields", "(Optional) Cluster fields"],
+            "use_cases": ["Community detection of text fields and vectors"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html?highlight=community#relevanceai.dataset_api.dataset_operations.Operations.community_detection"}],
+            "video_links": [],
+            "new": True
+        },
+        {
+            "_id": "dimensionality-reduction",
+            "colab_link": COLAB_PREFIX + "workflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb",
+            "title": "Dimensionality Reduction",
+            "description": "Reduce vector fields in your dataset down to fewer dimensions for easier visualisation (e.g. our 3D projector)",
+            "prerequisites": [],
+            "use_cases": [],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/auto_reduce_dimensions.html"}],
+            "video_links": [{"dr-workflows": "https://files.relevance.ai/v/2kFOGHU2jN6sKOx4NGl4"}],
+            "new": False,
+            "core": True,
+        },
+        {
+            "_id": "media-upload",
+            "colab_link": COLAB_PREFIX + "workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
+            "title": "Media Upload",
+            "description": "Learn how to upload images/videos/audio files to Relevance AI!",
+            "prerequisites": ["Images or other media files to upload. These can be local or hosted online somewhere else already."],
+            "use_cases": [],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest"}],
+            "video_links": [],
+            "new": True,
+            "core": False,
+        },
+        
+#         {
+#             "_id": "figma-search",
+#             "colab_link": None,
+#             "title": "Figma Illustration Search",
+#             "description": "Upload all figma images and instantly be able to search them.",
+#             "prerequisites": ["Figma account"],
+#             "use_cases": ["Image Search", "Illustration search", "Designer Showcase"],
+#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
+#             "video_links": [],
+# #             "new": True,
+#             "coming_soon": True
+#         },
+#         {
+#             "_id": "figma-clusters",
+#             "colab_link": None,
+#             "title": "Figma Illustration Clusters",
+#             "description": "Group your illustrations to promote natural discovery of your illustrations.",
+#             "prerequisites": ["Figma account"],
+#             "use_cases": ["Illustration Search", "Designer Discovery", "Drawing Discovery"],
+#             "documentation_links": [],
+#             "video_links": [],
+# #             "new": True,
+#             "coming_soon": True
+#         },
+#         {
+#             "_id": "crunchbase-clusters",
+#             "colab_link": None,
+#             "title": "Crunchbase Cluster Analysis",
+#             "description": "Group companies to discover similar properties between your companies.",
+#             "prerequisites": ["Crunchbase account"],
+#             "use_cases": ["Competitor Analysis", "Crunchbase"],
+#             "documentation_links": [],
+#             "video_links": [],
+# #             "new": True,
+#             "coming_soon": True
+#         }
+    ]
+
+
+results = ds.upsert_documents(WORKFLOWS)
+print(results)
+RECIPES_DOCS = [
+        {
+            "_id": "twitter-analysis",
+            "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
+            "title": "Twitter Analysis",
+            "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
+            "prerequisites": ["No requirements."],
+            "use_cases": ["Analysing which tweets are the most popular."],
+            "documentation_links": [],
+            "video_links": [],
+            "new": True
+        },
+        {
+            "_id": "figma-search",
+            "colab_link": None,
+            "title": "Figma Illustration Search",
+            "description": "Upload all figma images and instantly be able to search them.",
+            "prerequisites": ["Figma account"],
+            "use_cases": ["Image Search", "Illustration search", "Designer Showcase"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
+            "video_links": [],
+#             "new": True,
+            "coming": True
+        },
+        {
+            "_id": "figma-clusters",
+            "colab_link": None,
+            "title": "Figma Illustration Clusters",
+            "description": "Group your illustrations to promote natural discovery of your illustrations.",
+            "prerequisites": ["Figma account"],
+            "use_cases": ["Illustration Search", "Designer Discovery", "Drawing Discovery"],
+            "documentation_links": [],
+            "video_links": [],
+#             "new": True,
+            "coming": True
+        },
+        {
+            "_id": "crunchbase-clusters",
+            "colab_link": None,
+            "title": "Crunchbase Cluster Analysis",
+            "description": "Group companies to discover similar properties between your companies.",
+            "prerequisites": ["Crunchbase account"],
+            "use_cases": ["Competitor Analysis", "Crunchbase"],
+            "documentation_links": [],
+            "video_links": [],
+#             "new": True,
+            "coming": True
+        }
+        {
             "_id" : "vector-rake",
             "title": "Vector-Rake Keyphrases",
             "description": "Keyphrase extraction using a nearest-neighbor algorithm on top of the normal RAKE algorithm",
@@ -73,8 +260,8 @@ DOCS = [
             "video_links": [],
             "new": True,
             "prerequisites": ["dataset with text field", "vectorized text field", "vectorizer"],
-        },
+        }
     ]
 
-results = ds.upsert_documents(DOCS)
+results = recipes_ds.upsert_documents(RECIPES_DOCS)
 print(results)
