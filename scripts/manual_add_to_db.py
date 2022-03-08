@@ -113,6 +113,18 @@ WORKFLOWS = [
             "new": True,
             "coming_soon": True
         },
+         {
+            "_id": "pdf-ingestion",
+            "colab_link": None,
+            "title": "Insert PDFs",
+            "description": "Insert highly unstructured PDFs and break them down into smaller documents.",
+#             "prerequisites": ["Mp4 video"],
+#             "use_cases": ["Video Search"],
+#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
+#             "video_links": [],
+            "new": True,
+            "coming_soon": True
+        },
         {
             "_id": "community-detection",
             "colab_link": COLAB_PREFIX + "workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
