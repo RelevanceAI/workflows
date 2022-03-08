@@ -78,6 +78,17 @@ WORKFLOWS = [
             "new": True
         },
         {
+            "_id" : "vector-rake",
+            "title": "Vector-Rake Keyphrases",
+            "description": "Keyphrase extraction using a nearest-neighbor algorithm on top of the normal RAKE algorithm",
+            "colab_link": COLAB_PREFIX + "workflows/vector-rake/vector_rake.ipynb",
+            "use_cases": ["auto-labeling documents"],
+            "documentation_links": [],
+            "video_links": [],
+            "new": True,
+            "prerequisites": ["dataset with text field", "vectorized text field", "vectorizer"],
+        },
+        {
             "_id": "video-search",
             "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
             "title": "Video Search",
@@ -113,18 +124,6 @@ WORKFLOWS = [
             "new": True,
             "coming_soon": True
         },
-         {
-            "_id": "pdf-ingestion",
-            "colab_link": None,
-            "title": "Insert PDFs",
-            "description": "Insert highly unstructured PDFs in order to search images, flowcharts and build other vector applications/insights.",
-#             "prerequisites": ["Mp4 video"],
-#             "use_cases": ["Video Search"],
-#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
-#             "video_links": [],
-            "new": True,
-            "coming_soon": True
-        },
         {
             "_id": "community-detection",
             "colab_link": COLAB_PREFIX + "workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
@@ -147,18 +146,6 @@ WORKFLOWS = [
             "video_links": [{"dr-workflows": "https://files.relevance.ai/v/2kFOGHU2jN6sKOx4NGl4"}],
             "new": False,
             "core": True,
-        },
-        {
-            "_id": "media-upload",
-            "colab_link": COLAB_PREFIX + "workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
-            "title": "Media Upload",
-            "description": "Learn how to upload images/videos/audio files to Relevance AI!",
-            "prerequisites": ["Images or other media files to upload. These can be local or hosted online somewhere else already."],
-            "use_cases": [],
-            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest"}],
-            "video_links": [],
-            "new": True,
-            "core": False,
         },
         
 #         {
@@ -249,17 +236,6 @@ RECIPES_DOCS = [
             "video_links": [],
 #             "new": True,
             "coming": True
-        }
-        {
-            "_id" : "vector-rake",
-            "title": "Vector-Rake Keyphrases",
-            "description": "Keyphrase extraction using a nearest-neighbor algorithm on top of the normal RAKE algorithm",
-            "colab_link": COLAB_PREFIX + "workflows/vector-rake/vector_rake.ipynb",
-            "use_cases": ["auto-labeling documents"],
-            "documentation_links": [],
-            "video_links": [],
-            "new": True,
-            "prerequisites": ["dataset with text field", "vectorized text field", "vectorizer"],
         }
     ]
 
