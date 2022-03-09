@@ -103,15 +103,15 @@ WORKFLOWS = [
         },
         {
             "_id": "impact-analysis",
-            "colab_link": None,
-            "title": "Impact Analysis",
-            "description": "Analyse the impact of your labels and features on direct KPIs.",
-#             "prerequisites": ["Mp4 video"],
-#             "use_cases": ["Video Search"],
-#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
-#             "video_links": [],
+            "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
+            "title": "Feature/Impact Analysis",
+            "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
+            "prerequisites": ["Dataset with encoded vectors and a variable to measure importance."],
+            "use_cases": ["KPI Measurement", "Impact analysis"],
+            "documentation_links": [],
+            "video_links": [],
             "new": True,
-            "coming_soon": True
+            "coming_soon": False
         },
          {
             "_id": "pdf-ingestion",
