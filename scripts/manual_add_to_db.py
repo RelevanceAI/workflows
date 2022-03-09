@@ -126,6 +126,18 @@ WORKFLOWS = [
             "coming_soon": True
         },
         {
+            "_id": "most-common-words-in-clusters",
+            "colab_link": COLAB_PREFIX + "workflows/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
+            "title": "Most Frequent Phrases In Clusters",
+            "description": "Update your cluster explorer with the most frequently occurring word labels!",
+            "prerequisites": ["Text fields", "Cluster fields", "Existing Deployable"],
+            "use_cases": ["Automated Cluster Labelling"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/development/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.cluster_keyphrases"}],
+            "video_links": [],
+            "new": True,
+            "coming_soon": False
+        },
+        {
             "_id": "community-detection",
             "colab_link": COLAB_PREFIX + "workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
             "title": "Community Detection",
