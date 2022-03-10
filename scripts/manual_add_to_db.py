@@ -11,11 +11,7 @@ from relevanceai import Client
 
 client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 
-# Workflows data
-ds = client.Dataset("recipes-and-workflows")
-# ds.delete()
-
-# Recipes data
+ds = client.Dataset("workflows-recipes")
 
 COLAB_PREFIX = "https://colab.research.google.com/github/RelevanceAI/workflows/blob/main/"
 WORKFLOWS = [
