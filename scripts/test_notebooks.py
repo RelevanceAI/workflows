@@ -198,7 +198,7 @@ def execute_notebook(notebook: dict) -> dict:
         client = NotebookClient(
             notebook,
             timeout=600,
-            kernel_name="relevanceai"
+            kernel_name="python3"
         )
         client.execute()
         return {}
