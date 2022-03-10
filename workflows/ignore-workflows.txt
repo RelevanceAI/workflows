@@ -7,9 +7,9 @@
 # out "directory/workflow.ipynb". 
 #bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb
 cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb
-cluster/Cluster_Your_Data_with_Relevance_AI.ipynb
+#cluster/Cluster_Your_Data_with_Relevance_AI.ipynb
 #community-detection/Community_Detection_with_Relevance_AI.ipynb
-dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb
+#dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb
 dummy-datasets/Dummy_Datasets_Workflow.ipynb
 impact-analysis/impact-analysis.ipynb
 keyphrases/KeyPhrases_Workflow.ipynb
@@ -18,4 +18,4 @@ mongodb/MongoDB_Workflow.ipynb
 most-common-words-in-clusters/most-common-words-in-clusters.ipynb
 #subclustering/basic_subclustering.ipynb
 twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb
-vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb
+#vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb
