@@ -7,6 +7,7 @@ Workflows go into "workflows-data"
 Recipes go into "workflows-recipes"
 """
 import os
+from turtle import title
 from relevanceai import Client
 
 client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
@@ -14,20 +15,51 @@ client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 ds = client.Dataset("workflows-recipes")
 
 COLAB_PREFIX = "https://colab.research.google.com/github/RelevanceAI/workflows/blob/main/"
+
+from dataclasses import dataclass
+from typing import List, Literal
+
+@dataclass
+class Link:
+    title: str
+    url: str
+
+TYPES = Literal["workflow", "recipes", "dummy-datasets"]
+
+@dataclass
+class Workflow:
+    _id: str
+    type: TYPES
+    title: str
+    description: str
+    colab_link: str
+    use_cases: list
+    documentation_links: List[Link] = []
+    new: bool = True
+    prerequisites: list = []
+    video_links: List[Link] = []
+    coming_soon: bool=False
+    feature_image_url: str=None
+
+from dataclasses import asdict
+
 WORKFLOWS = [
-        {
-            "_id" : "bias-detection",
-            "type": "workflow",
-            "title": "Bias Detection",
-            "description": "Detect bias in your vectorizers",
-            "colab_link": COLAB_PREFIX + "workflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
-            "use_cases": ["Gender bias", "Category bias", "Unsupervised bias detection"],
-            "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/relevanceai.bias_detection.html"}],
-            "video_links": [],
-            "new": True,
-            "prerequisites": ["List of bias categories", "List of data items (images/text) to vectorize", "Vectorizer"],
-        },
-        {
+
+        asdict(Workflow(
+            **{
+                "_id" : "bias-detection",
+                "type": "workflow",
+                "title": "Bias Detection",
+                "description": "Detect bias in your vectorizers",
+                "colab_link": COLAB_PREFIX + "workflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
+                "use_cases": ["Gender bias", "Category bias", "Unsupervised bias detection"],
+                "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/relevanceai.bias_detection.html"}],
+                "video_links": [],
+                "new": True,
+                "prerequisites": ["List of bias categories", "List of data items (images/text) to vectorize", "Vectorizer"],
+            }
+        )),
+        asdict(Workflow(**{
             "_id" : "cluster-reports",
             "colab_link": COLAB_PREFIX + "workflows/cluster-reporting/%F0%9F%91%8D_Cluster_Reports_With_Relevance_AI.ipynb",
             "type": "workflow",
@@ -38,8 +70,8 @@ WORKFLOWS = [
             "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/relevanceai.cluster_report.html#"}],
             "video_links": [],
             "new": True
-        },
-        {
+        })),
+        asdict(Workflow(**{
             "_id" : "subclustering",
             "type": "workflow",
             "colab_link": COLAB_PREFIX + "workflows/subclustering/basic_subclustering.ipynb",
@@ -50,8 +82,8 @@ WORKFLOWS = [
             "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/subclustering.html"}],
             "video_links": [],
             "new": True
-        },
-        {
+        })),
+        asdict(Workflow(**{
             "_id": "keyphrases",
             "type": "workflow",
             "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
@@ -62,8 +94,8 @@ WORKFLOWS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
             "new": True
-        },
-        {
+        })),
+        asdict(Workflow(**{
             "_id": "video-search",
             "type": "workflow",
             "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
@@ -75,8 +107,8 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "coming_soon": True
-        },
-        {
+        })),
+        asdict(Workflow(**{
             "_id": "video-clusters",
             "type": "workflow",
             "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
@@ -88,8 +120,8 @@ WORKFLOWS = [
 #             "video_links": [],
 #             "new": True,
             "coming_soon": True
-        },
-        {
+        })),
+        asdict(Workflow**{
             "_id": "impact-analysis",
             "type": "workflow",
             "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
@@ -101,7 +133,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "coming_soon": False
-        },
+        }),
          {
             "_id": "pdf-ingestion",
             "type": "workflow",
@@ -193,7 +225,7 @@ WORKFLOWS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
             "video_links": [],
 #             "new": True,
-            "coming": True
+            "coming_soon": True
         },
         {
             "_id": "figma-search",
@@ -206,7 +238,7 @@ WORKFLOWS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
             "video_links": [],
 #             "new": True,
-            "coming": True
+            "coming_soon": True
         },
         {
             "_id": "figma-clusters",
@@ -219,7 +251,7 @@ WORKFLOWS = [
             "documentation_links": [],
             "video_links": [],
 #             "new": True,
-            "coming": True
+            "coming_soon": True
         },
         {
             "_id": "crunchbase-clusters",
@@ -232,7 +264,7 @@ WORKFLOWS = [
             "documentation_links": [],
             "video_links": [],
 #             "new": True,
-            "coming": True
+            "coming_soon": True
         },
         {
             "_id": "twitter-analysis",
@@ -251,6 +283,5 @@ WORKFLOWS = [
             "recipe_url": "https://relevance.ai"
         },
     ]
-
 
 ds.upsert_documents(WORKFLOWS)
