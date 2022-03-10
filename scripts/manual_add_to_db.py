@@ -52,22 +52,6 @@ WORKFLOWS = [
             "new": True
         },
         {
-            "_id": "twitter-analysis",
-            "type": "recipe",
-            "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
-            "title": "Twitter Analysis",
-            "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
-            "prerequisites": ["No requirements."], # not needed in future
-            "use_cases": ["Analysing which tweets are the most popular."], # not needed in future
-            "documentation_links": [], # not needed in future
-            "video_links": [], # not needed in future
-            "new": True,
-            "recipe": True, # Required for recipes
-            "feature_image_url": "https://relevance.ai/wp-content/uploads/2022/03/image-6.png",
-            "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
-            "recipe_url": "https://relevance.ai"
-        },
-        {
             "_id": "keyphrases",
             "type": "workflow",
             "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
@@ -182,6 +166,9 @@ WORKFLOWS = [
             "new": True,
             "core": False,
         },
+        
+############### RECIPES
+
         {
             "_id": "dummy-datasets",
             "type": "dummy-dataset",
@@ -246,7 +233,23 @@ WORKFLOWS = [
             "video_links": [],
 #             "new": True,
             "coming": True
-        }
+        },
+        {
+            "_id": "twitter-analysis",
+            "type": "recipe",
+            "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
+            "title": "Twitter Analysis",
+            "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
+            "prerequisites": ["No requirements."], # not needed in future
+            "use_cases": ["Analysing which tweets are the most popular."], # not needed in future
+            "documentation_links": [], # not needed in future
+            "video_links": [], # not needed in future
+            "new": True,
+            "recipe": True, # Required for recipes
+            "feature_image_url": "https://relevance.ai/wp-content/uploads/2022/03/image-6.png",
+            "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
+            "recipe_url": "https://relevance.ai"
+        },
     ]
 
 
