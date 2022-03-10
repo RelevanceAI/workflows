@@ -85,6 +85,11 @@ def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
     return Credentials(project, api_key, region, token)
 
 def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
+    """
+    Retrieves the credentials for each notebook exectuion. Each notebook
+    merits its own credentials because it may be different if it uses a
+    token.
+    """
     tokens = { 
         token: os.environ[token]
         for token in filter(
@@ -111,7 +116,8 @@ def insert_credentials(
             source = cell["source"]
 
             token_regex = re.search(
-                "token\s*=\s*((\".*\")|(\'.*\'))",
+                "(token\s*=\s*(\"|\'))(.*?(\"|\'))",
+                #"token\s*=\s*((\".*?\")|(\'.*?\'))",
                 source
             )
             if token_regex is not None:
@@ -120,7 +126,7 @@ def insert_credentials(
                     source[:start],
                     token_regex.group(1),
                     credentials.token,
-                    token_regex.group(2),
+                    token_regex.group(2)[-1], # add back the '"'
                     source[end:]
                 ])
                 break # If a token exists, no need to go further
@@ -267,17 +273,5 @@ if __name__ == "__main__":
     paths = get_paths()
     all_credentials = get_all_credentials(paths, region)
     notebooks = get_notebooks(paths, all_credentials)
-
-    tokens = { 
-        token: os.environ[token]
-        for token in filter(lambda var: var.startswith("WORKFLOW_TOKEN"), os.environ)
-    }
-
-    #print(get_credentials(notebook_paths[0], tokens, region))
-    #val = tokens.get("WORKFLOW_TOKEN_VECTORIZE_YOUR_DATA_WITH_RELEVANCE_AI")
-    #print(val)
-    #print(val)
-    #notebook_credentials = get_credentials(notebook_paths, region)
-    #credentials = get_credentials(region)
     results = execute_notebooks(notebooks)
     print_errors(results, all_credentials)
