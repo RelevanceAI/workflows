@@ -171,43 +171,19 @@ WORKFLOWS = [
             "new": True,
             "core": False,
         },
+        {
+            "_id": "dummy-datasets",
+            "colab_link": COLAB_PREFIX + "workflows/dummy-datasets/Dummy_Datasets_Workflow.ipynb",
+            "title": "Insert A Dummy Dataset",
+            "description": "Insert a dummy dataset with this workflow.",
+            "prerequisites": [],
+            "use_cases": [],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/available_datasets.html#relevanceai.datasets.get_dummy_ecommerce_dataset"}],
+            "video_links": [],
+            "new": True,
+            "core": False,
+        },
         
-#         {
-#             "_id": "figma-search",
-#             "colab_link": None,
-#             "title": "Figma Illustration Search",
-#             "description": "Upload all figma images and instantly be able to search them.",
-#             "prerequisites": ["Figma account"],
-#             "use_cases": ["Image Search", "Illustration search", "Designer Showcase"],
-#             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
-#             "video_links": [],
-# #             "new": True,
-#             "coming_soon": True
-#         },
-#         {
-#             "_id": "figma-clusters",
-#             "colab_link": None,
-#             "title": "Figma Illustration Clusters",
-#             "description": "Group your illustrations to promote natural discovery of your illustrations.",
-#             "prerequisites": ["Figma account"],
-#             "use_cases": ["Illustration Search", "Designer Discovery", "Drawing Discovery"],
-#             "documentation_links": [],
-#             "video_links": [],
-# #             "new": True,
-#             "coming_soon": True
-#         },
-#         {
-#             "_id": "crunchbase-clusters",
-#             "colab_link": None,
-#             "title": "Crunchbase Cluster Analysis",
-#             "description": "Group companies to discover similar properties between your companies.",
-#             "prerequisites": ["Crunchbase account"],
-#             "use_cases": ["Competitor Analysis", "Crunchbase"],
-#             "documentation_links": [],
-#             "video_links": [],
-# #             "new": True,
-#             "coming_soon": True
-#         }
     ]
 
 
