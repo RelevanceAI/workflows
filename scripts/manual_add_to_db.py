@@ -53,7 +53,7 @@ WORKFLOWS = [
         },
         {
             "_id": "twitter-analysis",
-            "type": "workflow",
+            "type": "recipe",
             "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
             "title": "Twitter Analysis",
             "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
@@ -63,6 +63,8 @@ WORKFLOWS = [
             "video_links": [], # not needed in future
             "new": True,
             "recipe": True, # Required for recipes
+            "feature_image_url": "https://relevance.ai/wp-content/uploads/2022/03/image-6.png",
+            "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
             "recipe_url": "https://relevance.ai"
         },
         {
@@ -192,18 +194,6 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "core": False,
-        },
-        {
-            "_id": "twitter-analysis",
-            "type": "recipe",
-            "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
-            "title": "Twitter Analysis",
-            "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
-            "prerequisites": ["No requirements."],
-            "use_cases": ["Analysing which tweets are the most popular."],
-            "documentation_links": [],
-            "video_links": [],
-            "new": True
         },
         {
             "_id": "pdf-search",
