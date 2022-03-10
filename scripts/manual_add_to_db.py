@@ -13,10 +13,9 @@ client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
 
 # Workflows data
 ds = client.Dataset("workflows-data")
-ds.delete()
+# ds.delete()
 
 # Recipes data
-recipes_ds = client.Dataset("workflows-recipes")
 
 COLAB_PREFIX = "https://colab.research.google.com/github/RelevanceAI/workflows/blob/main/"
 WORKFLOWS = [
@@ -276,5 +275,8 @@ RECIPES_DOCS = [
         }
     ]
 
+recipes_ds = client.Dataset("workflows-recipes")
 results = recipes_ds.upsert_documents(RECIPES_DOCS)
+print(recipes_ds.project)
+print(recipes_ds.dataset_id)
 print(results)
