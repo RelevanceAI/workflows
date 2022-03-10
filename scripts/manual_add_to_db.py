@@ -227,6 +227,18 @@ RECIPES_DOCS = [
             "new": True
         },
         {
+            "_id": "pdf-search",
+            "colab_link": None,
+            "title": "PDF Search",
+            "description": "Be able to search through all text and images in PDFs.",
+            "prerequisites": ["PDFs"],
+            "use_cases": ["PDF Search", "Flowchart Search"],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"}],
+            "video_links": [],
+#             "new": True,
+            "coming": True
+        },
+        {
             "_id": "figma-search",
             "colab_link": None,
             "title": "Figma Illustration Search",
