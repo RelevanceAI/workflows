@@ -64,6 +64,17 @@ WORKFLOWS = [
             "new": True
         },
         {
+            "_id" : "vector-rake",
+            "title": "Vector-Rake Keyphrases",
+            "description": "Keyphrase extraction using a nearest-neighbor algorithm on top of the normal RAKE algorithm",
+            "colab_link": COLAB_PREFIX + "workflows/vector-rake/vector_rake.ipynb",
+            "use_cases": ["auto-labeling documents"],
+            "documentation_links": [],
+            "video_links": [],
+            "new": True,
+            "prerequisites": ["dataset with text field", "vectorized text field", "vectorizer"],
+        },
+        {
             "_id": "video-search",
             "type": "workflow",
             "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
@@ -252,5 +263,10 @@ WORKFLOWS = [
         },
     ]
 
+<<<<<<< HEAD
+results = recipes_ds.upsert_documents(RECIPES_DOCS)
+print(results)
+=======
 
 ds.upsert_documents(WORKFLOWS)
+>>>>>>> origin/main
