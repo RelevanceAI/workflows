@@ -1,0 +1,18 @@
+repos:
+  - repo: local
+    hooks:
+      - id: detect-api-keys
+        name: Detect API Keys
+        entry: python scripts/detect_secrets.py -p workflows
+        language: python
+        always_run: true
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: jupyter-nb-clear-output
+        name: jupyter-nb-clear-output
+        files: \.ipynb$
+        stages: [commit]
+        language: system
+        entry: jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
