@@ -263,10 +263,8 @@ WORKFLOWS = [
         },
     ]
 
-<<<<<<< HEAD
 results = recipes_ds.upsert_documents(RECIPES_DOCS)
 print(results)
-=======
 
 ds.upsert_documents(WORKFLOWS)
->>>>>>> origin/main
+
