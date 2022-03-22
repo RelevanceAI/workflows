@@ -259,14 +259,13 @@ WORKFLOWS = [
             "recipe": True, # Required for recipes
             "feature_image_url": "https://relevance.ai/wp-content/uploads/2022/03/image-6.png",
             "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
-            "recipe_url": "https://relevance.ai"
+            "recipe_url": "https://relevance.ai",
+            "logo_url": "https://www.svgrepo.com/show/22159/twitter.svg",
         },
     ]
 
-<<<<<<< HEAD
 results = recipes_ds.upsert_documents(RECIPES_DOCS)
 print(results)
-=======
 
 ds.upsert_documents(WORKFLOWS)
->>>>>>> origin/main
+
