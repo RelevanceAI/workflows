@@ -264,8 +264,6 @@ WORKFLOWS = [
         },
     ]
 
-results = recipes_ds.upsert_documents(RECIPES_DOCS)
+results = ds.upsert_documents(WORKFLOWS)
 print(results)
-
-ds.upsert_documents(WORKFLOWS)
 
