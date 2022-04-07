@@ -43,8 +43,6 @@ setuptools.setup(
         "tests": notebook_test_requirements,
         "dev": dev_requirements + notebook_test_requirements,
     },
-    # package_dir={"": "src"},
-    # packages=setuptools.find_packages(where="src"),
     python_requires=">=3.7",
     classifiers=[
         "Development Status :: 4 - Beta",
