@@ -11,11 +11,30 @@
 
 For guides and tutorials on how to use this package, visit https://docs.relevance.ai/docs.
 
-## 🔥 Workflows
+## 🔥 Workflows by Relevance AI
 
 ![Workflows](assets/workflows.png)
 
 This is a home for all of RelevanceAI's workflows as seen in the [dashboard](https://cloud.relevance.ai/). Sign up and getting started [here](https://cloud.relevance.ai/)!
+
+
+Workflows provide users with a guide on how to run relevant code in Relevance AI.
+It provides a guided interface through Relevance AI Features.
+
+Some of these features include:
+
+- Clustering
+- Dimensionality Reduction
+- Labelling/Tagging
+- Launching Projectors
+
+# How to add a workflow 
+
+How to add a workflow
+
+1) Add a subfolder and move notebook there and push the notebook
+2) Modify scripts/manual_add_to_db.py and add a new document in the `DOCS` variable and commit/push the script. Make sure to see what the other documents are doing and copy that structure else things may error!
+3) Create PR
 
 ## 🔥 Features
 
