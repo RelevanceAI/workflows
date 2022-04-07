@@ -8,7 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+# build/
 develop-eggs/
 dist/
 downloads/
@@ -76,6 +76,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+_*.ipynb
 
 # IPython
 profile_default/
@@ -127,3 +128,22 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+*.xlsx
+*.xls
+
+## VScode
+.vscode
+
+
+## Creads
+**/**/.creds*
+/data
+
+
+## Log files
+*.log
+*.logs
+*_log.txt
+
