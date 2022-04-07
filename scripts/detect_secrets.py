@@ -33,10 +33,12 @@ def line_contains_api_key(line: str, regex_str: str):
 	"""
 	Returns True if any token in the line contains an API key or password.
 	"""
-	for token in re.finditer(regex_str, line):
-		result = token_is_api_key(token.group())
-		if result:
-			return (True, result[1])
+	for token_match in re.finditer(regex_str, line):
+		token = token_match.group().split('=')[-1]
+		if token!='token':
+			result = token_is_api_key(token)
+			if result:
+				return (True, result[1])
 	return (False, '')
 
 def scan_file(fpath: Path, show_keys=False):
