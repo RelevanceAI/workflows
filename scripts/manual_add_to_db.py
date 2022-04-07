@@ -42,7 +42,7 @@ WORKFLOWS = [
         {
             "_id" : "subclustering",
             "type": "workflow",
-            "colab_link": COLAB_PREFIX + "workflows/subclustering/basic_subclustering.ipynb",
+            "colab_link": COLAB_PREFIX + "workflows/subclustering/🍒_RelevanceAI_Subclustering.ipynb",
             "title": "Subclustering",
             "description": "Clustering within clusters",
             "prerequisites": ["A dataset with vectors and clusters"],
