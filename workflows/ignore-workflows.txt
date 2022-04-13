@@ -16,6 +16,6 @@ keyphrases/KeyPhrases_Workflow.ipynb
 media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb
 mongodb/MongoDB_Workflow.ipynb
 most-common-words-in-clusters/most-common-words-in-clusters.ipynb
-#subclustering/basic_subclustering.ipynb
+#subclustering/🍒_RelevanceAI_Subclustering.ipynb
 twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb
 #vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb

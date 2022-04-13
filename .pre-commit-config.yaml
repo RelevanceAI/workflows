@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: detect-api-keys
         name: Detect API Keys
-        entry: python scripts/detect_secrets.py -p workflows
+        entry: python scripts/detect_secrets.py -p workflows -s
         language: python
         always_run: true
         pass_filenames: false
