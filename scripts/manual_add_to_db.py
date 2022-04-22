@@ -26,6 +26,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "prerequisites": ["List of bias categories", "List of data items (images/text) to vectorize", "Vectorizer"],
+            "s3_url": "s3://relevanceaiworkflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
         },
         {
             "_id" : "cluster-reports",
@@ -37,7 +38,8 @@ WORKFLOWS = [
             "use_cases": ["Ensuring proper topics are extracted", "Ensuring customers are properly segmented"],
             "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/relevanceai.cluster_report.html#"}],
             "video_links": [],
-            "new": True
+            "new": True,
+            "s3_url": "s3://relevanceaiworkflows/cluster-reporting/%F0%9F%91%8D_Cluster_Reports_With_Relevance_AI.ipynb",
         },
         {
             "_id" : "subclustering",
@@ -49,7 +51,8 @@ WORKFLOWS = [
             "use_cases": ["Infinitely drilling down into your clusters to see what they comprise of"],
             "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/subclustering.html"}],
             "video_links": [],
-            "new": True
+            "new": True,
+            "s3_url": "s3://relevanceaiworkflows/subclustering/basic_subclustering.ipynb",
         },
         {
             "_id": "keyphrases",
@@ -61,7 +64,8 @@ WORKFLOWS = [
             "use_cases": ["Automated keyphrase detection in clusters"],
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
-            "new": True
+            "new": True,
+            "s3_url": "s3://relevanceaiworkflows/keyphrases/KeyPhrases_Workflow.ipynb",
         },
         {
             "_id" : "vector-rake",
@@ -73,6 +77,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "prerequisites": ["dataset with text field", "vectorized text field", "vectorizer"],
+            "s3_url": "s3://relevanceaiworkflows/vector-rake/vector_rake.ipynb",
         },
         {
             "_id": "video-search",
@@ -85,7 +90,8 @@ WORKFLOWS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
             "new": True,
-            "coming_soon": True
+            "coming_soon": True,
+            "s3_url": "s3://relevanceaiworkflows/keyphrases/KeyPhrases_Workflow.ipynb",
         },
         {
             "_id": "video-clusters",
@@ -98,7 +104,8 @@ WORKFLOWS = [
 #             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
 #             "video_links": [],
 #             "new": True,
-            "coming_soon": True
+            "coming_soon": True,
+            "s3_url": "s3://relevanceaiworkflows/keyphrases/KeyPhrases_Workflow.ipynb",
         },
         {
             "_id": "impact-analysis",
@@ -111,7 +118,8 @@ WORKFLOWS = [
             "documentation_links": [],
             "video_links": [],
             "new": True,
-            "coming_soon": False
+            "coming_soon": False,
+            "s3_url": "s3://relevanceaiworkflows/impact-analysis/impact-analysis.ipynb",
         },
          {
             "_id": "pdf-ingestion",
@@ -137,7 +145,8 @@ WORKFLOWS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/development/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.cluster_keyphrases"}],
             "video_links": [],
             "new": True,
-            "coming_soon": False
+            "coming_soon": False,
+            "s3_url": "s3://relevanceaiworkflows/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
         },
         {
             "_id": "community-detection",
@@ -149,7 +158,8 @@ WORKFLOWS = [
             "use_cases": ["Community detection of text fields and vectors"],
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html?highlight=community#relevanceai.dataset_api.dataset_operations.Operations.community_detection"}],
             "video_links": [],
-            "new": True
+            "new": True,
+            "s3_url": "s3://relevanceaiworkflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
         },
         {
             "_id": "dimensionality-reduction",
@@ -163,6 +173,7 @@ WORKFLOWS = [
             "video_links": [{"dr-workflows": "https://files.relevance.ai/v/2kFOGHU2jN6sKOx4NGl4"}],
             "new": False,
             "core": True,
+            "s3_url": "s3://relevanceaiworkflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb",
         },
         {
             "_id": "media-upload",
@@ -176,10 +187,10 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "core": False,
+            "s3_url": "s3://relevanceaiworkflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
         },
         
-############### RECIPES
-
+        ############### RECIPES
         {
             "_id": "dummy-datasets",
             "type": "dummy-dataset",
@@ -192,6 +203,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "core": False,
+            "s3_url": "s3://relevanceaiworkflows/dummy-datasets/Dummy_Datasets_Workflow.ipynb",
         },
         {
             "_id": "pdf-search",
@@ -243,7 +255,8 @@ WORKFLOWS = [
             "documentation_links": [],
             "video_links": [],
 #             "new": True,
-            "coming": True
+            "coming": True,
+            
         },
         {
             "_id": "twitter-analysis",
@@ -261,6 +274,7 @@ WORKFLOWS = [
             "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
             "recipe_url": "https://relevance.ai",
             "logo_url": "https://www.svgrepo.com/show/22159/twitter.svg",
+            "s3_url": "s3://relevanceaiworkflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
         },
     ]
 
