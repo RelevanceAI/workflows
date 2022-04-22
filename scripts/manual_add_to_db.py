@@ -26,7 +26,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "prerequisites": ["List of bias categories", "List of data items (images/text) to vectorize", "Vectorizer"],
-            "s3_url": "s3://relevanceaiworkflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
+            "s3_url": "s3://relevanceai-workflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
         },
         {
             "_id" : "cluster-reports",
@@ -39,7 +39,7 @@ WORKFLOWS = [
             "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/relevanceai.cluster_report.html#"}],
             "video_links": [],
             "new": True,
-            "s3_url": "s3://relevanceaiworkflows/cluster-reporting/%F0%9F%91%8D_Cluster_Reports_With_Relevance_AI.ipynb",
+            "s3_url": "s3://relevanceai-workflows/cluster-reporting/%F0%9F%91%8D_Cluster_Reports_With_Relevance_AI.ipynb",
         },
         {
             "_id" : "subclustering",
@@ -52,7 +52,7 @@ WORKFLOWS = [
             "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/subclustering.html"}],
             "video_links": [],
             "new": True,
-            "s3_url": "s3://relevanceaiworkflows/subclustering/basic_subclustering.ipynb",
+            "s3_url": "s3://relevanceai-workflows/subclustering/basic_subclustering.ipynb",
         },
         {
             "_id": "keyphrases",
@@ -65,7 +65,7 @@ WORKFLOWS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"}],
             "video_links": [],
             "new": True,
-            "s3_url": "s3://relevanceaiworkflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
         },
         {
             "_id" : "vector-rake",
@@ -77,7 +77,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "prerequisites": ["dataset with text field", "vectorized text field", "vectorizer"],
-            "s3_url": "s3://relevanceaiworkflows/vector-rake/vector_rake.ipynb",
+            "s3_url": "s3://relevanceai-workflows/vector-rake/vector_rake.ipynb",
         },
         {
             "_id": "video-search",
@@ -91,7 +91,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "coming_soon": True,
-            "s3_url": "s3://relevanceaiworkflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
         },
         {
             "_id": "video-clusters",
@@ -105,7 +105,7 @@ WORKFLOWS = [
 #             "video_links": [],
 #             "new": True,
             "coming_soon": True,
-            "s3_url": "s3://relevanceaiworkflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
         },
         {
             "_id": "impact-analysis",
@@ -119,7 +119,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "coming_soon": False,
-            "s3_url": "s3://relevanceaiworkflows/impact-analysis/impact-analysis.ipynb",
+            "s3_url": "s3://relevanceai-workflows/impact-analysis/impact-analysis.ipynb",
         },
          {
             "_id": "pdf-ingestion",
@@ -146,7 +146,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "coming_soon": False,
-            "s3_url": "s3://relevanceaiworkflows/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
+            "s3_url": "s3://relevanceai-workflows/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
         },
         {
             "_id": "community-detection",
@@ -159,7 +159,7 @@ WORKFLOWS = [
             "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html?highlight=community#relevanceai.dataset_api.dataset_operations.Operations.community_detection"}],
             "video_links": [],
             "new": True,
-            "s3_url": "s3://relevanceaiworkflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
+            "s3_url": "s3://relevanceai-workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
         },
         {
             "_id": "dimensionality-reduction",
@@ -173,7 +173,7 @@ WORKFLOWS = [
             "video_links": [{"dr-workflows": "https://files.relevance.ai/v/2kFOGHU2jN6sKOx4NGl4"}],
             "new": False,
             "core": True,
-            "s3_url": "s3://relevanceaiworkflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb",
+            "s3_url": "s3://relevanceai-workflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb",
         },
         {
             "_id": "media-upload",
@@ -187,7 +187,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "core": False,
-            "s3_url": "s3://relevanceaiworkflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
+            "s3_url": "s3://relevanceai-workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
         },
         
         ############### RECIPES
@@ -203,7 +203,7 @@ WORKFLOWS = [
             "video_links": [],
             "new": True,
             "core": False,
-            "s3_url": "s3://relevanceaiworkflows/dummy-datasets/Dummy_Datasets_Workflow.ipynb",
+            "s3_url": "s3://relevanceai-workflows/dummy-datasets/Dummy_Datasets_Workflow.ipynb",
         },
         {
             "_id": "pdf-search",
@@ -274,7 +274,7 @@ WORKFLOWS = [
             "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
             "recipe_url": "https://relevance.ai",
             "logo_url": "https://www.svgrepo.com/show/22159/twitter.svg",
-            "s3_url": "s3://relevanceaiworkflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
+            "s3_url": "s3://relevanceai-workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
         },
     ]
 
