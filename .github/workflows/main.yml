@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('setup.py') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.pythonLocation }}-pip-
             ${{ runner.os }}-${{ env.pythonLocation }}-
@@ -49,11 +49,8 @@ jobs:
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
         run: |
-          # export NOTEBOOK_IGNORE=$(cat src/tests/notebook_ignore.txt)
-          # export NOTEBOOKS=$(find docs -type f -name "*.ipynb")
-          # export NOTEBOOK_FPATHS=$(for n in  ${NOTEBOOKS[@]}; do echo $n; done | grep -wv "$NOTEBOOK_IGNORE"  | jq -Rsc '. / "\n" - [""]')
           export WORKFLOW_IGNORE=workflows/ignore-workflows.txt
-          export NOTEBOOK_FPATHS=$( grep '.ipynb' $WORKFLOW_IGNORE| grep -v '#' $WORKFLOW_IGNORE )
+          export NOTEBOOK_FPATHS=$( grep '.ipynb' $WORKFLOW_IGNORE| grep -v '#' $WORKFLOW_IGNORE | jq -Rsc '. / "\n" - [""]' )
           echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
 
 
@@ -66,7 +63,7 @@ jobs:
         os: [ ubuntu-latest]
         python-version: [ '3.8' ]
         # python-version: [ '3.6', '3.7', '3.8', '3.9' ]
-        notebook: ${{fromJSON(needs.build-docs.outputs.notebook-fpaths )}}
+        notebook: ${{fromJSON(needs.setup-tests.outputs.notebook-fpaths)}}
         include:
           - os: ubuntu-latest
             path: ~/.cache/pip
@@ -86,7 +83,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ matrix.path }}
-          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('setup.py') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.pythonLocation }}-pip-
             ${{ runner.os }}-${{ env.pythonLocation }}-
