@@ -29,22 +29,19 @@ jobs:
             ${{ runner.os }}-${{ env.pythonLocation }}-pip-
             ${{ runner.os }}-${{ env.pythonLocation }}-
 
-      # - run: |
-      #     echo $PWD
-      #     echo "${PWD}" >> $GITHUB_PATH
+      # - name: Install requirements
+      #   run: |
+      #     pip install --upgrade pip
+      #     pip install -r requirements.txt
 
-      - name: Install requirements
-        run: |
-          # pip install --upgrade pip
-          # pip install -r requirements.txt
-          pip install typing_extensions  ## <3.8
 
-      - name: Set ReadMe version as Github env var
-        run: |
-          echo "RELEVANCEAI_SDK_VERSION=$(cat __version__)" >> $GITHUB_ENV
+      # - name: Set ReadMe version as Github env var
+      #   run: |
+      #     echo "RELEVANCEAI_SDK_VERSION=$(cat __version__)" >> $GITHUB_ENV
 
       - name: Test for API keys in docs
         run: |
+          pip install typing_extensions  ## <3.8
           python scripts/detect_secrets.py -d -p docs
 
       - id: set-notebook-fpaths
