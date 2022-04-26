@@ -14,6 +14,7 @@ import nbformat
 
 from nbclient import NotebookClient
 
+
 WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
 
 logging.basicConfig(level=logging.INFO)
@@ -22,48 +23,43 @@ Credentials = namedtuple(
     "Credentials", ["project", "api_key", "region", "firebase_uid", "token"]
 )
 
+
 def get_paths() -> List[Path]:
     """
     Get paths of all of the Jupyter Notebooks that will be tested.
     """
     with open(WORKFLOWS / Path("ignore-workflows.txt")) as file:
         ignored_notebooks = set(
-            WORKFLOWS / Path(notebook.replace('#', '').strip())
+            WORKFLOWS / Path(notebook.replace("#", "").strip())
             for notebook in file.readlines()
-            if notebook.startswith('#') 
-            and any(nb_path_string in notebook for nb_path_string in ['/', 'ipynb'])
-            and 'workflow' not in notebook
+            if notebook.startswith("#")
+            and any(nb_path_string in notebook for nb_path_string in ["/", "ipynb"])
+            and "workflow" not in notebook
         )
     logging.info(
-        "Ignoring the following notebooks: " +
-        "".join(map(
-            lambda notebook: f"\n  * {str(notebook)}",
-            ignored_notebooks
-        ))
+        "Ignoring the following notebooks: "
+        + "".join(map(lambda notebook: f"\n  * {str(notebook)}", ignored_notebooks))
     )
 
     workflows = [
-        workflow_dir for workflow_dir in WORKFLOWS.iterdir()
-        if workflow_dir.is_dir()
+        workflow_dir for workflow_dir in WORKFLOWS.iterdir() if workflow_dir.is_dir()
     ]
     paths = []
     for workflow in workflows:
-        paths.extend([
-            notebook for notebook in workflow.iterdir()
-            if (
-                notebook.suffix == ".ipynb" and
-                notebook not in ignored_notebooks
-            )
-        ])
+        paths.extend(
+            [
+                notebook
+                for notebook in workflow.iterdir()
+                if (notebook.suffix == ".ipynb" and notebook not in ignored_notebooks)
+            ]
+        )
     logging.info(
-        "Checking the following notebooks: " +
-        "".join(map(
-            lambda path: f"\n  * {str(path)}",
-            paths 
-        ))
+        "Checking the following notebooks: "
+        + "".join(map(lambda path: f"\n  * {str(path)}", paths))
     )
-    
+
     return paths
+
 
 def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
     """
@@ -80,18 +76,19 @@ def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
         if region == "us-east-1":
             project = os.getenv("TEST_US_PROJECT")
             api_key = os.getenv("TEST_US_API_KEY")
-            firebase_uid = os.getenv('TEST_FIREBASE_UID')
+            firebase_uid = os.getenv("TEST_FIREBASE_UID")
         elif region == "ap-southeast-2":
             project = os.getenv("TEST_PROJECT")
             api_key = os.getenv("TEST_API_KEY")
-            firebase_uid = os.getenv('TEST_FIREBASE_UID')
+            firebase_uid = os.getenv("TEST_FIREBASE_UID")
         elif region == "old-australia-east":
             project = os.getenv("TEST_PROJECT")
             api_key = os.getenv("TEST_API_KEY")
         else:
             raise ValueError("Invalid region")
-    
+
     return Credentials(project, api_key, region, firebase_uid, token)
+
 
 def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
     """
@@ -99,14 +96,11 @@ def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
     merits its own credentials because it may be different if it uses a
     token.
     """
-    workflow_tokens = { 
+    workflow_tokens = {
         token: os.environ[token]
-        for token in filter(
-            lambda var: var.startswith("WORKFLOW_TOKEN"),
-            os.environ
-        )
+        for token in filter(lambda var: var.startswith("WORKFLOW_TOKEN"), os.environ)
     }
-    return [ get_credentials(path, workflow_tokens, region) for path in paths ]
+    return [get_credentials(path, workflow_tokens, region) for path in paths]
 
 
 def notebook_find_replace(
@@ -134,9 +128,7 @@ def notebook_find_replace(
     json.dump(notebook_json, fp=open(fname, "w"), indent=4)
 
 
-def insert_credentials(
-    notebook: dict, credentials: Credentials
-) -> None:
+def insert_credentials(notebook: dict, credentials: Credentials) -> None:
     """
     Modifies a notebook (formatted as a dictionary) so that the Relevance AI
     client has the proper credentials. In the event that the notebook is
@@ -145,7 +137,7 @@ def insert_credentials(
     for cell in notebook["cells"]:
         # Simultaneously check for both the token and client works correctly
         # because the token must be defined before client in the notebook. A
-        # sufficient condition to execute the notebook when exactly one of 
+        # sufficient condition to execute the notebook when exactly one of
         # these are filled.
         if cell["cell_type"] == "code":
             source = cell["source"]
@@ -168,22 +160,25 @@ def insert_credentials(
             #     break # If a token exists, no need to go further
 
             client_regex = re.search("Client\(.*\)", source)
-            
+
             if client_regex is not None:
                 start, end = client_regex.span()
                 # comma at the end is in case Client has existing arguments
 
-                cell["source"] = "".join([
-                    source[:start+6+1], # 'Client(' has length 6 + 1
-                    f"token={credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}",
-                    source[start+6+1:] 
-                ])
-                
-                break # No need to continue after inserting credentials
+                cell["source"] = "".join(
+                    [
+                        source[: start + 6 + 1],  # 'Client(' has length 6 + 1
+                        f"token='{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}'",
+                        source[start + 6 + 1 :],
+                    ]
+                )
+
+                break  # No need to continue after inserting credentials
         else:
             continue
-    
+
     return notebook
+
 
 def insert_name(notebook: dict, path: Path) -> dict:
     """
@@ -193,9 +188,9 @@ def insert_name(notebook: dict, path: Path) -> dict:
     notebook["metadata"]["temporary_name"] = name
     return notebook
 
+
 def generate_notebooks(
-    paths: List[Path],
-    all_credentials: List[Credentials]
+    paths: List[Path], all_credentials: List[Credentials]
 ) -> List[dict]:
     """
     Map each path into a notebook (formatted as a dictionary) and ensure that
@@ -204,24 +199,19 @@ def generate_notebooks(
     """
     return [
         insert_name(
-            insert_credentials(
-                nbformat.read(path, nbformat.NO_CONVERT),
-                credentials
-            ),
-            path
-        ) for path, credentials in zip(paths, all_credentials)
+            insert_credentials(nbformat.read(path, nbformat.NO_CONVERT), credentials),
+            path,
+        )
+        for path, credentials in zip(paths, all_credentials)
     ]
 
-def get_notebooks(
-    paths: List[Path], all_credentials: List[Credentials]
-) -> List[dict]:
+
+def get_notebooks(paths: List[Path], all_credentials: List[Credentials]) -> List[dict]:
     """
     Gets and sets all notebooks to be checked.
     """
-    return generate_notebooks(
-        paths,
-        all_credentials
-    )
+    return generate_notebooks(paths, all_credentials)
+
 
 def execute_notebook(notebook: dict) -> dict:
     """
@@ -230,15 +220,12 @@ def execute_notebook(notebook: dict) -> dict:
     notebook_name = notebook["metadata"]["temporary_name"]
     logging.info(f"Checking {notebook_name}")
     try:
-        client = NotebookClient(
-            notebook,
-            timeout=600,
-            kernel_name="python3"
-        )
+        client = NotebookClient(notebook, timeout=600, kernel_name="python3")
         client.execute()
         return {}
     except Exception as err:
         return {"notebook": notebook_name, "error": err}
+
 
 def execute_notebooks(
     notebooks: List[dict],
@@ -246,10 +233,11 @@ def execute_notebooks(
     chunksize: Optional[int] = 1,
 ):
     """
-    Executes multiple notebooks in parallel. 
+    Executes multiple notebooks in parallel.
     """
     with Pool(processes=processes) as pool:
         return pool.map(execute_notebook, notebooks, chunksize=chunksize)
+
 
 def mask_credentials(result: dict, credentials: Credentials) -> None:
     """
@@ -259,21 +247,14 @@ def mask_credentials(result: dict, credentials: Credentials) -> None:
 
     # Preemptively ensure that the project and API key are masked in the
     # error message, if it shows up at all.
-    error = error.replace(
-        credentials.project,
-        "*" * len(credentials.project)
-    )
-    error = error.replace(
-        credentials.api_key,
-        "*" * len(credentials.api_key)
-    )
+    error = error.replace(credentials.project, "*" * len(credentials.project))
+    error = error.replace(credentials.api_key, "*" * len(credentials.api_key))
+    error = error.replace(credentials.firebase_uid, "*" * len(credentials.firebase_uid))
     if credentials.token is not None:
-        error = error.replace(
-            credentials.token,
-            "*" * len(credentials.token)
-        )
+        error = error.replace(credentials.token, "*" * len(credentials.token))
 
     result["error"].traceback = error
+
 
 def print_error(result: dict, credentials: Credentials) -> None:
     """
@@ -287,9 +268,8 @@ def print_error(result: dict, credentials: Credentials) -> None:
         print(result["error"])
         print(error_footer)
 
-def print_errors(
-    results: List[dict], all_credentials: List[Credentials]
-) -> None:
+
+def print_errors(results: List[dict], all_credentials: List[Credentials]) -> None:
     """
     Print the errors of multiple results, if the results contain errors, and
     raise an error at the end (again, if there exists any errors).
@@ -305,21 +285,30 @@ def print_errors(
 
 
 def main(args):
-    paths = get_paths()
+
+    if args.notebooks:
+        paths = [Path(WORKFLOWS / path) for path in args.notebooks]
+    else:
+        paths = get_paths()
     all_credentials = get_all_credentials(paths, args.region)
     notebooks = get_notebooks(paths, all_credentials)
     results = execute_notebooks(notebooks)
     print_errors(results, all_credentials)
 
-    
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    ROOT_PATH = Path(__file__).parent.resolve() / ".." /  ".." / "workflows"
-
-    parser.add_argument("-r", "--region", default='ap-southeast-2', help="Default region")
+    parser.add_argument(
+        "-r", "--region", default="ap-southeast-2", help="Default region"
+    )
+    parser.add_argument(
+        "-n",
+        "--notebooks",
+        nargs="+",
+        default=None,
+        help="List of notebooks to execute",
+    )
     args = parser.parse_args()
     main(args)
-

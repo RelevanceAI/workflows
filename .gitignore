@@ -147,3 +147,4 @@ dmypy.json
 *.logs
 *_log.txt
 
+twint/
