@@ -66,7 +66,6 @@ def get_credentials(path: Path, workflow_tokens: dict, region: str) -> Credentia
     """
     Get credentials required to initialize Relevance AI client.
     """
-    print("WORKFLOW_TOKEN_" + path.stem.upper())
     base64_token = workflow_tokens.get("WORKFLOW_TOKEN_" + path.stem.upper())
     if base64_token is not None:
         preconfiguration = json.loads(base64.b64decode(base64_token + "==="))
@@ -109,23 +108,20 @@ def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
     return [get_credentials(path, workflow_tokens, region) for path in paths]
 
 
-def cell_find_replace(
-    cell_source: List[str], find_sent_regex: str, find_str_regex: str, replace_str: str
-):
-    if bool(re.search(find_sent_regex, str(cell_source))):
-        logging.debug(f"Found sentence: {str(cell_source)}")
-        logging.debug(f"Find string regex: {find_str_regex}")
-        if isinstance(cell_source, str):
-            cell_source = [cell_source]
-        for i, cell_source_str in enumerate(cell_source):
-            if bool(re.search(find_str_regex, cell_source_str)):
-                find_replace_str = re.search(find_str_regex, cell_source_str).group()
-                logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
-                logging.debug(f"Replace str: {replace_str}")
-                cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
-                logging.debug(f"Updated: {cell_source_str.strip()}")
-                cell_source[i] = cell_source_str
+def cell_find_replace(cell_source: List[str], find_str_regex: str, replace_str: str):
+    # print( bool(re.search(find_sent_regex, str(cell_source))))
+    # print( str(cell_source))
 
+    if isinstance(cell_source, str):
+        cell_source = [cell_source]
+    for i, cell_source_str in enumerate(cell_source):
+        if bool(re.search(find_str_regex, cell_source_str)):
+            find_replace_str = re.search(find_str_regex, cell_source_str).group()
+            logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
+            logging.debug(f"Replace str: {replace_str}")
+            cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
+            logging.debug(f"Updated: {cell_source_str.strip()}")
+            cell_source[i] = cell_source_str
     return cell_source
 
 
@@ -135,14 +131,36 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
     client has the proper credentials. In the event that the notebook is
     activated by a token, credentials will not be added.
     """
-
     CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
     for cell in notebook["cells"]:
         if cell["cell_type"] == "code":
             ## Checking if core workflow
-            if credentials.base64_token and not bool(
-                re.search(CONFIG_BASE64_REGEX, str(cell["source"]))
-            ):
+            if bool(re.search(CONFIG_BASE64_REGEX, str(cell["source"]))):
+                if not credentials.base64_token:
+                    ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["colab"]["name"]} >. \
+                        Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["colab"]["name"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
+                    """
+                    raise ValueError(ERROR_MESSAGE)
+
+                ## Replacing core workflow tokens
+                TOKEN_PARAM_REGEX = 'token.*=.*#@param {type:"string"}'
+
+                TOKEN_REPLACE_STR_REPLACE = f'token="{credentials.base64_token}"\n'
+                token_args = {
+                    "find_str_regex": TOKEN_PARAM_REGEX,
+                    "replace_str": TOKEN_REPLACE_STR_REPLACE,
+                }
+                logging.info(f"Replacing token")
+                if bool(re.search(TOKEN_PARAM_REGEX, str(cell["source"]))):
+                    logging.debug(f"Found sentence: {str(cell['source'])}")
+                    logging.debug(f"Find string regex: {TOKEN_PARAM_REGEX}")
+                    cell["source"] = "".join(
+                        cell_find_replace(cell["source"], **token_args)
+                    )
+                    logging.debug(cell["source"])
+                    break
+
+            else:
                 CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
                 CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
 
@@ -159,25 +177,10 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
                     "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
                     "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
                 }
-                logging.info(f"Replacing client")
+                logging.info(f"Replacing client ...")
+                # print(cell["source"])
                 cell["source"] = "".join(
                     cell_find_replace(cell["source"], **client_instantiation_args)
-                )
-                logging.debug(cell["source"])
-                break
-            else:
-                ## Replacing core workflow tokens
-                TOKEN_PARAM_REGEX = 'token.*=.*#@param {type:"string"}'
-
-                TOKEN_REPLACE_STR_REPLACE = f'token="{credentials.base64_token}"\n'
-                token_args = {
-                    "find_sent_regex": TOKEN_PARAM_REGEX,
-                    "find_str_regex": TOKEN_PARAM_REGEX,
-                    "replace_str": TOKEN_REPLACE_STR_REPLACE,
-                }
-                logging.info(f"Replacing token")
-                cell["source"] = "".join(
-                    cell_find_replace(cell["source"], **token_args)
                 )
                 logging.debug(cell["source"])
                 break
