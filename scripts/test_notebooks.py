@@ -250,11 +250,26 @@ def mask_credentials(result: dict, credentials: Credentials) -> None:
 
     # Preemptively ensure that the project and API key are masked in the
     # error message, if it shows up at all.
-    error = error.replace(credentials.project, "*" * len(credentials.project))
-    error = error.replace(credentials.api_key, "*" * len(credentials.api_key))
-    error = error.replace(credentials.firebase_uid, "*" * len(credentials.firebase_uid))
-    if credentials.token is not None:
-        error = error.replace(credentials.token, "*" * len(credentials.token))
+    error = (
+        error.replace(credentials.project, "*" * len(credentials.project))
+        if credentials.project
+        else error
+    )
+    error = (
+        error.replace(credentials.api_key, "*" * len(credentials.api_key))
+        if credentials.api_key
+        else error
+    )
+    error = (
+        error.replace(credentials.firebase_uid, "*" * len(credentials.firebase_uid))
+        if credentials.firebase_uid
+        else error
+    )
+    error = (
+        error.replace(credentials.token, "*" * len(credentials.token))
+        if credentials.token
+        else error
+    )
 
     result["error"].traceback = error
 
