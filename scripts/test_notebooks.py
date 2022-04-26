@@ -167,11 +167,15 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
             if client_regex is not None:
                 start, end = client_regex.span()
                 # comma at the end is in case Client has existing arguments
-
+                token = (
+                    credentials.token
+                    if credentials.token
+                    else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
+                )
                 cell["source"] = "".join(
                     [
                         source[: start + 6 + 1],  # 'Client(' has length 6 + 1
-                        f"token='{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}'",
+                        f"token='{token}'",
                         source[start + 6 + 1 :],
                     ]
                 )
