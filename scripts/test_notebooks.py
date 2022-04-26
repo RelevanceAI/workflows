@@ -65,22 +65,25 @@ def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
     """
     Get credentials required to initialize Relevance AI client.
     """
-    token = tokens.get("WORKFLOW_TOKEN_" + path.stem.upper())
-    if token is not None:
-        preconfiguration = json.loads(base64.b64decode(token + "==="))
+    base64_token = tokens.get("WORKFLOW_TOKEN_" + path.stem.upper())
+    if base64_token is not None:
+        preconfiguration = json.loads(base64.b64decode(base64_token + "==="))
         project = preconfiguration["project"]
         api_key = preconfiguration["api_key"]
         region = preconfiguration["region"]
         firebase_uid = preconfiguration["firebase_uid"]
+        token = f"{project}:{api_key}:{region}:{firebase_uid}"
     else:
         if region == "us-east-1":
             project = os.getenv("TEST_US_PROJECT")
             api_key = os.getenv("TEST_US_API_KEY")
             firebase_uid = os.getenv("TEST_FIREBASE_UID")
+            token = os.getenv("TEST_ACTIVATION_TOKEN")
         elif region == "ap-southeast-2":
             project = os.getenv("TEST_PROJECT")
             api_key = os.getenv("TEST_API_KEY")
             firebase_uid = os.getenv("TEST_FIREBASE_UID")
+            token = os.getenv("TEST_ACTIVATION_TOKEN")
         elif region == "old-australia-east":
             project = os.getenv("TEST_PROJECT")
             api_key = os.getenv("TEST_API_KEY")

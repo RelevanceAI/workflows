@@ -14,7 +14,7 @@ requirements = [
     f"RelevanceAI[notebook]=={sdk_version}",
     "vectorhub[sentence-transformers]>=1.8.3",
     "jupyter",
-    "typing_extensions",  ## <3.7
+    "typing_extensions",  ## <3.8
 ]
 
 notebook_test_requirements = [
