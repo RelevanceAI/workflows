@@ -5,7 +5,7 @@
 # relative to the current directory. For example, if the workflow
 # "workflow.ipynb" exists in "directory", then to ignore it be sure to write
 # out "directory/workflow.ipynb".
-bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb
+# bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb
 cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb
 #cluster/Cluster_Your_Data_with_Relevance_AI.ipynb
 community-detection/Community_Detection_with_Relevance_AI.ipynb
