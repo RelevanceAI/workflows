@@ -109,9 +109,6 @@ def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
 
 
 def cell_find_replace(cell_source: List[str], find_str_regex: str, replace_str: str):
-    # print( bool(re.search(find_sent_regex, str(cell_source))))
-    # print( str(cell_source))
-
     if isinstance(cell_source, str):
         cell_source = [cell_source]
     for i, cell_source_str in enumerate(cell_source):
@@ -150,14 +147,15 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
                     "find_str_regex": TOKEN_PARAM_REGEX,
                     "replace_str": TOKEN_REPLACE_STR_REPLACE,
                 }
-                logging.info(f"Replacing token")
+
                 if bool(re.search(TOKEN_PARAM_REGEX, str(cell["source"]))):
+                    logging.info(f"Replacing base64 token ...")
                     logging.debug(f"Found sentence: {str(cell['source'])}")
                     logging.debug(f"Find string regex: {TOKEN_PARAM_REGEX}")
                     cell["source"] = "".join(
                         cell_find_replace(cell["source"], **token_args)
                     )
-                    logging.debug(cell["source"])
+                    logging.info(f'\n----\n{cell["source"]}\n---\n')
                     break
 
             else:
@@ -173,63 +171,23 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
                 CLIENT_INSTANTIATION_STR_REPLACE = f'(token="{TEST_ACTIVATION_TOKEN}")'
 
                 client_instantiation_args = {
-                    "find_sent_regex": CLIENT_INSTANTIATION_SENT_REGEX,
                     "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
                     "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
                 }
-                logging.info(f"Replacing client ...")
-                # print(cell["source"])
-                cell["source"] = "".join(
-                    cell_find_replace(cell["source"], **client_instantiation_args)
-                )
-                logging.debug(cell["source"])
-                break
 
-    # for cell in notebook["cells"]:
-    #     # Simultaneously check for both the token and client works correctly
-    #     # because the token must be defined before client in the notebook. A
-    #     # sufficient condition to execute the notebook when exactly one of
-    #     # these are filled.
-    #     if cell["cell_type"] == "code":
-    #         source = cell["source"]
-    # token_regex = re.search(
-    #     "(token\s*=\s*(\"|\'))(.*?(\"|\'))",
-    #     #"token\s*=\s*((\".*?\")|(\'.*?\'))",
-    #     source
-    # )
-    # if token_regex is not None:
-    #     start, end = token_regex.span()
-    #     print(cell["source"])
-    #     cell["source"] = "".join([
-    #         source[:start],
-    #         token_regex.group(1),
-    #         credentials.token,
-    #         token_regex.group(2)[-1], # add back the '"'
-    #         source[end:]
-    #     ])
-    #     break # If a token exists, no need to go further
-
-    # client_regex = re.search("Client\(.*\)", source)
-
-    # if client_regex is not None:
-    #     start, end = client_regex.span()
-    #     # comma at the end is in case Client has existing arguments
-
-    # notebook_find_replace(notebook, **notebook_args["client_instantiation_args"])
-    # print('Start End')
-    # print(start, end)
-    # print(source[: start + 6 + 1])
-    # cell["source"] = "".join(
-    #     [
-    #         source[: start + 6 + 1],  # 'Client(' has length 6 + 1
-    #         f"token='{token}'",
-    #         source[start + 6 + 1 :],
-    #     ]
-    # )
-    #         break  # No need to continue after inserting credentials
-    # else:
-    #     continue
-
+                if bool(
+                    re.search(CLIENT_INSTANTIATION_SENT_REGEX, str(cell["source"]))
+                ):
+                    logging.info(f"Replacing client ...")
+                    logging.debug(f"Found sentence: {str(cell['source'])}")
+                    logging.debug(
+                        f"Find string regex: {CLIENT_INSTANTIATION_SENT_REGEX}"
+                    )
+                    cell["source"] = "".join(
+                        cell_find_replace(cell["source"], **client_instantiation_args)
+                    )
+                    logging.info(f'\n----\n{cell["source"]}\n---\n')
+                    break
     return notebook
 
 
