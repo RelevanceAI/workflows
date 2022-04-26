@@ -18,7 +18,7 @@ requirements = [
 ]
 
 notebook_test_requirements = [
-    "matplotlib",  ## Needed for Vectorhub Clip2Vec in non-Colab env
+    "matplotlib",  ## Needed for Vectorhub in non-Colab env
     "seaborn",  ## Needed for running ClusterVizOps in non-Colab env
     "nbconvert>=1.3.5",
     "nbformat>=3.0.9",
