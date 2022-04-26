@@ -20,7 +20,8 @@ WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
 logging.basicConfig(level=logging.INFO)
 
 Credentials = namedtuple(
-    "Credentials", ["project", "api_key", "region", "firebase_uid", "token"]
+    "Credentials",
+    ["project", "api_key", "region", "firebase_uid", "token", "base64_token"],
 )
 
 
@@ -61,19 +62,20 @@ def get_paths() -> List[Path]:
     return paths
 
 
-def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
+def get_credentials(path: Path, workflow_tokens: dict, region: str) -> Credentials:
     """
     Get credentials required to initialize Relevance AI client.
     """
     print("WORKFLOW_TOKEN_" + path.stem.upper())
-    base64_token = tokens.get("WORKFLOW_TOKEN_" + path.stem.upper())
+    base64_token = workflow_tokens.get("WORKFLOW_TOKEN_" + path.stem.upper())
     if base64_token is not None:
         preconfiguration = json.loads(base64.b64decode(base64_token + "==="))
         project = preconfiguration["project"]
         api_key = preconfiguration["api_key"]
         region = preconfiguration["region"]
-        firebase_uid = preconfiguration["firebase_uid"]
-        token = f"{project}:{api_key}:{region}:{firebase_uid}"
+        token = preconfiguration["authorizationToken"]
+        firebase_uid = token.split(":")[-1]
+
     else:
         if region == "us-east-1":
             project = os.getenv("TEST_US_PROJECT")
@@ -91,7 +93,7 @@ def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
         else:
             raise ValueError("Invalid region")
 
-    return Credentials(project, api_key, region, firebase_uid, token)
+    return Credentials(project, api_key, region, firebase_uid, token, base64_token)
 
 
 def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
@@ -107,26 +109,24 @@ def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
     return [get_credentials(path, workflow_tokens, region) for path in paths]
 
 
-def notebook_find_replace(
-    notebook: dict, find_sent_regex: str, find_str_regex: str, replace_str: str
+def cell_find_replace(
+    cell_source: List[str], find_sent_regex: str, find_str_regex: str, replace_str: str
 ):
+    if bool(re.search(find_sent_regex, str(cell_source))):
+        logging.debug(f"Found sentence: {str(cell_source)}")
+        logging.debug(f"Find string regex: {find_str_regex}")
+        if isinstance(cell_source, str):
+            cell_source = [cell_source]
+        for i, cell_source_str in enumerate(cell_source):
+            if bool(re.search(find_str_regex, cell_source_str)):
+                find_replace_str = re.search(find_str_regex, cell_source_str).group()
+                logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
+                logging.debug(f"Replace str: {replace_str}")
+                cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
+                logging.debug(f"Updated: {cell_source_str.strip()}")
+                cell_source[i] = cell_source_str
 
-    for cell in notebook["cells"]:
-        if bool(re.search(find_sent_regex, str(cell["source"]))):
-            logging.debug(f"Found sentence: {str(cell['source'])}")
-            logging.debug(f"Find string regex: {find_str_regex}")
-            for i, cell_source in enumerate(cell["source"]):
-                if bool(re.search(find_str_regex, cell_source)):
-                    find_replace_str = re.search(find_str_regex, cell_source).group()
-                    logging.debug(
-                        f"Found str within sentence: {find_replace_str.strip()}"
-                    )
-                    logging.debug(f"Replace str: {replace_str}")
-                    cell_source = cell_source.replace(find_replace_str, replace_str)
-                    logging.debug(f"Updated: {cell_source.strip()}")
-                    cell["source"][i] = cell_source
-
-    return notebook
+    return cell_source
 
 
 def insert_credentials(notebook: dict, credentials: Credentials) -> None:
@@ -135,33 +135,52 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
     client has the proper credentials. In the event that the notebook is
     activated by a token, credentials will not be added.
     """
-    ## Env vars
-    CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
-    CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
 
-    CLIENT_INSTANTIATION_BASE = f"client = Client()"
-    TEST_ACTIVATION_TOKEN = (
-        credentials.token
-        if credentials.token
-        else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
-    )
-    CLIENT_INSTANTIATION_STR_REPLACE = f'(token="{TEST_ACTIVATION_TOKEN}")'
+    CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
+    for cell in notebook["cells"]:
+        if cell["cell_type"] == "code":
+            ## Checking if core workflow
+            if credentials.base64_token and not bool(
+                re.search(CONFIG_BASE64_REGEX, str(cell["source"]))
+            ):
+                CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
+                CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
 
-    client_instantiation_args = {
-        "find_sent_regex": CLIENT_INSTANTIATION_SENT_REGEX,
-        "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
-        "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
-    }
+                # CLIENT_INSTANTIATION_BASE = f"client = Client()"
+                TEST_ACTIVATION_TOKEN = (
+                    credentials.token
+                    if credentials.token
+                    else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
+                )
+                CLIENT_INSTANTIATION_STR_REPLACE = f'(token="{TEST_ACTIVATION_TOKEN}")'
 
-    notebook = notebook_find_replace(notebook, **client_instantiation_args)
+                client_instantiation_args = {
+                    "find_sent_regex": CLIENT_INSTANTIATION_SENT_REGEX,
+                    "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
+                    "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
+                }
+                logging.info(f"Replacing client")
+                cell["source"] = "".join(
+                    cell_find_replace(cell["source"], **client_instantiation_args)
+                )
+                logging.debug(cell["source"])
+                break
+            else:
+                ## Replacing core workflow tokens
+                TOKEN_PARAM_REGEX = 'token.*=.*#@param {type:"string"}'
 
-    ## Replacing core workflow tokens
-    CONFIG_BASE64_REGEX = "token.*=.*"
-    client_instantiation_args = {
-        "find_sent_regex": CONFIG_BASE64_REGEX,
-        "find_str_regex": CONFIG_BASE64_REGEX,
-        "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
-    }
+                TOKEN_REPLACE_STR_REPLACE = f'token="{credentials.base64_token}"\n'
+                token_args = {
+                    "find_sent_regex": TOKEN_PARAM_REGEX,
+                    "find_str_regex": TOKEN_PARAM_REGEX,
+                    "replace_str": TOKEN_REPLACE_STR_REPLACE,
+                }
+                logging.info(f"Replacing token")
+                cell["source"] = "".join(
+                    cell_find_replace(cell["source"], **token_args)
+                )
+                logging.debug(cell["source"])
+                break
 
     # for cell in notebook["cells"]:
     #     # Simultaneously check for both the token and client works correctly
@@ -170,7 +189,6 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
     #     # these are filled.
     #     if cell["cell_type"] == "code":
     #         source = cell["source"]
-
     # token_regex = re.search(
     #     "(token\s*=\s*(\"|\'))(.*?(\"|\'))",
     #     #"token\s*=\s*((\".*?\")|(\'.*?\'))",
@@ -197,7 +215,6 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
     # notebook_find_replace(notebook, **notebook_args["client_instantiation_args"])
     # print('Start End')
     # print(start, end)
-
     # print(source[: start + 6 + 1])
     # cell["source"] = "".join(
     #     [
@@ -206,7 +223,6 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
     #         source[start + 6 + 1 :],
     #     ]
     # )
-
     #         break  # No need to continue after inserting credentials
     # else:
     #     continue
@@ -312,10 +328,10 @@ def print_error(result: dict, credentials: Credentials) -> None:
     if result:
         error_header = "{:=^128}".format(f"ERROR IN {result['notebook']}")
         error_footer = f"{'=' * len(error_header)}"
-        print(error_header)
+        logging.info(error_header)
         mask_credentials(result, credentials)
-        print(result["error"])
-        print(error_footer)
+        logging.info(result["error"])
+        logging.info(error_footer)
 
 
 def print_errors(results: List[dict], all_credentials: List[Credentials]) -> None:
@@ -330,10 +346,13 @@ def print_errors(results: List[dict], all_credentials: List[Credentials]) -> Non
         else:
             raise Exception("At least one of the notebook checks failed.")
     else:
-        print("No errors occurred while checking notebooks.")
+        logging.info("No errors occurred while checking notebooks.")
 
 
 def main(args):
+    logging_level = logging.DEBUG if args.debug else logging.INFO
+    # logging.basicConfig(format='%(asctime)s %(message)s', level=logging_level)
+    logging.basicConfig(level=logging_level)
 
     if args.notebooks:
         paths = [Path(WORKFLOWS / path) for path in args.notebooks]
@@ -348,7 +367,7 @@ def main(args):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-
+    parser.add_argument("-d", "--debug", action="store_true", help="Run debug mode")
     parser.add_argument(
         "-r", "--region", default="ap-southeast-2", help="Default region"
     )
