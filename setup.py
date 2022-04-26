@@ -22,6 +22,7 @@ notebook_test_requirements = [
     "seaborn",  ## Needed for running ClusterVizOps in non-Colab env
     "nbconvert>=1.3.5",
     "nbformat>=3.0.9",
+    "umap-learn>=0.5.3",  ## For DR
 ]
 
 dev_requirements = [
