@@ -9,7 +9,7 @@
 cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb
 cluster/Cluster_Your_Data_with_Relevance_AI.ipynb
 community-detection/Community_Detection_with_Relevance_AI.ipynb
-#dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb
+dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb
 dummy-datasets/Dummy_Datasets_Workflow.ipynb
 # impact-analysis/impact-analysis.ipynb
 # keyphrases/KeyPhrases_Workflow.ipynb
