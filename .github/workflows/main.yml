@@ -66,14 +66,14 @@ jobs:
         os: [ ubuntu-latest]
         python-version: [ '3.8' ]
         # python-version: [ '3.6', '3.7', '3.8', '3.9' ]
-        notebook: ${{fromJSON(needs.build-docs.outputs.notebook-fpaths )}}
+        notebook: ${{fromJSON(needs.setup-tests.outputs.notebook-fpaths )}}
         include:
           - os: ubuntu-latest
             path: ~/.cache/pip
           # - os: macos-latest
           #   path: ~/Library/Caches/pip
           # - os: windows-latest
-          #   path: ~\AppData\Local\pip\Cache
+          #   path: ~\AppData\Local\pip\Cache/home/charlene/code/RelevanceAI/relevanceai/reports/cluster
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
