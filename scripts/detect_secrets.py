@@ -35,7 +35,7 @@ def line_contains_api_key(line: str, regex_str: str):
 	"""
 	for token_match in re.finditer(regex_str, line):
 		token = token_match.group().split('=')[-1]
-		if token!='token':
+		if token!='token' and 'config' not in token:
 			result = token_is_api_key(token)
 			if result:
 				return (True, result[1])

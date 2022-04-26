@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import re
+import argparse
 
 from collections import namedtuple
 from multiprocessing import Pool
@@ -18,7 +19,7 @@ WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
 logging.basicConfig(level=logging.INFO)
 
 Credentials = namedtuple(
-    "Credentials", ["project", "api_key", "region", "token"]
+    "Credentials", ["project", "api_key", "region", "firebase_uid", "token"]
 )
 
 def get_paths() -> List[Path]:
@@ -27,9 +28,11 @@ def get_paths() -> List[Path]:
     """
     with open(WORKFLOWS / Path("ignore-workflows.txt")) as file:
         ignored_notebooks = set(
-            WORKFLOWS / Path(notebook.strip())
+            WORKFLOWS / Path(notebook.replace('#', '').strip())
             for notebook in file.readlines()
-            if not notebook.startswith('#')
+            if notebook.startswith('#') 
+            and any(nb_path_string in notebook for nb_path_string in ['/', 'ipynb'])
+            and 'workflow' not in notebook
         )
     logging.info(
         "Ignoring the following notebooks: " +
@@ -72,32 +75,64 @@ def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
         project = preconfiguration["project"]
         api_key = preconfiguration["api_key"]
         region = preconfiguration["region"]
+        firebase_uid = preconfiguration["firebase_uid"]
     else:
         if region == "us-east-1":
             project = os.getenv("TEST_US_PROJECT")
             api_key = os.getenv("TEST_US_API_KEY")
+            firebase_uid = os.getenv('TEST_FIREBASE_UID')
+        elif region == "ap-southeast-2":
+            project = os.getenv("TEST_PROJECT")
+            api_key = os.getenv("TEST_API_KEY")
+            firebase_uid = os.getenv('TEST_FIREBASE_UID')
         elif region == "old-australia-east":
             project = os.getenv("TEST_PROJECT")
             api_key = os.getenv("TEST_API_KEY")
         else:
             raise ValueError("Invalid region")
     
-    return Credentials(project, api_key, region, token)
+    return Credentials(project, api_key, region, firebase_uid, token)
 
 def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
     """
-    Retrieves the credentials for each notebook exectuion. Each notebook
+    Retrieves the credentials for each notebook execution. Each notebook
     merits its own credentials because it may be different if it uses a
     token.
     """
-    tokens = { 
+    workflow_tokens = { 
         token: os.environ[token]
         for token in filter(
             lambda var: var.startswith("WORKFLOW_TOKEN"),
             os.environ
         )
     }
-    return [ get_credentials(path, tokens, region) for path in paths ]
+    return [ get_credentials(path, workflow_tokens, region) for path in paths ]
+
+
+def notebook_find_replace(
+    fname: str, find_sent_regex: str, find_str_regex: str, replace_str: str
+):
+    logging.info(f"\tInput: {fname}")
+    notebook_json = json.loads(open(fname).read())
+
+    for cell in notebook_json["cells"]:
+        if bool(re.search(find_sent_regex, str(cell["source"]))):
+            logging.debug(f"Found sentence: {str(cell['source'])}")
+            logging.debug(f"Find string regex: {find_str_regex}")
+            for i, cell_source in enumerate(cell["source"]):
+                if bool(re.search(find_str_regex, cell_source)):
+                    find_replace_str = re.search(find_str_regex, cell_source).group()
+                    logging.debug(
+                        f"Found str within sentence: {find_replace_str.strip()}"
+                    )
+                    logging.debug(f"Replace str: {replace_str}")
+                    cell_source = cell_source.replace(find_replace_str, replace_str)
+                    logging.debug(f"Updated: {cell_source.strip()}")
+                    cell["source"][i] = cell_source
+
+    logging.info(f"\tOutput file: {fname}")
+    json.dump(notebook_json, fp=open(fname, "w"), indent=4)
+
 
 def insert_credentials(
     notebook: dict, credentials: Credentials
@@ -115,35 +150,35 @@ def insert_credentials(
         if cell["cell_type"] == "code":
             source = cell["source"]
 
-            token_regex = re.search(
-                "(token\s*=\s*(\"|\'))(.*?(\"|\'))",
-                #"token\s*=\s*((\".*?\")|(\'.*?\'))",
-                source
-            )
-            if token_regex is not None:
-                start, end = token_regex.span()
-                cell["source"] = "".join([
-                    source[:start],
-                    token_regex.group(1),
-                    credentials.token,
-                    token_regex.group(2)[-1], # add back the '"'
-                    source[end:]
-                ])
-                break # If a token exists, no need to go further
+            # token_regex = re.search(
+            #     "(token\s*=\s*(\"|\'))(.*?(\"|\'))",
+            #     #"token\s*=\s*((\".*?\")|(\'.*?\'))",
+            #     source
+            # )
+            # if token_regex is not None:
+            #     start, end = token_regex.span()
+            #     print(cell["source"])
+            #     cell["source"] = "".join([
+            #         source[:start],
+            #         token_regex.group(1),
+            #         credentials.token,
+            #         token_regex.group(2)[-1], # add back the '"'
+            #         source[end:]
+            #     ])
+            #     break # If a token exists, no need to go further
 
             client_regex = re.search("Client\(.*\)", source)
+            
             if client_regex is not None:
                 start, end = client_regex.span()
                 # comma at the end is in case Client has existing arguments
+
                 cell["source"] = "".join([
                     source[:start+6+1], # 'Client(' has length 6 + 1
-                    "project=\"{}\",api_key=\"{}\",region=\"{}\",".format(
-                        credentials.project,
-                        credentials.api_key,
-                        credentials.region
-                    ),
+                    f"token={credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}",
                     source[start+6+1:] 
                 ])
+                
                 break # No need to continue after inserting credentials
         else:
             continue
@@ -268,10 +303,23 @@ def print_errors(
     else:
         print("No errors occurred while checking notebooks.")
 
-if __name__ == "__main__":
-    region = "us-east-1"
+
+def main(args):
     paths = get_paths()
-    all_credentials = get_all_credentials(paths, region)
+    all_credentials = get_all_credentials(paths, args.region)
     notebooks = get_notebooks(paths, all_credentials)
     results = execute_notebooks(notebooks)
     print_errors(results, all_credentials)
+
+    
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+
+    ROOT_PATH = Path(__file__).parent.resolve() / ".." /  ".." / "workflows"
+
+    parser.add_argument("-r", "--region", default='ap-southeast-2', help="Default region")
+    args = parser.parse_args()
+    main(args)
+
