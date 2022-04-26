@@ -5,20 +5,21 @@
 import setuptools
 from pathlib import Path
 
-this_directory = Path(__file__).parent
-long_description = (this_directory / "README.md").read_text(encoding="utf-8")
+pwd = Path(__file__).parent
+long_description = (pwd / "README.md").read_text(encoding="utf-8")
+sdk_version = (pwd / "__version__").read_text(encoding="utf-8")
 
 
 requirements = [
-    "RelevanceAI[notebook]",
+    f"RelevanceAI[notebook]=={sdk_version}",
     "vectorhub[sentence-transformers]>=1.8.3",
     "jupyter",
-    "typing_extensions",
+    "typing_extensions",  ## <3.7
 ]
 
 notebook_test_requirements = [
-    "matplotlib",   ## Needed for Vectorhub Clip2Vec in non-Colab env
-    "seaborn",      ## Needed for running ClusterVizOps in non-Colab env
+    "matplotlib",  ## Needed for Vectorhub Clip2Vec in non-Colab env
+    "seaborn",  ## Needed for running ClusterVizOps in non-Colab env
     "nbconvert>=1.3.5",
     "nbformat>=3.0.9",
 ]

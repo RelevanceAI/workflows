@@ -49,9 +49,6 @@ jobs:
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
         run: |
-          # export NOTEBOOK_IGNORE=$(cat src/tests/notebook_ignore.txt)
-          # export NOTEBOOKS=$(find docs -type f -name "*.ipynb")
-          # export NOTEBOOK_FPATHS=$(for n in  ${NOTEBOOKS[@]}; do echo $n; done | grep -wv "$NOTEBOOK_IGNORE"  | jq -Rsc '. / "\n" - [""]')
           export WORKFLOW_IGNORE=workflows/ignore-workflows.txt
           export NOTEBOOK_FPATHS=$( grep '.ipynb' $WORKFLOW_IGNORE| grep -v '#' $WORKFLOW_IGNORE )
           echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
@@ -73,7 +70,7 @@ jobs:
           # - os: macos-latest
           #   path: ~/Library/Caches/pip
           # - os: windows-latest
-          #   path: ~\AppData\Local\pip\Cache/home/charlene/code/RelevanceAI/relevanceai/reports/cluster
+          #   path: ~\AppData\Local\pip\Cache
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
