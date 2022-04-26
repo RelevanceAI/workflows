@@ -122,12 +122,15 @@ def cell_find_replace(cell_source: List[str], find_str_regex: str, replace_str: 
     return cell_source
 
 
-def insert_credentials(notebook: dict, credentials: Credentials) -> None:
+def insert_credentials(notebook: dict, credentials: Credentials, path: Path) -> None:
     """
     Modifies a notebook (formatted as a dictionary) so that the Relevance AI
     client has the proper credentials. In the event that the notebook is
     activated by a token, credentials will not be added.
     """
+
+    notebook = insert_name(notebook, path)
+
     CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
     for cell in notebook["cells"]:
         if cell["cell_type"] == "code":
@@ -135,7 +138,7 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
             if bool(re.search(CONFIG_BASE64_REGEX, str(cell["source"]))):
                 if not credentials.base64_token:
                     ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["colab"]["name"]} >. \
-                        Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["colab"]["name"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
+                        Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["temporary_name"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
                     """
                     raise ValueError(ERROR_MESSAGE)
 
@@ -195,8 +198,8 @@ def insert_name(notebook: dict, path: Path) -> dict:
     """
     Insert a name into the notebook metadata for bookkeeping.
     """
-    name = str(path.stem)
-    notebook["metadata"]["temporary_name"] = name
+    notebook["metadata"]["temporary_name"] = str(path.stem)
+
     return notebook
 
 
@@ -209,10 +212,7 @@ def generate_notebooks(
     credentials.
     """
     return [
-        insert_name(
-            insert_credentials(nbformat.read(path, nbformat.NO_CONVERT), credentials),
-            path,
-        )
+        insert_credentials(nbformat.read(path, nbformat.NO_CONVERT), credentials, path)
         for path, credentials in zip(paths, all_credentials)
     ]
 
