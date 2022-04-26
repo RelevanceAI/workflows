@@ -28,7 +28,7 @@ Some of these features include:
 - Labelling/Tagging
 - Launching Projectors
 
-# How to add a workflow 
+# How to add a workflow
 
 How to add a workflow
 
@@ -146,10 +146,15 @@ Then run testing using:
 > Don't forget to set your test credentials!
 
 ```bash
-export TEST_PROJECT = xxx
-export TEST_API_KEY = xxx
+export TEST_ACTIVATION_TOKEN=<YOUR_ACTIVATION_TOKEN>
 
+## For testing core workflows
+export WORKFLOW_TOKEN_CLUSTER_YOUR_DATA_WITH_RELEVANCE_AI=<DASHBOARD_BASE64_TOKEN_FROM_CLUSTER_WORKFLOW>
+export WORKFLOW_TOKEN_VECTORIZE_YOUR_DATA_WITH_RELEVANCE_AI=<DASHBOARD_BASE64_TOKEN_FROM_VECTORIZE_WORKFLOW>
+export WORKFLOW_TOKEN_REDUCE_THE_DIMENSIONS_OF_YOUR_DATA_WITH_RELEVANCE_AI=<DASHBOARD_BASE64_TOKEN_FROM_DR_WORKFLOW>
 ```
+
+
 
 
 
