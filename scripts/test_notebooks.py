@@ -65,6 +65,7 @@ def get_credentials(path: Path, tokens: dict, region: str) -> Credentials:
     """
     Get credentials required to initialize Relevance AI client.
     """
+    print("WORKFLOW_TOKEN_" + path.stem.upper())
     base64_token = tokens.get("WORKFLOW_TOKEN_" + path.stem.upper())
     if base64_token is not None:
         preconfiguration = json.loads(base64.b64decode(base64_token + "==="))
@@ -107,12 +108,10 @@ def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
 
 
 def notebook_find_replace(
-    fname: str, find_sent_regex: str, find_str_regex: str, replace_str: str
+    notebook: dict, find_sent_regex: str, find_str_regex: str, replace_str: str
 ):
-    logging.info(f"\tInput: {fname}")
-    notebook_json = json.loads(open(fname).read())
 
-    for cell in notebook_json["cells"]:
+    for cell in notebook["cells"]:
         if bool(re.search(find_sent_regex, str(cell["source"]))):
             logging.debug(f"Found sentence: {str(cell['source'])}")
             logging.debug(f"Find string regex: {find_str_regex}")
@@ -127,8 +126,7 @@ def notebook_find_replace(
                     logging.debug(f"Updated: {cell_source.strip()}")
                     cell["source"][i] = cell_source
 
-    logging.info(f"\tOutput file: {fname}")
-    json.dump(notebook_json, fp=open(fname, "w"), indent=4)
+    return notebook
 
 
 def insert_credentials(notebook: dict, credentials: Credentials) -> None:
@@ -137,52 +135,81 @@ def insert_credentials(notebook: dict, credentials: Credentials) -> None:
     client has the proper credentials. In the event that the notebook is
     activated by a token, credentials will not be added.
     """
-    for cell in notebook["cells"]:
-        # Simultaneously check for both the token and client works correctly
-        # because the token must be defined before client in the notebook. A
-        # sufficient condition to execute the notebook when exactly one of
-        # these are filled.
-        if cell["cell_type"] == "code":
-            source = cell["source"]
+    ## Env vars
+    CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
+    CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
 
-            # token_regex = re.search(
-            #     "(token\s*=\s*(\"|\'))(.*?(\"|\'))",
-            #     #"token\s*=\s*((\".*?\")|(\'.*?\'))",
-            #     source
-            # )
-            # if token_regex is not None:
-            #     start, end = token_regex.span()
-            #     print(cell["source"])
-            #     cell["source"] = "".join([
-            #         source[:start],
-            #         token_regex.group(1),
-            #         credentials.token,
-            #         token_regex.group(2)[-1], # add back the '"'
-            #         source[end:]
-            #     ])
-            #     break # If a token exists, no need to go further
+    CLIENT_INSTANTIATION_BASE = f"client = Client()"
+    TEST_ACTIVATION_TOKEN = (
+        credentials.token
+        if credentials.token
+        else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
+    )
+    CLIENT_INSTANTIATION_STR_REPLACE = f'(token="{TEST_ACTIVATION_TOKEN}")'
 
-            client_regex = re.search("Client\(.*\)", source)
+    client_instantiation_args = {
+        "find_sent_regex": CLIENT_INSTANTIATION_SENT_REGEX,
+        "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
+        "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
+    }
 
-            if client_regex is not None:
-                start, end = client_regex.span()
-                # comma at the end is in case Client has existing arguments
-                token = (
-                    credentials.token
-                    if credentials.token
-                    else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
-                )
-                cell["source"] = "".join(
-                    [
-                        source[: start + 6 + 1],  # 'Client(' has length 6 + 1
-                        f"token='{token}'",
-                        source[start + 6 + 1 :],
-                    ]
-                )
+    notebook = notebook_find_replace(notebook, **client_instantiation_args)
 
-                break  # No need to continue after inserting credentials
-        else:
-            continue
+    ## Replacing core workflow tokens
+    CONFIG_BASE64_REGEX = "token.*=.*"
+    client_instantiation_args = {
+        "find_sent_regex": CONFIG_BASE64_REGEX,
+        "find_str_regex": CONFIG_BASE64_REGEX,
+        "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
+    }
+
+    # for cell in notebook["cells"]:
+    #     # Simultaneously check for both the token and client works correctly
+    #     # because the token must be defined before client in the notebook. A
+    #     # sufficient condition to execute the notebook when exactly one of
+    #     # these are filled.
+    #     if cell["cell_type"] == "code":
+    #         source = cell["source"]
+
+    # token_regex = re.search(
+    #     "(token\s*=\s*(\"|\'))(.*?(\"|\'))",
+    #     #"token\s*=\s*((\".*?\")|(\'.*?\'))",
+    #     source
+    # )
+    # if token_regex is not None:
+    #     start, end = token_regex.span()
+    #     print(cell["source"])
+    #     cell["source"] = "".join([
+    #         source[:start],
+    #         token_regex.group(1),
+    #         credentials.token,
+    #         token_regex.group(2)[-1], # add back the '"'
+    #         source[end:]
+    #     ])
+    #     break # If a token exists, no need to go further
+
+    # client_regex = re.search("Client\(.*\)", source)
+
+    # if client_regex is not None:
+    #     start, end = client_regex.span()
+    #     # comma at the end is in case Client has existing arguments
+
+    # notebook_find_replace(notebook, **notebook_args["client_instantiation_args"])
+    # print('Start End')
+    # print(start, end)
+
+    # print(source[: start + 6 + 1])
+    # cell["source"] = "".join(
+    #     [
+    #         source[: start + 6 + 1],  # 'Client(' has length 6 + 1
+    #         f"token='{token}'",
+    #         source[start + 6 + 1 :],
+    #     ]
+    # )
+
+    #         break  # No need to continue after inserting credentials
+    # else:
+    #     continue
 
     return notebook
 
