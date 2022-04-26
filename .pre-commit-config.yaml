@@ -4,7 +4,7 @@ repos:
       - id: detect-api-keys
         name: Detect API Keys
         entry: python scripts/detect_secrets.py -p workflows -s
-        language: python
+        language: system
         always_run: true
         pass_filenames: false
 

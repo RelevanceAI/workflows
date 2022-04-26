@@ -12,7 +12,9 @@ sdk_version = (pwd / "__version__").read_text(encoding="utf-8")
 
 requirements = [
     f"RelevanceAI[notebook]=={sdk_version}",
+    "sentence-transformers==2.2.0",
     "vectorhub[sentence-transformers]>=1.8.3",
+    "vectorhub[encoders-text-tfhub]>=1.8.3",
     "jupyter",
     "typing_extensions",  ## <3.8
 ]
@@ -26,6 +28,7 @@ notebook_test_requirements = [
 ]
 
 dev_requirements = [
+    "wheel",
     "ipykernel",
     # "autopep8",
     # "pylint",
@@ -45,6 +48,8 @@ setuptools.setup(
         "tests": notebook_test_requirements,
         "dev": dev_requirements + notebook_test_requirements,
     },
+    package_dir={"": "workflows"},
+    packages=setuptools.find_packages(where="workflows"),
     python_requires=">=3.7",
     classifiers=[
         "Development Status :: 4 - Beta",

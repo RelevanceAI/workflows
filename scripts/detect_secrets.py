@@ -3,7 +3,7 @@
 from pathlib import Path
 import sys, os, re, itertools
 from typing import Iterable, Union
-from typing import Literal
+from typing_extensions import Literal
 import logging
 import argparse
 import json
