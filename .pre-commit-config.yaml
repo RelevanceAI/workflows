@@ -4,7 +4,7 @@ repos:
       - id: detect-api-keys
         name: Detect API Keys
         entry: python scripts/detect_secrets.py -p workflows -s
-        language: python
+        language: system
         always_run: true
         pass_filenames: false
 
@@ -16,3 +16,19 @@ repos:
         stages: [commit]
         language: system
         entry: jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+    -   id: check-ast
+    -   id: check-case-conflict
+    -   id: check-added-large-files
+        args: ['--maxkb=1000']
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      -   id: black

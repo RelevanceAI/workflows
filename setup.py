@@ -5,25 +5,30 @@
 import setuptools
 from pathlib import Path
 
-this_directory = Path(__file__).parent
-long_description = (this_directory / "README.md").read_text(encoding="utf-8")
+pwd = Path(__file__).parent
+long_description = (pwd / "README.md").read_text(encoding="utf-8")
+sdk_version = (pwd / "__version__").read_text(encoding="utf-8")
 
 
 requirements = [
-    "RelevanceAI[notebook]",
+    f"RelevanceAI[notebook]=={sdk_version}",
+    "sentence-transformers==2.2.0",
     "vectorhub[sentence-transformers]>=1.8.3",
+    "vectorhub[encoders-text-tfhub]>=1.8.3",
     "jupyter",
-    "typing_extensions",
+    "typing_extensions",  ## <3.8
 ]
 
 notebook_test_requirements = [
-    "matplotlib",   ## Needed for Vectorhub Clip2Vec in non-Colab env
-    "seaborn",      ## Needed for running ClusterVizOps in non-Colab env
+    "matplotlib",  ## Needed for Vectorhub in non-Colab env
+    "seaborn",  ## Needed for running ClusterVizOps in non-Colab env
     "nbconvert>=1.3.5",
     "nbformat>=3.0.9",
+    "umap-learn>=0.5.3",  ## For DR
 ]
 
 dev_requirements = [
+    "wheel",
     "ipykernel",
     # "autopep8",
     # "pylint",
@@ -43,6 +48,8 @@ setuptools.setup(
         "tests": notebook_test_requirements,
         "dev": dev_requirements + notebook_test_requirements,
     },
+    package_dir={"": "workflows"},
+    packages=setuptools.find_packages(where="workflows"),
     python_requires=">=3.7",
     classifiers=[
         "Development Status :: 4 - Beta",
