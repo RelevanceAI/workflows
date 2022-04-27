@@ -209,10 +209,10 @@ def generate_notebook(
     for cell in notebook["cells"]:
         if cell["cell_type"] == "code":
             for package_name, package_version in package_versions.items():
-                cell_source = update_pkg_version(
+                cell["source"] = update_pkg_version(
                     package_name, package_version, cell["source"]
                 )
-            cell_source = insert_credentials(notebook, credentials, cell["source"])
+            cell["source"] = insert_credentials(notebook, credentials, cell["source"])
 
     return notebook
 
