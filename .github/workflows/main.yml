@@ -89,6 +89,7 @@ jobs:
       - name: Install requirements
         run: |
           pip install --upgrade pip
+          pip install pyyaml
           python -m pip install -e .[tests]
           jupyter kernelspec list
 

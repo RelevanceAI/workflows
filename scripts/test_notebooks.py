@@ -4,6 +4,7 @@ import logging
 import os
 import re
 import argparse
+import yaml
 
 from collections import namedtuple
 from multiprocessing import Pool
@@ -11,10 +12,9 @@ from pathlib import Path
 from typing import List, Optional
 
 import nbformat
-
 from nbclient import NotebookClient
 
-
+ROOT_PATH = Path(__file__).resolve().parent.parent
 WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
 
 logging.basicConfig(level=logging.INFO)
@@ -23,6 +23,20 @@ Credentials = namedtuple(
     "Credentials",
     ["project", "api_key", "region", "firebase_uid", "token", "base64_token"],
 )
+
+
+def cell_find_replace(cell_source: List[str], find_str_regex: str, replace_str: str):
+    if isinstance(cell_source, str):
+        cell_source = [cell_source]
+    for i, cell_source_str in enumerate(cell_source):
+        if bool(re.search(find_str_regex, cell_source_str)):
+            find_replace_str = re.search(find_str_regex, cell_source_str).group()
+            logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
+            logging.debug(f"Replace str: {replace_str}")
+            cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
+            logging.debug(f"Updated: {cell_source_str.strip()}")
+            cell_source[i] = cell_source_str
+    return cell_source
 
 
 def get_paths() -> List[Path]:
@@ -108,89 +122,98 @@ def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
     return [get_credentials(path, workflow_tokens, region) for path in paths]
 
 
-def cell_find_replace(cell_source: List[str], find_str_regex: str, replace_str: str):
-    if isinstance(cell_source, str):
-        cell_source = [cell_source]
-    for i, cell_source_str in enumerate(cell_source):
-        if bool(re.search(find_str_regex, cell_source_str)):
-            find_replace_str = re.search(find_str_regex, cell_source_str).group()
-            logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
-            logging.debug(f"Replace str: {replace_str}")
-            cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
-            logging.debug(f"Updated: {cell_source_str.strip()}")
-            cell_source[i] = cell_source_str
+def update_pkg_version(package_name: str, package_version: str, cell_source: List[str]):
+    PIP_INSTALL_SENT_REGEX = f".*pip install.*{package_name}.*==.*"
+    PIP_INSTALL_VERSION_STR_REGEX = f"==.*[0-9]"
+    PIP_INSTALL_VERSION_STR_REPLACE = f"=={package_version}"
+    pip_install_version_args = {
+        # "find_sent_regex": PIP_INSTALL_SENT_REGEX,
+        "find_str_regex": PIP_INSTALL_VERSION_STR_REGEX,
+        "replace_str": PIP_INSTALL_VERSION_STR_REPLACE,
+    }
+    if bool(re.search(PIP_INSTALL_SENT_REGEX, str(cell_source))):
+        logging.info(f"Updating {package_name}=={package_version}")
+        cell_source = "".join(
+            cell_find_replace(cell_source, **pip_install_version_args)
+        )
+        logging.info(f"\n----\n{cell_source}\n---\n")
     return cell_source
 
 
-def insert_credentials(notebook: dict, credentials: Credentials, path: Path) -> None:
+def insert_credentials(
+    notebook: dict, credentials: Credentials, cell_source: List[str]
+) -> List[str]:
+    ## Checking if core workflow
+    CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
+    if bool(re.search(CONFIG_BASE64_REGEX, str(cell_source))):
+        if not credentials.base64_token:
+            ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["colab"]["name"]} >. \
+                Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["temporary_name"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
+            """
+            raise ValueError(ERROR_MESSAGE)
+
+        ## Replacing core workflow tokens
+        TOKEN_PARAM_REGEX = 'token.*=.*#@param {type:"string"}'
+
+        TOKEN_REPLACE_STR_REPLACE = f'token="{credentials.base64_token}"\n'
+        token_args = {
+            "find_str_regex": TOKEN_PARAM_REGEX,
+            "replace_str": TOKEN_REPLACE_STR_REPLACE,
+        }
+
+        if bool(re.search(TOKEN_PARAM_REGEX, str(cell_source))):
+            logging.info(f"Replacing base64 token ...")
+            logging.debug(f"Found sentence: {str(cell_source)}")
+            logging.debug(f"Find string regex: {TOKEN_PARAM_REGEX}")
+            cell_source = "".join(cell_find_replace(cell_source, **token_args))
+            logging.info(f"\n----\n{cell_source}\n---\n")
+
+    else:
+        CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
+        CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
+
+        TEST_ACTIVATION_TOKEN = (
+            credentials.token
+            if credentials.token
+            else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
+        )
+        CLIENT_INSTANTIATION_STR_REPLACE = f'(token="{TEST_ACTIVATION_TOKEN}")'
+
+        client_instantiation_args = {
+            "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
+            "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
+        }
+
+        if bool(re.search(CLIENT_INSTANTIATION_SENT_REGEX, str(cell_source))):
+            logging.info(f"Replacing client ...")
+            logging.debug(f"Found sentence: {str(cell_source)}")
+            logging.debug(f"Find string regex: {CLIENT_INSTANTIATION_SENT_REGEX}")
+            cell_source = "".join(
+                cell_find_replace(cell_source, **client_instantiation_args)
+            )
+            logging.info(f"\n----\n{cell_source}\n---\n")
+
+    return cell_source
+
+
+def generate_notebook(
+    notebook: dict, credentials: Credentials, package_versions: dict, path: Path
+) -> None:
     """
-    Modifies a notebook (formatted as a dictionary) so that the Relevance AI
-    client has the proper credentials. In the event that the notebook is
-    activated by a token, credentials will not be added.
+    Modifies a notebook so that the Relevanceclient has the proper credentials.
+    Updates notebook to latest RelevanceAI SDK version.
     """
 
     notebook = insert_name(notebook, path)
 
-    CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
     for cell in notebook["cells"]:
         if cell["cell_type"] == "code":
-            ## Checking if core workflow
-            if bool(re.search(CONFIG_BASE64_REGEX, str(cell["source"]))):
-                if not credentials.base64_token:
-                    ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["colab"]["name"]} >. \
-                        Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["temporary_name"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
-                    """
-                    raise ValueError(ERROR_MESSAGE)
-
-                ## Replacing core workflow tokens
-                TOKEN_PARAM_REGEX = 'token.*=.*#@param {type:"string"}'
-
-                TOKEN_REPLACE_STR_REPLACE = f'token="{credentials.base64_token}"\n'
-                token_args = {
-                    "find_str_regex": TOKEN_PARAM_REGEX,
-                    "replace_str": TOKEN_REPLACE_STR_REPLACE,
-                }
-
-                if bool(re.search(TOKEN_PARAM_REGEX, str(cell["source"]))):
-                    logging.info(f"Replacing base64 token ...")
-                    logging.debug(f"Found sentence: {str(cell['source'])}")
-                    logging.debug(f"Find string regex: {TOKEN_PARAM_REGEX}")
-                    cell["source"] = "".join(
-                        cell_find_replace(cell["source"], **token_args)
-                    )
-                    logging.info(f'\n----\n{cell["source"]}\n---\n')
-                    break
-
-            else:
-                CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
-                CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
-
-                # CLIENT_INSTANTIATION_BASE = f"client = Client()"
-                TEST_ACTIVATION_TOKEN = (
-                    credentials.token
-                    if credentials.token
-                    else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
+            for package_name, package_version in package_versions.items():
+                cell["source"] = update_pkg_version(
+                    package_name, package_version, cell["source"]
                 )
-                CLIENT_INSTANTIATION_STR_REPLACE = f'(token="{TEST_ACTIVATION_TOKEN}")'
+            cell["source"] = insert_credentials(notebook, credentials, cell["source"])
 
-                client_instantiation_args = {
-                    "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
-                    "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
-                }
-
-                if bool(
-                    re.search(CLIENT_INSTANTIATION_SENT_REGEX, str(cell["source"]))
-                ):
-                    logging.info(f"Replacing client ...")
-                    logging.debug(f"Found sentence: {str(cell['source'])}")
-                    logging.debug(
-                        f"Find string regex: {CLIENT_INSTANTIATION_SENT_REGEX}"
-                    )
-                    cell["source"] = "".join(
-                        cell_find_replace(cell["source"], **client_instantiation_args)
-                    )
-                    logging.info(f'\n----\n{cell["source"]}\n---\n')
-                    break
     return notebook
 
 
@@ -204,7 +227,9 @@ def insert_name(notebook: dict, path: Path) -> dict:
 
 
 def generate_notebooks(
-    paths: List[Path], all_credentials: List[Credentials]
+    paths: List[Path],
+    all_credentials: List[Credentials],
+    package_versions: dict,
 ) -> List[dict]:
     """
     Map each path into a notebook (formatted as a dictionary) and ensure that
@@ -212,16 +237,14 @@ def generate_notebooks(
     credentials.
     """
     return [
-        insert_credentials(nbformat.read(path, nbformat.NO_CONVERT), credentials, path)
+        generate_notebook(
+            nbformat.read(path, nbformat.NO_CONVERT),
+            credentials,
+            package_versions,
+            path,
+        )
         for path, credentials in zip(paths, all_credentials)
     ]
-
-
-def get_notebooks(paths: List[Path], all_credentials: List[Credentials]) -> List[dict]:
-    """
-    Gets and sets all notebooks to be checked.
-    """
-    return generate_notebooks(paths, all_credentials)
 
 
 def execute_notebook(notebook: dict) -> dict:
@@ -315,12 +338,15 @@ def main(args):
     # logging.basicConfig(format='%(asctime)s %(message)s', level=logging_level)
     logging.basicConfig(level=logging_level)
 
+    package_versions = yaml.safe_load(open(ROOT_PATH / "package_versions.yaml"))
+
     if args.notebooks:
         paths = [Path(WORKFLOWS / path) for path in args.notebooks]
     else:
         paths = get_paths()
+
     all_credentials = get_all_credentials(paths, args.region)
-    notebooks = get_notebooks(paths, all_credentials)
+    notebooks = generate_notebooks(paths, all_credentials, package_versions)
     results = execute_notebooks(notebooks)
     print_errors(results, all_credentials)
 
