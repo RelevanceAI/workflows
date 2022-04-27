@@ -34,6 +34,7 @@ dev_requirements = [
     # "pylint",
     # "flake8",
     "pre-commit",
+    "pyyaml",
 ]
 
 setuptools.setup(
