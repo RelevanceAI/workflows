@@ -25,6 +25,7 @@ notebook_test_requirements = [
     "nbconvert>=1.3.5",
     "nbformat>=3.0.9",
     "umap-learn>=0.5.3",  ## For DR
+    "pyyaml",
 ]
 
 dev_requirements = [
@@ -34,7 +35,6 @@ dev_requirements = [
     # "pylint",
     # "flake8",
     "pre-commit",
-    "pyyaml",
 ]
 
 setuptools.setup(
