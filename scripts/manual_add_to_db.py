@@ -346,5 +346,6 @@ WORKFLOWS = [
     },
 ]
 
+ds.delete()
 results = ds.upsert_documents(WORKFLOWS)
 print(results)
