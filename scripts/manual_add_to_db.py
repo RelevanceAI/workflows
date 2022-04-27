@@ -1,6 +1,6 @@
 """
-This file uploads 2 things: 
-- workflows 
+This file uploads 2 things:
+- workflows
 - recipes
 
 Workflows go into "workflows-data"
@@ -9,11 +9,13 @@ Recipes go into "workflows-recipes"
 import os
 from relevanceai import Client
 
-client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"), force_refresh=True)
+client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"))
 
 ds = client.Dataset("workflows-recipes")
 
-COLAB_PREFIX = "https://colab.research.google.com/github/RelevanceAI/workflows/blob/main/"
+COLAB_PREFIX = (
+    "https://colab.research.google.com/github/RelevanceAI/workflows/blob/main/"
+)
 WORKFLOWS = [
         {
             "_id" : "bias-detection",
@@ -39,7 +41,7 @@ WORKFLOWS = [
             "documentation_links": [{"title": "SDK Reference", "url": "https://relevanceai.readthedocs.io/en/development/relevanceai.cluster_report.html#"}],
             "video_links": [],
             "new": True,
-            "s3_url": "s3://relevanceai-workflows/cluster-reporting/%F0%9F%91%8D_Cluster_Reports_With_Relevance_AI.ipynb",
+            "s3_url": "s3://relevanceai-workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb",
         },
         {
             "_id" : "subclustering",
@@ -261,7 +263,7 @@ WORKFLOWS = [
         {
             "_id": "twitter-analysis",
             "type": "recipe",
-            "colab_link": COLAB_PREFIX + "workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
+            "colab_link": COLAB_PREFIX + "recipes/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
             "title": "Twitter Analysis",
             "description": "Analyse your tweets and view which images and tweets are the most/least popular!",
             "prerequisites": ["No requirements."], # not needed in future
@@ -278,6 +280,6 @@ WORKFLOWS = [
         },
     ]
 
+ds.delete()
 results = ds.upsert_documents(WORKFLOWS)
 print(results)
-
