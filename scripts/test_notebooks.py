@@ -267,7 +267,7 @@ def generate_notebook(
     Updates notebook to latest RelevanceAI SDK version.
     """
 
-    notebook = insert_name(notebook, path)
+    notebook["metadata"]["name"] = str(path.stem)
 
     for cell in notebook["cells"]:
         if cell["cell_type"] == "code":
@@ -277,16 +277,6 @@ def generate_notebook(
                 )
             cell["source"] = insert_credentials(notebook, credentials, cell["source"])
 
-    return notebook
-
-
-def insert_name(notebook: dict, path: Path) -> dict:
-    """
-    Insert a name into the notebook metadata for bookkeeping.
-    """
-    notebook["metadata"]["name"] = str(path.stem)
-    if notebook["metadata"].get("temporary_name"):
-        notebook["metadata"].pop("temporary_name")
     return notebook
 
 
