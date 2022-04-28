@@ -47,10 +47,10 @@ def cell_find_replace(
             if str_exclude and any(s in find_replace_str for s in str_exclude):
                 logging.info(f"Excluding {str_exclude}")
                 continue
-            logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
-            logging.debug(f"Replace str: {replace_str}")
+            logging.info(f"Found str within sentence: {find_replace_str.strip()}")
+            logging.info(f"Replace str: {replace_str}")
             cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
-            logging.debug(f"Updated: {cell_source_str.strip()}")
+            logging.info(f"Updated: {cell_source_str.strip()}")
             cell_source[i] = cell_source_str
     return cell_source
 
@@ -144,12 +144,14 @@ def update_pkg_version(package_name: str, package_version: str, cell_source: Lis
     """
     Updates packages versions
     """
-    PIP_INSTALL_SENT_REGEX = f".*pip install.*{package_name}.*==.*"
-    PIP_INSTALL_VERSION_STR_REGEX = f"==.*[0-9]"
-    PIP_INSTALL_VERSION_STR_REPLACE = f"=={package_version}"
+    PIP_INSTALL_SENT_REGEX = f"!pip\s*install.*{package_name}.*==[0-9.]+"
+    PIP_INSTALL_VERSION_STR_REGEX = f"==[0-9.]+"
+    PIP_INSTALL_VERSION_STR_REPLACE = (
+        f"!pip install -U -q {package_name}=={package_version}"
+    )
     pip_install_version_args = {
         # "find_sent_regex": PIP_INSTALL_SENT_REGEX,
-        "find_str_regex": PIP_INSTALL_VERSION_STR_REGEX,
+        "find_str_regex": PIP_INSTALL_SENT_REGEX,
         "replace_str": PIP_INSTALL_VERSION_STR_REPLACE,
     }
     if bool(re.search(PIP_INSTALL_SENT_REGEX, str(cell_source))):
@@ -415,7 +417,7 @@ def main(args):
     if args.notebooks:
         paths = [Path(WORKFLOWS / path) for path in args.notebooks]
     else:
-        paths = get_paths()
+        paths = get_paths(WORKFLOWS)
 
     with open(NOTEBOOK_ERROR_FPATH, "w") as f:
         f.write("")
