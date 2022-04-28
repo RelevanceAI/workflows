@@ -18,10 +18,8 @@ from nbclient import NotebookClient
 import traceback
 
 ROOT_PATH = Path(__file__).resolve().parent.parent
-WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
 
 NOTEBOOK_ERROR_FPATH = ROOT_PATH / "notebook_error.log"
-PACKAGE_VERSIONS = yaml.safe_load(open(ROOT_PATH / "package_versions.yaml"))
 
 logging.basicConfig(level=logging.INFO)
 
@@ -57,13 +55,13 @@ def cell_find_replace(
     return cell_source
 
 
-def get_paths() -> List[Path]:
+def get_paths(WORKFLOWS_PATH: Path) -> List[Path]:
     """
     Get paths of all of the Jupyter Notebooks that will be tested.
     """
-    with open(WORKFLOWS / Path("ignore-workflows.txt")) as file:
+    with open(WORKFLOWS_PATH / Path("ignore-workflows.txt")) as file:
         ignored_notebooks = set(
-            WORKFLOWS / Path(notebook.replace("#", "").strip())
+            WORKFLOWS_PATH / Path(notebook.replace("#", "").strip())
             for notebook in file.readlines()
             if notebook.startswith("#")
             and any(nb_path_string in notebook for nb_path_string in ["/", "ipynb"])
@@ -75,7 +73,9 @@ def get_paths() -> List[Path]:
     )
 
     workflows = [
-        workflow_dir for workflow_dir in WORKFLOWS.iterdir() if workflow_dir.is_dir()
+        workflow_dir
+        for workflow_dir in WORKFLOWS_PATH.iterdir()
+        if workflow_dir.is_dir()
     ]
     paths = []
     for workflow in workflows:
@@ -404,6 +404,14 @@ def main(args):
     # logging.basicConfig(format='%(asctime)s %(message)s', level=logging_level)
     logging.basicConfig(level=logging_level)
 
+    ## Updating version if so
+    PACKAGE_VERSIONS = yaml.safe_load(open(args.path / "package_versions.yaml"))
+    print(args.version)
+    if args.version:
+        PACKAGE_VERSIONS["RelevanceAI"] = args.version
+
+    WORKFLOWS = args.path / Path("workflows")
+
     if args.notebooks:
         paths = [Path(WORKFLOWS / path) for path in args.notebooks]
     else:
@@ -424,6 +432,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--debug", action="store_true", help="Run debug mode")
+    parser.add_argument("-p", "--path", default=ROOT_PATH, help="Path of root folder")
     parser.add_argument(
         "-r", "--region", default="ap-southeast-2", help="Default region"
     )
@@ -437,7 +446,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-v",
         "--version",
-        default=PACKAGE_VERSIONS["RelevanceAI"],
+        default=None,
         help="Package Version",
     )
     parser.add_argument("-s", "--save", action="store_true", help="Run debug mode")

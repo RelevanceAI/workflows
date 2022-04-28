@@ -35,10 +35,6 @@ jobs:
       #     pip install -r requirements.txt
 
 
-      # - name: Set ReadMe version as Github env var
-      #   run: |
-      #     echo "RELEVANCEAI_SDK_VERSION=$(cat __version__)" >> $GITHUB_ENV
-
       - name: Check for notebook output
         uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
 
@@ -105,5 +101,4 @@ jobs:
           WORKFLOW_TOKEN_REDUCE_THE_DIMENSIONS_OF_YOUR_DATA_WITH_RELEVANCE_AI: ${{ secrets.WORKFLOW_TOKEN_REDUCE_THE_DIMENSIONS_OF_YOUR_DATA_WITH_RELEVANCE_AI }}
           WORKFLOW_TOKEN_CORE_SUBCLUSTERING:  ${{ secrets.WORKFLOW_TOKEN_CORE_SUBCLUSTERING }}
         run: |
-          echo "RELEVANCEAI_SDK_VERSION=$(cat __version__)" >> $GITHUB_ENV
           python scripts/test_notebooks.py --notebooks ${{ matrix.notebook }}
