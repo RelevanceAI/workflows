@@ -16,7 +16,7 @@ def cell_find_replace(
     cell_source: List[str],
     find_str_regex: str,
     replace_str: str,
-    str_regex_exclude: List[str] = None,
+    str_exclude: List[str] = None,
 ):
     """
     Takes a list of cell sources, finds a string within the list of cells, and replaces
@@ -28,13 +28,9 @@ def cell_find_replace(
         if bool(re.search(find_str_regex, cell_source_str)):
             find_replace_str = re.search(find_str_regex, cell_source_str).group()
             logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
-            if str_regex_exclude:
-                if any(
-                    re.search(exclude_str, find_replace_str)
-                    for exclude_str in str_regex_exclude
-                ):
-                    logging.debug(f"Excluding {find_replace_str}")
-                    continue
+            if str_exclude and any(s in find_replace_str for s in str_exclude):
+                logging.info(f"Excluding {str_exclude}")
+                continue
             logging.debug(f"Replace str: {replace_str}")
             cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
             logging.debug(f"Updated: {cell_source_str.strip()}")
@@ -93,9 +89,9 @@ def clean_keys(cell_source: List[str]):
     api_re_match = [
         {
             "sent_regex": "client\s*=\s*Client(.*)",
-            "str_regex": "token\s*=\s*['\"A-Za-z0-9-:]+",
-            "str_regex_exclude": ["token=config"],
-            "replace": "()",
+            "str_regex": "(token\s*=\s*['\"A-Za-z0-9-:]+)",
+            "str_exclude": ["config['authorizationToken']", "#@param"],
+            "replace": "",
         },
         {
             "sent_regex": "token\s*=\s*.*#@param.*",
@@ -143,7 +139,7 @@ def scan_file(fpath: Path, show_keys=False, clean=True):
 
                             if clean:
 
-                                cell["source"] = clean_keys(cell_source)
+                                cell["source"] = "".join(clean_keys(cell_source))
                                 json.dump(f, fp=open(fpath, "w"), indent=4)
                             raise ValueError(
                                 f"API key found in file {fpath}: Line {i+1}"

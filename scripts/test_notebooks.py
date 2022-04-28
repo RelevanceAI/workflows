@@ -34,7 +34,7 @@ def cell_find_replace(
     cell_source: List[str],
     find_str_regex: str,
     replace_str: str,
-    str_regex_exclude: List[str] = None,
+    str_exclude: List[str] = None,
 ):
     """
     Takes a list of cell sources, finds a string within the list of cells, and replaces
@@ -43,16 +43,12 @@ def cell_find_replace(
     if isinstance(cell_source, str):
         cell_source = [cell_source]
     for i, cell_source_str in enumerate(cell_source):
-        if bool(re.search(find_str_regex, cell_source_str)):
-            find_replace_str = re.search(find_str_regex, cell_source_str).group()
+        for m in re.finditer(find_str_regex, cell_source_str):
+            find_replace_str = m.group()
+            if str_exclude and any(s in find_replace_str for s in str_exclude):
+                logging.info(f"Excluding {str_exclude}")
+                continue
             logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
-            if str_regex_exclude:
-                if any(
-                    re.search(exclude_str, find_replace_str)
-                    for exclude_str in str_regex_exclude
-                ):
-                    logging.debug(f"Excluding {find_replace_str}")
-                    continue
             logging.debug(f"Replace str: {replace_str}")
             cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
             logging.debug(f"Updated: {cell_source_str.strip()}")
@@ -168,9 +164,9 @@ def clean_keys(cell_source: List[str]):
     api_re_match = [
         {
             "sent_regex": "client\s*=\s*Client(.*)",
-            "str_regex": "token\s*=\s*['\"A-Za-z0-9-:]+",
-            "str_regex_exclude": ["token=config"],
-            "replace": "()",
+            "str_regex": "(token\s*=\s*['\"A-Za-z0-9-:]+)",
+            "str_exclude": ["config['authorizationToken']", "#@param"],
+            "replace": "",
         },
         {
             "sent_regex": "token\s*=\s*.*#@param.*",
@@ -181,11 +177,12 @@ def clean_keys(cell_source: List[str]):
 
     for re_replace in api_re_match:
         if bool(re.search(re_replace["sent_regex"], str(cell_source))):
+            logging.info(re_replace)
             cell_source = cell_find_replace(
                 cell_source,
                 re_replace["str_regex"],
                 re_replace["replace"],
-                re_replace.get("str_regex_exclude"),
+                re_replace.get("str_exclude"),
             )
     return cell_source
 
@@ -209,7 +206,6 @@ def save_successful_notebooks(
 def insert_credentials(
     notebook: dict, credentials: Credentials, cell_source: List[str]
 ) -> List[str]:
-
     ## Checking if core workflow
     CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
     if bool(re.search(CONFIG_BASE64_REGEX, str(cell_source))):
@@ -238,17 +234,16 @@ def insert_credentials(
 
     else:
         CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
-        CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
 
         TEST_ACTIVATION_TOKEN = (
             credentials.token
             if credentials.token
             else f"{credentials.project}:{credentials.api_key}:{credentials.region}:{credentials.firebase_uid}"
         )
-        CLIENT_INSTANTIATION_STR_REPLACE = f'(token="{TEST_ACTIVATION_TOKEN}")'
+        CLIENT_INSTANTIATION_STR_REPLACE = f'Client(token="{TEST_ACTIVATION_TOKEN}")'
 
         client_instantiation_args = {
-            "find_str_regex": CLIENT_INSTANTIATION_STR_REGEX,
+            "find_str_regex": CLIENT_INSTANTIATION_SENT_REGEX,
             "replace_str": CLIENT_INSTANTIATION_STR_REPLACE,
         }
 
@@ -290,7 +285,8 @@ def insert_name(notebook: dict, path: Path) -> dict:
     Insert a name into the notebook metadata for bookkeeping.
     """
     notebook["metadata"]["name"] = str(path.stem)
-
+    if notebook["metadata"].get("temporary_name"):
+        notebook["metadata"].pop("temporary_name")
     return notebook
 
 
@@ -424,10 +420,14 @@ def main(args):
     else:
         paths = get_paths()
 
+    with open(NOTEBOOK_ERROR_FPATH, "w") as f:
+        f.write("")
+
     all_credentials = get_all_credentials(paths, args.region)
     notebooks = generate_notebooks(paths, all_credentials, package_versions)
     results = execute_notebooks(notebooks)
-    save_successful_notebooks(paths, notebooks, results)
+    if args.save:
+        save_successful_notebooks(paths, notebooks, results)
     print_errors(results, all_credentials)
 
 
@@ -445,5 +445,6 @@ if __name__ == "__main__":
         default=None,
         help="List of notebooks to execute",
     )
+    parser.add_argument("-s", "--save", action="store_true", help="Run debug mode")
     args = parser.parse_args()
     main(args)
