@@ -47,7 +47,7 @@ def cell_find_replace(
             find_replace_str = re.search(find_str_regex, cell_source_str).group()
             logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
             if str_regex_exclude:
-                if not any(
+                if any(
                     re.search(exclude_str, find_replace_str)
                     for exclude_str in str_regex_exclude
                 ):
@@ -214,8 +214,8 @@ def insert_credentials(
     CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
     if bool(re.search(CONFIG_BASE64_REGEX, str(cell_source))):
         if not credentials.base64_token:
-            ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["fname"]} >. \
-                Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["fname"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
+            ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["name"]} >. \
+                Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["name"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
             """
             raise ValueError(ERROR_MESSAGE)
 
@@ -289,7 +289,7 @@ def insert_name(notebook: dict, path: Path) -> dict:
     """
     Insert a name into the notebook metadata for bookkeeping.
     """
-    notebook["metadata"]["fname"] = str(path.stem)
+    notebook["metadata"]["name"] = str(path.stem)
 
     return notebook
 
@@ -319,8 +319,7 @@ def execute_notebook(notebook: dict) -> dict:
     """
     Executes a single notebook.
     """
-    notebook_name = notebook["metadata"]["fname"]
-    logging.info(f"Checking {notebook_name}")
+    logging.info(f"Checking {notebook['metadata']['name']}")
     try:
         client = NotebookClient(notebook, timeout=600, kernel_name="python3")
         client.execute()
@@ -329,7 +328,7 @@ def execute_notebook(notebook: dict) -> dict:
         exception_reason = traceback.format_exc()
 
         ## Saving error to file
-        error_header = "{:=^128}".format(f"ERROR IN {notebook_name}")
+        error_header = "{:=^128}".format(f"ERROR IN {notebook['metadata']['name']}")
         error_footer = f"{'=' * len(error_header)}"
         ERROR_MESSAGE = f"{error_header}\n{exception_reason}\n{error_footer}"
         print(
@@ -337,7 +336,7 @@ def execute_notebook(notebook: dict) -> dict:
             file=open(NOTEBOOK_ERROR_FPATH, "a"),
         )
 
-        return {"notebook": notebook_name, "error": err}
+        return {"notebook": notebook["metadata"]["name"], "error": err}
 
 
 def execute_notebooks(

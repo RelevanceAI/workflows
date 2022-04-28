@@ -29,7 +29,7 @@ def cell_find_replace(
             find_replace_str = re.search(find_str_regex, cell_source_str).group()
             logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
             if str_regex_exclude:
-                if not any(
+                if any(
                     re.search(exclude_str, find_replace_str)
                     for exclude_str in str_regex_exclude
                 ):
@@ -115,7 +115,7 @@ def clean_keys(cell_source: List[str]):
     return cell_source
 
 
-def scan_file(fpath: Path, show_keys=False, clean_keys=True):
+def scan_file(fpath: Path, show_keys=False, clean=True):
     """
     Prints out lines in the specified file that probably contain an API key or password.
     """
@@ -140,7 +140,9 @@ def scan_file(fpath: Path, show_keys=False, clean_keys=True):
 
                             if show_keys:
                                 logging.info(f"\n\033[1m{cell_source}\033[0m")
-                            if clean_keys:
+
+                            if clean:
+
                                 cell["source"] = clean_keys(cell_source)
                                 json.dump(f, fp=open(fpath, "w"), indent=4)
                             raise ValueError(
@@ -177,8 +179,7 @@ def main(args):
     notebooks = get_files(args.path, ext="ipynb")
 
     for f in itertools.chain(md_files, notebooks):
-        print(args.show_keys)
-        scan_file(str(f), show_keys=args.show_keys, clean_keys=args.clean_keys)
+        scan_file(str(f), show_keys=args.show_keys, clean=args.clean)
 
 
 if __name__ == "__main__":
@@ -204,7 +205,10 @@ if __name__ == "__main__":
         "-s", "--show-keys", action="store_true", help="Whether to show API key"
     )
     parser.add_argument(
-        "-c", "--clean-keys", action="store_true", help="Whether to clean API keys"
+        "-c",
+        "--clean",
+        action="store_true",
+        help="Whether to clean API keys in notebook",
     )
 
     args = parser.parse_args()
