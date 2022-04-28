@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import sys, os, re, itertools
-from typing import Iterable, Union
+from typing import Iterable, List, Union
 from typing_extensions import Literal
 import logging
 import argparse
@@ -10,6 +10,32 @@ import json
 
 API_KEY_MIN_ENTROPY_RATIO = 0.5
 API_KEY_MIN_LENGTH = 20
+
+
+def cell_find_replace(
+    cell_source: List[str],
+    find_str_regex: str,
+    replace_str: str,
+    str_exclude: List[str] = None,
+):
+    """
+    Takes a list of cell sources, finds a string within the list of cells, and replaces
+    it with a new string
+    """
+    if isinstance(cell_source, str):
+        cell_source = [cell_source]
+    for i, cell_source_str in enumerate(cell_source):
+        if bool(re.search(find_str_regex, cell_source_str)):
+            find_replace_str = re.search(find_str_regex, cell_source_str).group()
+            logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
+            if str_exclude and any(s in find_replace_str for s in str_exclude):
+                logging.info(f"Excluding {str_exclude}")
+                continue
+            logging.debug(f"Replace str: {replace_str}")
+            cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
+            logging.debug(f"Updated: {cell_source_str.strip()}")
+            cell_source[i] = cell_source_str
+    return cell_source
 
 
 def pairwise(iterable: Iterable):
@@ -44,29 +70,61 @@ def line_contains_api_key(line: str, regex_str: str):
     Returns True if any token in the line contains an API key or password.
     """
     for token_match in re.finditer(regex_str, line):
-        token = token_match.group().split("=")[-1]
-        if token != "token" and "config" not in token:
+        token = (
+            token_match.group()
+            .split("=")[-1]
+            .split("#@param")[0]
+            .replace('"', "")
+            .replace("'", "")
+            .strip()
+        )
+        if token and not any([f in token for f in ["token", "config"]]):
             result = token_is_api_key(token)
             if result:
                 return (True, result[1])
     return (False, "")
 
 
-def scan_file(fpath: Path, show_keys=False):
+def clean_keys(cell_source: List[str]):
+    api_re_match = [
+        {
+            "sent_regex": "client\s*=\s*Client(.*)",
+            "str_regex": "(token\s*=\s*['\"A-Za-z0-9-:]+)",
+            "str_exclude": ["config['authorizationToken']", "#@param"],
+            "replace": "",
+        },
+        {
+            "sent_regex": "token\s*=\s*.*#@param.*",
+            "str_regex": "token\s*=\s*.*#@param.*",
+            "replace": 'token = "" #@param {type:"string"}',
+        },
+    ]
+
+    for re_replace in api_re_match:
+        if bool(re.search(re_replace["sent_regex"], str(cell_source))):
+            cell_source = cell_find_replace(
+                cell_source,
+                re_replace["str_regex"],
+                re_replace["replace"],
+                re_replace.get("str_regex_exclude"),
+            )
+    return cell_source
+
+
+def scan_file(fpath: Path, show_keys=False, clean=True):
     """
     Prints out lines in the specified file that probably contain an API key or password.
     """
     logging.info(f"Scanning {fpath}...")
 
-    PROJECT_REGEX_STR = "(project=['\"A-Za-z0-9-:]+)"
-    API_KEY_REGEX_STR = "(api_key=['\"A-Za-z0-9-:]+)"
-    TOKEN_REGEX_STR = "(token=['\"A-Za-z0-9-:]+)"
-
-    for API_REGEX_STR in [PROJECT_REGEX_STR, API_KEY_REGEX_STR, TOKEN_REGEX_STR]:
+    for api_prefix in ["project", "api_key", "token"]:
+        API_REGEX_STR = f"{api_prefix}\s*=\s*['\"A-Za-z0-9-:]+"
         if fpath.endswith(".ipynb"):
             f = json.loads(open(fpath).read())
             for i, cell in enumerate(f["cells"]):
-                if bool(re.search(TOKEN_REGEX_STR, str(cell["source"]))):
+                if bool(re.search(API_REGEX_STR, str(cell["source"]))):
+                    if isinstance(cell["source"], str):
+                        cell["source"] = [cell["source"]]
                     for i, cell_source in enumerate(cell["source"]):
                         result = line_contains_api_key(
                             cell_source.strip(), API_REGEX_STR
@@ -75,11 +133,18 @@ def scan_file(fpath: Path, show_keys=False):
                             logging.info(
                                 f"\033[1m{fpath}: Line {i}: Entropy {result[1]}\033[0m {API_REGEX_STR}"
                             )
+
                             if show_keys:
                                 logging.info(f"\n\033[1m{cell_source}\033[0m")
+
+                            if clean:
+
+                                cell["source"] = "".join(clean_keys(cell_source))
+                                json.dump(f, fp=open(fpath, "w"), indent=4)
                             raise ValueError(
                                 f"API key found in file {fpath}: Line {i+1}"
                             )
+
         elif fpath.endswith(".md"):
             f = open(fpath)
             for i, line in enumerate(f):
@@ -110,8 +175,7 @@ def main(args):
     notebooks = get_files(args.path, ext="ipynb")
 
     for f in itertools.chain(md_files, notebooks):
-        print(args.show_keys)
-        scan_file(str(f), show_keys=args.show_keys)
+        scan_file(str(f), show_keys=args.show_keys, clean=args.clean)
 
 
 if __name__ == "__main__":
@@ -135,6 +199,12 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-s", "--show-keys", action="store_true", help="Whether to show API key"
+    )
+    parser.add_argument(
+        "-c",
+        "--clean",
+        action="store_true",
+        help="Whether to clean API keys in notebook",
     )
 
     args = parser.parse_args()

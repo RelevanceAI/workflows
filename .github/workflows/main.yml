@@ -39,10 +39,13 @@ jobs:
       #   run: |
       #     echo "RELEVANCEAI_SDK_VERSION=$(cat __version__)" >> $GITHUB_ENV
 
+      - name: Check for notebook output
+        uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
+
       - name: Test for API keys in docs
         run: |
           pip install typing_extensions  ## <3.8
-          python scripts/detect_secrets.py -d -p docs
+          python scripts/detect_secrets.py -d -p workflows -s
 
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
