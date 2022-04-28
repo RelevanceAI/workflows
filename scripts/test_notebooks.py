@@ -214,8 +214,8 @@ def insert_credentials(
     CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
     if bool(re.search(CONFIG_BASE64_REGEX, str(cell_source))):
         if not credentials.base64_token:
-            ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["colab"]["name"]} >. \
-                Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["temporary_name"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
+            ERROR_MESSAGE = f"""Cannot find base64 token required for < {notebook["metadata"]["fname"]} >. \
+                Please set env variable - export WORKFLOW_TOKEN_{notebook["metadata"]["fname"].replace(" ", "_").split(".ipynb")[0].upper()}=<DASHBOARD_WORKFLOW_BASE64_TOKEN>
             """
             raise ValueError(ERROR_MESSAGE)
 
@@ -289,7 +289,7 @@ def insert_name(notebook: dict, path: Path) -> dict:
     """
     Insert a name into the notebook metadata for bookkeeping.
     """
-    notebook["metadata"]["temporary_name"] = str(path.stem)
+    notebook["metadata"]["fname"] = str(path.stem)
 
     return notebook
 
@@ -319,7 +319,7 @@ def execute_notebook(notebook: dict) -> dict:
     """
     Executes a single notebook.
     """
-    notebook_name = notebook["metadata"]["temporary_name"]
+    notebook_name = notebook["metadata"]["fname"]
     logging.info(f"Checking {notebook_name}")
     try:
         client = NotebookClient(notebook, timeout=600, kernel_name="python3")
