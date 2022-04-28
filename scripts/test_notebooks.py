@@ -21,6 +21,7 @@ ROOT_PATH = Path(__file__).resolve().parent.parent
 WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
 
 NOTEBOOK_ERROR_FPATH = ROOT_PATH / "notebook_error.log"
+PACKAGE_VERSIONS = yaml.safe_load(open(ROOT_PATH / "package_versions.yaml"))
 
 logging.basicConfig(level=logging.INFO)
 
@@ -403,8 +404,6 @@ def main(args):
     # logging.basicConfig(format='%(asctime)s %(message)s', level=logging_level)
     logging.basicConfig(level=logging_level)
 
-    package_versions = yaml.safe_load(open(ROOT_PATH / "package_versions.yaml"))
-
     if args.notebooks:
         paths = [Path(WORKFLOWS / path) for path in args.notebooks]
     else:
@@ -414,7 +413,7 @@ def main(args):
         f.write("")
 
     all_credentials = get_all_credentials(paths, args.region)
-    notebooks = generate_notebooks(paths, all_credentials, package_versions)
+    notebooks = generate_notebooks(paths, all_credentials, PACKAGE_VERSIONS)
     results = execute_notebooks(notebooks)
     if args.save:
         save_successful_notebooks(paths, notebooks, results)
@@ -434,6 +433,12 @@ if __name__ == "__main__":
         nargs="+",
         default=None,
         help="List of notebooks to execute",
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        default=PACKAGE_VERSIONS["RelevanceAI"],
+        help="Package Version",
     )
     parser.add_argument("-s", "--save", action="store_true", help="Run debug mode")
     args = parser.parse_args()
