@@ -100,11 +100,22 @@ def scan_file(fpath: Path, show_keys=False, clean_keys=True):
                             if show_keys:
                                 logging.info(f"\n\033[1m{cell_source}\033[0m")
                             if clean_keys:
-                                CLIENT_INSTANTIATION_SENT_REGEX = "Client\(.*\)"
-                                CLIENT_INSTANTIATION_STR_REGEX = "\((.*?)\)"
-                                cell_find_replace(
-                                    cell_source, CLIENT_INSTANTIATION_STR_REGEX, "()"
-                                )
+                                api_re_match = [
+                                    {
+                                        "regex": "client\s*=\s*Client(.*)",
+                                        "replace": "client = Client()",
+                                    },
+                                    {
+                                        "regex": "token\s*=\s*@param.*",
+                                        "replace": 'token = "" #@param {type:"string"}',
+                                    },
+                                ]
+                                for re_replace in api_re_match:
+                                    cell_find_replace(
+                                        cell_source,
+                                        re_replace["regex"],
+                                        re_replace["replace"],
+                                    )
                                 json.dump(f, fp=open(fpath, "w"), indent=4)
                             raise ValueError(
                                 f"API key found in file {fpath}: Line {i+1}"
