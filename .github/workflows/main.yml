@@ -42,7 +42,7 @@ jobs:
       - name: Test for API keys in docs
         run: |
           pip install typing_extensions  ## <3.8
-          python scripts/detect_secrets.py -d -p docs
+          python scripts/detect_secrets.py -d -p workflows -s
 
       - id: set-notebook-fpaths
         name: Setting notebook fpath output

@@ -12,13 +12,29 @@ API_KEY_MIN_ENTROPY_RATIO = 0.5
 API_KEY_MIN_LENGTH = 20
 
 
-def cell_find_replace(cell_source: List[str], find_str_regex: str, replace_str: str):
+def cell_find_replace(
+    cell_source: List[str],
+    find_str_regex: str,
+    replace_str: str,
+    str_regex_exclude: List[str] = None,
+):
+    """
+    Takes a list of cell sources, finds a string within the list of cells, and replaces
+    it with a new string
+    """
     if isinstance(cell_source, str):
         cell_source = [cell_source]
     for i, cell_source_str in enumerate(cell_source):
         if bool(re.search(find_str_regex, cell_source_str)):
             find_replace_str = re.search(find_str_regex, cell_source_str).group()
             logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
+            if str_regex_exclude:
+                if not any(
+                    re.search(exclude_str, find_replace_str)
+                    for exclude_str in str_regex_exclude
+                ):
+                    logging.debug(f"Excluding {find_replace_str}")
+                    continue
             logging.debug(f"Replace str: {replace_str}")
             cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
             logging.debug(f"Updated: {cell_source_str.strip()}")
@@ -73,6 +89,32 @@ def line_contains_api_key(line: str, regex_str: str):
     return (False, "")
 
 
+def clean_keys(cell_source: List[str]):
+    api_re_match = [
+        {
+            "sent_regex": "client\s*=\s*Client(.*)",
+            "str_regex": "token\s*=\s*['\"A-Za-z0-9-:]+",
+            "str_regex_exclude": ["token=config"],
+            "replace": "()",
+        },
+        {
+            "sent_regex": "token\s*=\s*.*#@param.*",
+            "str_regex": "token\s*=\s*.*#@param.*",
+            "replace": 'token = "" #@param {type:"string"}',
+        },
+    ]
+
+    for re_replace in api_re_match:
+        if bool(re.search(re_replace["sent_regex"], str(cell_source))):
+            cell_source = cell_find_replace(
+                cell_source,
+                re_replace["str_regex"],
+                re_replace["replace"],
+                re_replace.get("str_regex_exclude"),
+            )
+    return cell_source
+
+
 def scan_file(fpath: Path, show_keys=False, clean_keys=True):
     """
     Prints out lines in the specified file that probably contain an API key or password.
@@ -84,7 +126,6 @@ def scan_file(fpath: Path, show_keys=False, clean_keys=True):
         if fpath.endswith(".ipynb"):
             f = json.loads(open(fpath).read())
             for i, cell in enumerate(f["cells"]):
-
                 if bool(re.search(API_REGEX_STR, str(cell["source"]))):
                     if isinstance(cell["source"], str):
                         cell["source"] = [cell["source"]]
@@ -100,26 +141,12 @@ def scan_file(fpath: Path, show_keys=False, clean_keys=True):
                             if show_keys:
                                 logging.info(f"\n\033[1m{cell_source}\033[0m")
                             if clean_keys:
-                                api_re_match = [
-                                    {
-                                        "regex": "client\s*=\s*Client(.*)",
-                                        "replace": "client = Client()",
-                                    },
-                                    {
-                                        "regex": "token\s*=\s*@param.*",
-                                        "replace": 'token = "" #@param {type:"string"}',
-                                    },
-                                ]
-                                for re_replace in api_re_match:
-                                    cell_find_replace(
-                                        cell_source,
-                                        re_replace["regex"],
-                                        re_replace["replace"],
-                                    )
+                                cell["source"] = clean_keys(cell_source)
                                 json.dump(f, fp=open(fpath, "w"), indent=4)
                             raise ValueError(
                                 f"API key found in file {fpath}: Line {i+1}"
                             )
+
         elif fpath.endswith(".md"):
             f = open(fpath)
             for i, line in enumerate(f):

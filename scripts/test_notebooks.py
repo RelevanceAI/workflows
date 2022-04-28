@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import base64
 import json
 import logging
@@ -13,9 +15,12 @@ from typing import List, Optional
 
 import nbformat
 from nbclient import NotebookClient
+import traceback
 
 ROOT_PATH = Path(__file__).resolve().parent.parent
 WORKFLOWS = Path(__file__).resolve().parent.parent / Path("workflows")
+
+NOTEBOOK_ERROR_FPATH = ROOT_PATH / "notebook_error.log"
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,13 +30,29 @@ Credentials = namedtuple(
 )
 
 
-def cell_find_replace(cell_source: List[str], find_str_regex: str, replace_str: str):
+def cell_find_replace(
+    cell_source: List[str],
+    find_str_regex: str,
+    replace_str: str,
+    str_regex_exclude: List[str] = None,
+):
+    """
+    Takes a list of cell sources, finds a string within the list of cells, and replaces
+    it with a new string
+    """
     if isinstance(cell_source, str):
         cell_source = [cell_source]
     for i, cell_source_str in enumerate(cell_source):
         if bool(re.search(find_str_regex, cell_source_str)):
             find_replace_str = re.search(find_str_regex, cell_source_str).group()
             logging.debug(f"Found str within sentence: {find_replace_str.strip()}")
+            if str_regex_exclude:
+                if not any(
+                    re.search(exclude_str, find_replace_str)
+                    for exclude_str in str_regex_exclude
+                ):
+                    logging.debug(f"Excluding {find_replace_str}")
+                    continue
             logging.debug(f"Replace str: {replace_str}")
             cell_source_str = cell_source_str.replace(find_replace_str, replace_str)
             logging.debug(f"Updated: {cell_source_str.strip()}")
@@ -123,6 +144,9 @@ def get_all_credentials(paths: List[Path], region: str) -> List[Credentials]:
 
 
 def update_pkg_version(package_name: str, package_version: str, cell_source: List[str]):
+    """
+    Updates packages versions
+    """
     PIP_INSTALL_SENT_REGEX = f".*pip install.*{package_name}.*==.*"
     PIP_INSTALL_VERSION_STR_REGEX = f"==.*[0-9]"
     PIP_INSTALL_VERSION_STR_REPLACE = f"=={package_version}"
@@ -140,9 +164,52 @@ def update_pkg_version(package_name: str, package_version: str, cell_source: Lis
     return cell_source
 
 
+def clean_keys(cell_source: List[str]):
+    api_re_match = [
+        {
+            "sent_regex": "client\s*=\s*Client(.*)",
+            "str_regex": "token\s*=\s*['\"A-Za-z0-9-:]+",
+            "str_regex_exclude": ["token=config"],
+            "replace": "()",
+        },
+        {
+            "sent_regex": "token\s*=\s*.*#@param.*",
+            "str_regex": "token\s*=\s*.*#@param.*",
+            "replace": 'token = "" #@param {type:"string"}',
+        },
+    ]
+
+    for re_replace in api_re_match:
+        if bool(re.search(re_replace["sent_regex"], str(cell_source))):
+            cell_source = cell_find_replace(
+                cell_source,
+                re_replace["str_regex"],
+                re_replace["replace"],
+                re_replace.get("str_regex_exclude"),
+            )
+    return cell_source
+
+
+def save_successful_notebooks(
+    paths: List[Path], notebooks: List[dict], results: List[dict]
+):
+    """
+    Save all notebooks that have been successfully executed.
+    """
+    for path, result, notebook in zip(paths, results, notebooks):
+        if not result:
+            logging.info(f"Saving {path}.")
+
+            for cell in notebook["cells"]:
+                if cell["cell_type"] == "code":
+                    cell["source"] = "".join(clean_keys(cell["source"]))
+            json.dump(notebook, fp=open(path, "w"), indent=4)
+
+
 def insert_credentials(
     notebook: dict, credentials: Credentials, cell_source: List[str]
 ) -> List[str]:
+
     ## Checking if core workflow
     CONFIG_BASE64_REGEX = ".*base64.b64decode.*"
     if bool(re.search(CONFIG_BASE64_REGEX, str(cell_source))):
@@ -155,7 +222,8 @@ def insert_credentials(
         ## Replacing core workflow tokens
         TOKEN_PARAM_REGEX = 'token.*=.*#@param {type:"string"}'
 
-        TOKEN_REPLACE_STR_REPLACE = f'token="{credentials.base64_token}"\n'
+        TOKEN_REPLACE_STR_REPLACE = f'token="{credentials.base64_token}"'
+        TOKEN_REPLACE_STR_REPLACE += ' #@param {type:"string"}'
         token_args = {
             "find_str_regex": TOKEN_PARAM_REGEX,
             "replace_str": TOKEN_REPLACE_STR_REPLACE,
@@ -258,6 +326,17 @@ def execute_notebook(notebook: dict) -> dict:
         client.execute()
         return {}
     except Exception as err:
+        exception_reason = traceback.format_exc()
+
+        ## Saving error to file
+        error_header = "{:=^128}".format(f"ERROR IN {notebook_name}")
+        error_footer = f"{'=' * len(error_header)}"
+        ERROR_MESSAGE = f"{error_header}\n{exception_reason}\n{error_footer}"
+        print(
+            f"{ERROR_MESSAGE}\n==============",
+            file=open(NOTEBOOK_ERROR_FPATH, "a"),
+        )
+
         return {"notebook": notebook_name, "error": err}
 
 
@@ -330,6 +409,7 @@ def print_errors(results: List[dict], all_credentials: List[Credentials]) -> Non
         else:
             raise Exception("At least one of the notebook checks failed.")
     else:
+
         logging.info("No errors occurred while checking notebooks.")
 
 
@@ -348,6 +428,7 @@ def main(args):
     all_credentials = get_all_credentials(paths, args.region)
     notebooks = generate_notebooks(paths, all_credentials, package_versions)
     results = execute_notebooks(notebooks)
+    save_successful_notebooks(paths, notebooks, results)
     print_errors(results, all_credentials)
 
 
