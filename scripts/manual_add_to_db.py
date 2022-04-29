@@ -191,6 +191,20 @@ WORKFLOWS = [
             "core": False,
             "s3_url": "s3://relevanceai-workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
         },
+
+        {
+            "_id": "sentiment",
+            "type": "workflow",
+            "colab_link": COLAB_PREFIX + "workflows/sentiment/Sentiment.ipynb",
+            "title": "Sentiment",
+            "description": "Add positive/negative/neutral sentiment to your text fields.",
+            "prerequisites": ["Dataset with text field"],
+            "use_cases": ["Sentiment analysis."],
+            "documentation_links": [{"SDK Reference": "https://relevanceai.readthedocs.io/en/latest/operations/sentiment.html"}],
+            "video_links": [],
+            "new": True,
+            "core": False,
+        },
         
         ############### RECIPES
         {
