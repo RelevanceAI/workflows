@@ -120,7 +120,7 @@ WORKFLOWS = [
     {
         "_id": "cluster-reports",
         "colab_link": COLAB_PREFIX
-        + "workflows/cluster-reporting/%F0%9F%91%8D_Cluster_Reports_With_Relevance_AI.ipynb",
+        + "workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb",
         "type": "workflow",
         "title": "Cluster Evaluation Report",
         "description": "Automatically analyse your clusters using a variety of metrics to improve cluster performance",
