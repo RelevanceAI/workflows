@@ -55,6 +55,7 @@ jobs:
           DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
           NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
 
+          git config --global core.quotepath false ## Display UTF-8 characters in filenames (emojis)
           echo $DIFF_NOTEBOOKS
           echo $NOTEBOOKS
           grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS"
