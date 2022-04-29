@@ -56,6 +56,7 @@ jobs:
           NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
 
           git config --global core.quotepath false ## Display UTF-8 characters in filenames (emojis)
+          git config --global core.precomposeunicode true
           echo $DIFF_NOTEBOOKS
           echo $NOTEBOOKS
           grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS"
