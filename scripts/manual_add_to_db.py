@@ -19,7 +19,7 @@ COLAB_PREFIX = (
 WORKFLOWS = [
     {
         "_id": "core-vectorize",
-        "type": "workflow",
+        "type": "core-workflow",
         "title": "Vectorizing with Relevance AI",
         "description": "Vectorize your data with Relevance AI",
         "colab_link": COLAB_PREFIX
@@ -38,7 +38,7 @@ WORKFLOWS = [
     },
     {
         "_id": "core-dr",
-        "type": "workflow",
+        "type": "core-workflow",
         "title": "Reducing the dimensions of vectors",
         "description": "Vectorize your data with Relevance AI",
         "colab_link": COLAB_PREFIX
@@ -59,7 +59,7 @@ WORKFLOWS = [
     },
     {
         "_id": "core-cluster",
-        "type": "workflow",
+        "type": "core-workflow",
         "title": "Clustering with Relevance AI",
         "description": "Cluster your data with Relevance AI",
         "colab_link": COLAB_PREFIX
@@ -78,8 +78,8 @@ WORKFLOWS = [
     },
     {
         "_id": "core-subclustering",
-        "type": "workflow",
-        "title": "Clustering within clusters",
+        "type": "core-workflow",
+        "title": "Subclustering",
         "description": "Dive deeper into your clusters with subclustering",
         "colab_link": COLAB_PREFIX + "workflows/subclustering/core_subclustering.ipynb",
         "use_cases": ["Drilling down into your clusters with subclustering"],
@@ -135,7 +135,7 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/development/relevanceai.cluster_report.html#",
+                "url": "https://relevanceai.readthedocs.io/en/latest/operations/cluster/report.html",
             }
         ],
         "video_links": [],
@@ -164,6 +164,22 @@ WORKFLOWS = [
         "s3_url": "s3://relevanceai-workflows/subclustering/basic_subclustering.ipynb",
     },
     {
+        "_id": "impact-analysis",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
+        "title": "Feature/Impact Analysis",
+        "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
+        "prerequisites": [
+            "Dataset with encoded vectors and a variable to measure importance."
+        ],
+        "use_cases": ["KPI Measurement", "Impact Analysis"],
+        "documentation_links": [],
+        "video_links": [],
+        "new": True,
+        "coming_soon": False,
+        "s3_url": "s3://relevanceai-workflows/impact-analysis/impact-analysis.ipynb",
+    },
+    {
         "_id": "keyphrases",
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
@@ -173,7 +189,7 @@ WORKFLOWS = [
         "use_cases": ["Automated keyphrase detection in clusters"],
         "documentation_links": [
             {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"
+                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/operations/label.html?highlight=keyphrases#relevanceai.operations.labels.labels.LabelOps.keyphrases"
             }
         ],
         "video_links": [],
@@ -199,25 +215,25 @@ WORKFLOWS = [
     {
         "_id": "video-search",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+        # "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
         "title": "Video Search",
         "description": "Search videos using text to find the right frame you want.",
         "prerequisites": ["Mp4 video"],
         "use_cases": ["Video Search"],
-        "documentation_links": [
-            {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"
-            }
-        ],
+        # "documentation_links": [
+        #     {
+        #         "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.keyphrases"
+        #     }
+        # ],
         "video_links": [],
         "new": True,
         "coming_soon": True,
-        "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+        # "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
     },
     {
         "_id": "video-clusters",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+        # "colab_link": COLAB_PREFIX + "workflows/keyphrases/KeyPhrases_Workflow.ipynb",
         "title": "Video Clustering",
         "description": "Get clusters to determine key different scenes in your video.",
         #             "prerequisites": ["Mp4 video"],
@@ -226,23 +242,7 @@ WORKFLOWS = [
         #             "video_links": [],
         #             "new": True,
         "coming_soon": True,
-        "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
-    },
-    {
-        "_id": "impact-analysis",
-        "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
-        "title": "Feature/Impact Analysis",
-        "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
-        "prerequisites": [
-            "Dataset with encoded vectors and a variable to measure importance."
-        ],
-        "use_cases": ["KPI Measurement", "Impact analysis"],
-        "documentation_links": [],
-        "video_links": [],
-        "new": True,
-        "coming_soon": False,
-        "s3_url": "s3://relevanceai-workflows/impact-analysis/impact-analysis.ipynb",
+        # "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
     },
     {
         "_id": "pdf-ingestion",
@@ -268,7 +268,7 @@ WORKFLOWS = [
         "use_cases": ["Automated Cluster Labelling"],
         "documentation_links": [
             {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/development/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.cluster_keyphrases"
+                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/operations/label.html"
             }
         ],
         "video_links": [],
@@ -287,7 +287,7 @@ WORKFLOWS = [
         "use_cases": ["Community detection of text fields and vectors"],
         "documentation_links": [
             {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html?highlight=community#relevanceai.dataset_api.dataset_operations.Operations.community_detection"
+                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/operations/cluster/basic.html"
             }
         ],
         "video_links": [],
@@ -305,7 +305,7 @@ WORKFLOWS = [
         "use_cases": [],
         "documentation_links": [
             {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/auto_reduce_dimensions.html"
+                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/operations/dim_reduction.html"
             }
         ],
         "video_links": [
@@ -325,7 +325,7 @@ WORKFLOWS = [
         "prerequisites": [
             "Images or other media files to upload. These can be local or hosted online somewhere else already."
         ],
-        "use_cases": [],
+        "use_cases": ["Processing local files with RelevanceAI!"],
         "documentation_links": [
             {"SDK Reference": "https://relevanceai.readthedocs.io/en/latest"}
         ],
@@ -363,7 +363,7 @@ WORKFLOWS = [
         "use_cases": [],
         "documentation_links": [
             {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/available_datasets.html#relevanceai.datasets.get_dummy_ecommerce_dataset"
+                "SDK Reference": "https://relevanceai.readthedocs.io/en/development/core/available_datasets.html"
             }
         ],
         "video_links": [],
@@ -381,7 +381,7 @@ WORKFLOWS = [
         "use_cases": ["PDF Search", "Flowchart Search"],
         "documentation_links": [
             {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"
+                "SDK Reference": "https://relevanceai.readthedocs.io/en/development/operations/search.html"
             }
         ],
         "video_links": [],
@@ -398,7 +398,7 @@ WORKFLOWS = [
         "use_cases": ["Image Search", "Illustration search", "Designer Showcase"],
         "documentation_links": [
             {
-                "SDK Reference": "https://relevanceai.readthedocs.io/en/latest/dataset.html#relevanceai.dataset_api.dataset_operations.Operations.vector_search"
+                "SDK Reference": "https://relevanceai.readthedocs.io/en/development/operations/search.html"
             }
         ],
         "video_links": [],
