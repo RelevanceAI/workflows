@@ -48,15 +48,16 @@ jobs:
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
         run: |
-          # Diff HEAD with the previous commit
+          ## Display UTF-8 characters in filenames (emojis)
+          git config --global core.quotepath false
+
+          ## Diff HEAD with the previous commit
           DIFF_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
           echo $DIFF_FILES
 
           DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
           NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
 
-          git config --global core.quotepath false ## Display UTF-8 characters in filenames (emojis)
-          git config --global core.precomposeunicode true
           echo $DIFF_NOTEBOOKS
           echo $NOTEBOOKS
           grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS"
