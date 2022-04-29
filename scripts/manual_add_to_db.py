@@ -18,7 +18,7 @@ COLAB_PREFIX = (
 )
 WORKFLOWS = [
     {
-        "_id": "vectorize",
+        "_id": "core-vectorize",
         "type": "workflow",
         "title": "Vectorizing with Relevance AI",
         "description": "Vectorize your data with Relevance AI",
@@ -34,10 +34,10 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Uploaded dataset with text or image fields"],
-        "s3_url": "s3://relevanceai-workflows/vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb",
+        "s3_url": "s3://relevanceai-workflows/vectorize/Vectorize_Your_Data_with_Relevance_AI_prod.ipynb",
     },
     {
-        "_id": "dr",
+        "_id": "core-dr",
         "type": "workflow",
         "title": "Reducing the dimensions of vectors",
         "description": "Vectorize your data with Relevance AI",
@@ -55,10 +55,10 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Vectorised text or image fields in your dataset"],
-        "s3_url": "s3://relevanceai-workflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI.ipynb",
+        "s3_url": "s3://relevanceai-workflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_prod.ipynb",
     },
     {
-        "_id": "cluster",
+        "_id": "core-cluster",
         "type": "workflow",
         "title": "Clustering with Relevance AI",
         "description": "Cluster your data with Relevance AI",
@@ -74,12 +74,12 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Vectorised some fields in your data"],
-        "s3_url": "s3://relevanceai-workflows/cluster/Cluster_Your_Data_with_Relevance_AI.ipynb",
+        "s3_url": "s3://relevanceai-workflows/cluster/Cluster_Your_Data_with_Relevance_AI_prod.ipynb",
     },
     {
-        "_id": "subclustering",
+        "_id": "core-subclustering",
         "type": "workflow",
-        "title": "Reducing the dimensions of vectors",
+        "title": "Clustering within clusters",
         "description": "Dive deeper into your clusters with subclustering",
         "colab_link": COLAB_PREFIX + "workflows/subclustering/core_subclustering.ipynb",
         "use_cases": ["Drilling down into your clusters with subclustering"],
@@ -92,7 +92,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Vectorised text or image fields in your dataset"],
-        "s3_url": "s3://relevanceai-workflows/subclustering/core_subclustering.ipynb",
+        "s3_url": "s3://relevanceai-workflows/subclustering/core_subclustering_prod.ipynb",
     },
     {
         "_id": "bias-detection",

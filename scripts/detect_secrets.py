@@ -158,8 +158,16 @@ def scan_file(fpath: Path, show_keys=False, clean=True):
                     raise ValueError(f"API key found in file {fpath}: Line {i+1}")
 
 
-def get_files(path: Union[Path, str], ext: Literal["md", "ipynb"]):
-    return Path(path).glob(f"**/*.{ext}")
+def get_files(
+    path: Union[Path, str], ext: Literal["md", "ipynb"], exclude: List[str] = None
+):
+    files = Path(path).glob(f"**/*.{ext}")
+    return [
+        f
+        for f in files
+        if exclude
+        if not any(exclude_str in str(f) for exclude_str in exclude)
+    ]
 
 
 def main(args):
@@ -172,7 +180,9 @@ def main(args):
     logging.info(f"For tokens with minimum entropy ratio: {API_KEY_MIN_ENTROPY_RATIO}")
 
     md_files = get_files(args.path, ext="md")
-    notebooks = get_files(args.path, ext="ipynb")
+    notebooks = get_files(
+        args.path, ext="ipynb", exclude=[".ipynb_checkpoints", "_prod.ipynb"]
+    )
 
     for f in itertools.chain(md_files, notebooks):
         scan_file(str(f), show_keys=args.show_keys, clean=args.clean)

@@ -24,6 +24,11 @@ install:
 update:
 	pip install -U -q -r requirements-dev.txt
 
+## Upload notebooks to S3 and update ds
+upload:
+	python scripts/manual_add_to_db.py
+	aws s3 cp workflows s3://relevanceai-workflows/ --recursive
+
 ## Test dependencies
 test:
 	python scripts/test_notebooks.py
@@ -51,7 +56,6 @@ lint:
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
-
 
 
 #################################################################################
