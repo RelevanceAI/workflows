@@ -31,6 +31,7 @@ notebook_test_requirements = [
 dev_requirements = [
     "wheel",
     "ipykernel",
+    "black==22.3.0",
     # "autopep8",
     # "pylint",
     # "flake8",

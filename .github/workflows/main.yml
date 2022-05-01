@@ -14,6 +14,8 @@ jobs:
       notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -46,8 +48,17 @@ jobs:
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
         run: |
-          export WORKFLOW_IGNORE=workflows/ignore-workflows.txt
-          export NOTEBOOK_FPATHS=$( grep '.ipynb' $WORKFLOW_IGNORE| grep -v '#' $WORKFLOW_IGNORE | jq -Rsc '. / "\n" - [""]' )
+          ## Display UTF-8 characters in filenames (emojis)
+          git config --global core.quotepath false
+
+          ## Diff HEAD with the previous commit
+          DIFF_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
+
+          DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
+
+          NOTEBOOK_FPATHS=$( grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS" | jq -Rsc '. / "\n" - [""]' )
+
           echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
 
 
