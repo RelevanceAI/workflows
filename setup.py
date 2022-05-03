@@ -13,7 +13,7 @@ package_versions = yaml.safe_load(open(pwd / "package_versions.yaml"))
 requirements = [
     f"RelevanceAI[notebook]=={package_versions['RelevanceAI']}",
     f"sentence-transformers=={package_versions['sentence-transformers']}",
-    # f"vectorhub[sentence-transformers]=={package_versions['vectorhub']}",
+    f"vectorhub[sentence-transformers]=={package_versions['vectorhub']}",
     f"vectorhub[encoders-text-tfhub]=={package_versions['vectorhub']}",
     "jupyter",
     "typing_extensions",  ## <3.8
@@ -22,6 +22,7 @@ requirements = [
 notebook_test_requirements = [
     "matplotlib",  ## Needed for Vectorhub in non-Colab env
     "seaborn",  ## Needed for running ClusterVizOps in non-Colab env
+    "pandas",  ## Needed for running in non-Colab env
     "nbconvert>=1.3.5",
     "nbformat>=3.0.9",
     "umap-learn>=0.5.3",  ## For DR

@@ -148,4 +148,7 @@ dmypy.json
 *.logs
 *_log.txt
 
+
+## Workflows metadata
 twint/
+catboost_info/
