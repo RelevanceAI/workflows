@@ -53,11 +53,13 @@ jobs:
 
           ## Diff HEAD with the previous commit
           DIFF_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
+          echo $DIFF_FILES
 
           DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
           NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
 
           NOTEBOOK_FPATHS=$( grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS" | jq -Rsc '. / "\n" - [""]' )
+          echo $NOTEBOOK_FPATHS
 
           echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
 
