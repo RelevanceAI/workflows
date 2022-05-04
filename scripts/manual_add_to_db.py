@@ -9,6 +9,11 @@ Recipes go into "workflows-recipes"
 import os
 from relevanceai import Client
 
+import argparse
+
+
+# def main(args):
+
 client = Client(token=os.getenv("SUPPORT_ACTIVATION_TOKEN"))
 
 ds = client.Dataset("workflows-recipes")
@@ -35,7 +40,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Uploaded dataset with text or image fields"],
-        "s3_url": "s3://relevanceai-workflows/vectorize/Vectorize_Your_Data_with_Relevance_AI_prod.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/dev/vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb"
+        },
     },
     {
         "_id": "core-dr",
@@ -57,7 +64,9 @@ WORKFLOWS = [
         ],
         "new": False,
         "core": True,
-        "s3_url": "s3://relevanceai-workflows/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_prod.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/dev/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_params.ipynb"
+        },
     },
     {
         "_id": "core-cluster",
@@ -76,7 +85,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Vectorised some fields in your data"],
-        "s3_url": "s3://relevanceai-workflows/cluster/Cluster_Your_Data_with_Relevance_AI_prod.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/dev/cluster/Cluster_Your_Data_with_Relevance_AI_params.ipynb"
+        },
     },
     {
         "_id": "core-subclustering",
@@ -94,7 +105,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Vectorised text or image fields in your dataset"],
-        "s3_url": "s3://relevanceai-workflows/subclustering/core_subclustering_prod.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/dev/subclustering/core_subclustering_params.ipynb"
+        },
     },
     ############### NEW WORKFLOWS
     {
@@ -118,7 +131,9 @@ WORKFLOWS = [
             "List of data items (images/text) to vectorize",
             "Vectorizer",
         ],
-        "s3_url": "s3://relevanceai-workflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb"
+        },
     },
     {
         "_id": "cluster-reports",
@@ -143,7 +158,9 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "s3_url": "s3://relevanceai-workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb"
+        },
     },
     {
         "_id": "subclustering",
@@ -164,7 +181,9 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "s3_url": "s3://relevanceai-workflows/subclustering/basic_subclustering.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/subclustering/basic_subclustering.ipynb"
+        },
     },
     {
         "_id": "impact-analysis",
@@ -180,7 +199,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "coming_soon": False,
-        "s3_url": "s3://relevanceai-workflows/impact-analysis/impact-analysis.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/impact-analysis/impact-analysis.ipynb"
+        },
     },
     {
         "_id": "keyphrases",
@@ -198,7 +219,9 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+        },
     },
     {
         "_id": "vector-rake",
@@ -214,7 +237,7 @@ WORKFLOWS = [
             "vectorized text field",
             "vectorizer",
         ],
-        "s3_url": "s3://relevanceai-workflows/vector-rake/vector_rake.ipynb",
+        "s3_url": {"dev": "s3://relevanceai-workflows/vector-rake/vector_rake.ipynb"},
     },
     {
         "_id": "most-common-words-in-clusters",
@@ -234,7 +257,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "coming_soon": False,
-        "s3_url": "s3://relevanceai-workflows/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/most-common-words-in-clusters/most-common-words-in-clusters.ipynb"
+        },
     },
     {
         "_id": "community-detection",
@@ -253,7 +278,9 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "s3_url": "s3://relevanceai-workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb"
+        },
     },
     {
         "_id": "media-upload",
@@ -275,7 +302,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "core": False,
-        "s3_url": "s3://relevanceai-workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb"
+        },
     },
     {
         "_id": "sentiment",
@@ -360,7 +389,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "core": False,
-        "s3_url": "s3://relevanceai-workflows/dummy-datasets/Dummy_Datasets_Workflow.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/dummy-datasets/Dummy_Datasets_Workflow.ipynb"
+        },
     },
     {
         "_id": "pdf-search",
@@ -443,10 +474,38 @@ WORKFLOWS = [
         "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
         "recipe_url": "https://relevance.ai",
         "logo_url": "https://www.svgrepo.com/show/22159/twitter.svg",
-        "s3_url": "s3://relevanceai-workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb"
+        },
     },
 ]
 
 ds.delete()
 results = ds.upsert_documents(WORKFLOWS)
 print(results)
+
+
+# if __name__ == "__main__":
+
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("-d", "--debug", action="store_true", help="Run debug mode")
+#     parser.add_argument("-p", "--path", default=ROOT_PATH, help="Path of root folder")
+#     parser.add_argument(
+#         "-r", "--region", default="ap-southeast-2", help="Default region"
+#     )
+#     parser.add_argument(
+#         "-n",
+#         "--notebooks",
+#         nargs="+",
+#         default=None,
+#         help="List of notebooks to execute",
+#     )
+#     parser.add_argument(
+#         "-v",
+#         "--version",
+#         default=None,
+#         help="Package Version",
+#     )
+#     parser.add_argument("-s", "--save", action="store_true", help="Run debug mode")
+#     args = parser.parse_args()
+#     main(args)

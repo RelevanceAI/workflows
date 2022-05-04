@@ -90,7 +90,11 @@ def clean_keys(cell_source: List[str]):
         {
             "sent_regex": "client\s*=\s*Client(.*)",
             "str_regex": "(token\s*=\s*['\"A-Za-z0-9-:]+)",
-            "str_exclude": ["config['authorizationToken']", "#@param"],
+            "str_exclude": [
+                "config['authorizationToken']",
+                "authorizationToken",
+                "#@param",
+            ],
             "replace": "",
         },
         {

@@ -6,6 +6,7 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PYTHON_INTERPRETER = python3
 TEST_PATH ?= .
+STAGE_NAME ?= dev
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
@@ -27,7 +28,7 @@ update:
 ## Upload notebooks to S3 and update ds
 upload:
 	python scripts/manual_add_to_db.py
-	aws s3 cp workflows s3://relevanceai-workflows/ --recursive
+	aws s3 cp workflows s3://relevanceai-workflows/$(STAGE_NAME)/ --recursive
 
 ## Test dependencies
 test:
