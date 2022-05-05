@@ -159,7 +159,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb"
         },
     },
     {
@@ -182,7 +182,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/subclustering/basic_subclustering.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/subclustering/basic_subclustering.ipynb"
         },
     },
     {
@@ -200,7 +200,7 @@ WORKFLOWS = [
         "new": True,
         "coming_soon": False,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/impact-analysis/impact-analysis.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/impact-analysis/impact-analysis.ipynb"
         },
     },
     {
@@ -220,7 +220,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+            "dev": "s3://relevanceai-workflows/dev/keyphrases/KeyPhrases_Workflow.ipynb",
         },
     },
     {
@@ -237,7 +237,9 @@ WORKFLOWS = [
             "vectorized text field",
             "vectorizer",
         ],
-        "s3_url": {"dev": "s3://relevanceai-workflows/vector-rake/vector_rake.ipynb"},
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows/dev/vector-rake/vector_rake.ipynb"
+        },
     },
     {
         "_id": "most-common-words-in-clusters",
@@ -258,7 +260,7 @@ WORKFLOWS = [
         "new": True,
         "coming_soon": False,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/most-common-words-in-clusters/most-common-words-in-clusters.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/most-common-words-in-clusters/most-common-words-in-clusters.ipynb"
         },
     },
     {
@@ -279,7 +281,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/community-detection/Community_Detection_with_Relevance_AI.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/community-detection/Community_Detection_with_Relevance_AI.ipynb"
         },
     },
     {
@@ -303,7 +305,7 @@ WORKFLOWS = [
         "new": True,
         "core": False,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb"
         },
     },
     {
@@ -350,7 +352,7 @@ WORKFLOWS = [
         #             "video_links": [],
         #             "new": True,
         "coming_soon": True,
-        # "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+        # "s3_url": "s3://relevanceai-workflows/dev/keyphrases/KeyPhrases_Workflow.ipynb",
     },
     {
         "_id": "video-search",
@@ -368,7 +370,7 @@ WORKFLOWS = [
         # "video_links": [],
         # "new": True,
         "coming_soon": True,
-        # "s3_url": "s3://relevanceai-workflows/keyphrases/KeyPhrases_Workflow.ipynb",
+        # "s3_url": "s3://relevanceai-workflows/dev/keyphrases/KeyPhrases_Workflow.ipynb",
     },
     ############### RECIPES
     {
@@ -390,7 +392,7 @@ WORKFLOWS = [
         "new": True,
         "core": False,
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/dummy-datasets/Dummy_Datasets_Workflow.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/dummy-datasets/Dummy_Datasets_Workflow.ipynb"
         },
     },
     {
@@ -475,7 +477,7 @@ WORKFLOWS = [
         "recipe_url": "https://relevance.ai",
         "logo_url": "https://www.svgrepo.com/show/22159/twitter.svg",
         "s3_url": {
-            "dev": "s3://relevanceai-workflows/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb"
+            "dev": "s3://relevanceai-workflows/dev/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb"
         },
     },
 ]

@@ -119,7 +119,6 @@ def scan_file(fpath: Path, show_keys=False, clean=True):
 
     for api_re_match_item in api_re_match:
         API_REGEX_STR = api_re_match_item["sent_regex"]
-        # API_REGEX_STR = f"{api_prefix}\s*=\s*['\"A-Za-z0-9-:]+"
         if fpath.endswith(".ipynb"):
             f = json.loads(open(fpath).read())
             for i, cell in enumerate(f["cells"]):
@@ -127,8 +126,6 @@ def scan_file(fpath: Path, show_keys=False, clean=True):
                     if isinstance(cell["source"], str):
                         cell["source"] = [cell["source"]]
                     for i, cell_source in enumerate(cell["source"]):
-                        # exclude_str=["token", "config", "authorizationToken" ]
-                        # exclude_str = []
                         args = {
                             "line": cell_source.strip(),
                             "regex_str": API_REGEX_STR,
