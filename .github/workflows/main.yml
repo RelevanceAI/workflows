@@ -1,0 +1,117 @@
+
+name: Workflow Update
+
+on:
+  push:
+      branches: [ main ]
+  pull_request:
+  # workflow_dispatch:
+
+jobs:
+  setup-tests:
+    runs-on: ubuntu-latest
+    outputs:
+      notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          # cache: 'pip'
+
+      - name: Cache Python deps
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('setup.py') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.pythonLocation }}-pip-
+            ${{ runner.os }}-${{ env.pythonLocation }}-
+
+      # - name: Install requirements
+      #   run: |
+      #     pip install --upgrade pip
+      #     pip install -r requirements.txt
+
+
+      - name: Check for notebook output
+        uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
+
+      - name: Test for API keys in docs
+        run: |
+          pip install typing_extensions  ## <3.8
+          python scripts/detect_secrets.py -d -p workflows -s
+
+      - id: set-notebook-fpaths
+        name: Setting notebook fpath output
+        run: |
+          ## Display UTF-8 characters in filenames (emojis)
+          git config --global core.quotepath false
+
+          ## Diff HEAD with the previous commit
+          DIFF_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
+          echo $DIFF_FILES
+
+          DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
+
+          NOTEBOOK_FPATHS=$( grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS" | jq -Rsc '. / "\n" - [""]' )
+          echo $NOTEBOOK_FPATHS
+
+          echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
+
+
+  test-notebooks:
+    name: Test ${{ matrix.notebook }}
+    needs: setup-tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest]
+        python-version: [ '3.8' ]
+        # python-version: [ '3.6', '3.7', '3.8', '3.9' ]
+        notebook: ${{fromJSON(needs.setup-tests.outputs.notebook-fpaths)}}
+        include:
+          - os: ubuntu-latest
+            path: ~/.cache/pip
+          # - os: macos-latest
+          #   path: ~/Library/Caches/pip
+          # - os: windows-latest
+          #   path: ~\AppData\Local\pip\Cache
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          # cache: 'pip'
+      - name: Cache Python deps
+        uses: actions/cache@v2
+        with:
+          path: ${{ matrix.path }}
+          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('setup.py') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.pythonLocation }}-pip-
+            ${{ runner.os }}-${{ env.pythonLocation }}-
+
+      - name: Install requirements
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml
+          python -m pip install -e .[tests]
+          jupyter kernelspec list
+
+      - name: Test notebooks
+        # continue-on-error: true
+        env:
+          TEST_ACTIVATION_TOKEN: ${{ secrets.SUPPORT_ACTIVATION_TOKEN }}
+          WORKFLOW_TOKEN_CLUSTER_YOUR_DATA_WITH_RELEVANCE_AI: ${{ secrets.WORKFLOW_TOKEN_CLUSTER_YOUR_DATA_WITH_RELEVANCE_AI }}
+          WORKFLOW_TOKEN_VECTORIZE_YOUR_DATA_WITH_RELEVANCE_AI: ${{ secrets.WORKFLOW_TOKEN_VECTORIZE_YOUR_DATA_WITH_RELEVANCE_AI }}
+          WORKFLOW_TOKEN_REDUCE_THE_DIMENSIONS_OF_YOUR_DATA_WITH_RELEVANCE_AI: ${{ secrets.WORKFLOW_TOKEN_REDUCE_THE_DIMENSIONS_OF_YOUR_DATA_WITH_RELEVANCE_AI }}
+          WORKFLOW_TOKEN_CORE_SUBCLUSTERING:  ${{ secrets.WORKFLOW_TOKEN_CORE_SUBCLUSTERING }}
+        run: |
+          python scripts/test_notebooks.py --notebooks ${{ matrix.notebook }}

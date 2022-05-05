@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+ # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -76,6 +76,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+_*.ipynb
 
 # IPython
 profile_default/
@@ -127,3 +128,27 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+*.xlsx
+*.xls
+
+## VScode
+.vscode
+
+
+## Creads
+**/**/.creds*
+/data
+
+*.temp
+
+## Log files
+*.log
+*.logs
+*_log.txt
+
+
+## Workflows metadata
+twint/
+catboost_info/

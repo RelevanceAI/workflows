@@ -28,7 +28,7 @@ Some of these features include:
 - Labelling/Tagging
 - Launching Projectors
 
-# How to add a workflow 
+# How to add a workflow
 
 How to add a workflow
 
@@ -46,141 +46,73 @@ How to add a workflow
 ... and more!
 
 
-## 🧠 Documentation
-
-| API type      | Link |
-| ------------- | ----------- |
-| Guides | [Documentation](https://docs.relevance.ai/) |
-| Python Reference | [Documentation](https://relevanceai.readthedocs.io/en/latest/)        |
-
-You can easily access our documentation while using the SDK using:
-
-```python
-from relevanceai import Client
-client = Client()
-
-# Easy one line of code to access our docs
-client.docs
-
-```
-
-
-## 🛠️ Installation
-
-Using pip:
-
-```bash
-pip install -U relevanceai
-```
-Using conda:
-
-```bash
-conda install -c relevance relevanceai
-```
-
-## ⏩ Quickstart
-
-### Login into your project space
-
-```python
-from relevanceai import Client
-
-client = Client(<project_name>, <api_key>)
-```
-
-Prepare your documents for insertion by following the below format:
-- Each document should be a dictionary
-- Include a field `_id` as a primary key, otherwise it's automatically generated
-- Suffix vector fields with `_vector_`
-
-```python
-docs = [
-    {"_id": "1", "example_vector_": [0.1, 0.1, 0.1], "data": "Documentation"},
-    {"_id": "2", "example_vector_": [0.2, 0.2, 0.2], "data": "Best document!"},
-    {"_id": "3", "example_vector_": [0.3, 0.3, 0.3], "data": "document example"},
-    {"_id": "4", "example_vector_": [0.4, 0.4, 0.4], "data": "this is another doc"},
-    {"_id": "5", "example_vector_": [0.5, 0.5, 0.5], "data": "this is a doc"},
-]
-```
-
-### Insert data into a dataset
-
-Create a dataset object with the name of the dataset you'd like to use. If it doesn't exist, it'll be created for you.
-> Quick tip! Our Dataset object is compatible with common dataframes methods like `.head()`, `.shape()` and `.info()`.
-
-```python
-ds = client.Dataset("quickstart")
-ds.insert_documents(docs)
-```
-
-### Perform vector search
-
-```python
-results = ds.vector_search(
-    multivector_query=[{"vector": [0.2, 0.2, 0.2], "fields": ["example_vector_"]}],
-    page_size=3,
-    query="sample search" # optional, name to display in dashboard
-)
-```
-
-### Cluster dataset with Auto Cluster
-
-Generate 12 clusters using kmeans
-```python
-clusterop = ds.cluster("kmeans-12", vector_fields=["example_vector_"])
-clusterop.list_closest()
-```
-> Quick tip! After each of these steps, the output will provide a URL to the Relevance AI dashboard where you can see a visualisation of your results
-
 ## 🚧 Development
 
-### Getting Started
-To get started with development, ensure you have pytest and mypy installed. These will help ensure typechecking and testing.
+## 🛠️  Requirements
 
-```bash
-make install
+- [Python ^3.7.0](https://www.python.org/downloads/release/python-3713/)
+- [AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) - if you need to upload new workflows to prod
+
+
+### Getting Started
+To get started with development, install the dev dependencies
+
+```zsh
+❯ make install
 ```
+
+### Uploading workflows
+
+Make sure your AWS SSO profile and creds configured in [`~/.aws/config`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html).
+
+Install [`yawsso`](https://github.com/victorskl/yawsso) or similar to sync API creds w/ SSO profile needed for CDK.
+Set the `AWS_PROFILE` env var to bypass having to specify `--profile` on every AWS CLI call.
+
+```zsh
+❯ make update
+```
+
+### Testing
+
 
 Then run testing using:
 
 > Don't forget to set your test credentials!
 
-```bash
-export TEST_PROJECT = xxx
-export TEST_API_KEY = xxx
+```zsh
+export TEST_ACTIVATION_TOKEN=<YOUR_ACTIVATION_TOKEN>
 
+## For testing core workflows
+export WORKFLOW_TOKEN_CLUSTER_YOUR_DATA_WITH_RELEVANCE_AI=<DASHBOARD_BASE64_TOKEN_FROM_CLUSTER_WORKFLOW>
+export WORKFLOW_TOKEN_VECTORIZE_YOUR_DATA_WITH_RELEVANCE_AI=<DASHBOARD_BASE64_TOKEN_FROM_VECTORIZE_WORKFLOW>
+export WORKFLOW_TOKEN_REDUCE_THE_DIMENSIONS_OF_YOUR_DATA_WITH_RELEVANCE_AI=<DASHBOARD_BASE64_TOKEN_FROM_DR_WORKFLOW>
+export WORKFLOW_TOKEN_CORE_SUBCLUSTERING<DASHBOARD_BASE64_TOKEN_FROM_SUBCLUSTERING_WORKFLOW>
+```
+
+Run test script
+
+- tests all notebooks in `workflows`
+- outputs error `notebook_error.log`
+
+
+```zsh
+❯ python scripts/test_notebooks.py
+
+## Testing indiv notebook
+❯ python scripts/test_notebooks.py --notebooks subclustering/core_subclustering.ipynb
 ```
 
 
+## More Helpful Commands
 
-## 🧰 Config
+```zsh
+❯ make help
+Available rules:
 
-The config object contains the adjustable global settings for the SDK. For a description of all the settings, see here.
-
-To view setting options, run the following:
-
-```python
-client.config.options
-```
-
-The syntax for selecting an option is section.key. For example, to disable logging, run the following to modify logging.enable_logging:
-
-```python
-client.config.set_option('logging.enable_logging', False)
-```
-
-To restore all options to their default, run the following:
-
-### Changing the base URL
-
-You can change the base URL as such:
-
-```python
-client.base_url = "https://.../latest"
-```
-
-You can also update the ingest base URL:
-
-```python
-client.ingest_base_url = "https://.../latest
+clean               Delete all compiled Python files
+install             Install dependencies
+lint                Lint using flake8
+test                Test dependencies
+update              Update dependencies
+upload              Upload notebooks to S3 and update ds
 ```
