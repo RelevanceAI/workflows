@@ -326,6 +326,26 @@ WORKFLOWS = [
         "new": True,
         "core": False,
     },
+    {
+        "_id": "emotion",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/emotion/emotion.ipynb",
+        "title": "Add Emotion Field",
+        "description": "Adds a new field to each doc with the emotion analysis result on a text field",
+        "prerequisites": [
+            "Text fields",
+            "(Optional) A transformer model trained for emotion",
+        ],
+        "use_cases": ["Automated emotion analysis"],
+        "documentation_links": [
+            {
+                "title": "",
+                "url": "",
+            }
+        ],
+        "video_links": [],
+        "new": True,
+    },
     ############### COMING SOON WORKFLOWS
     {
         "_id": "pdf-ingestion",
