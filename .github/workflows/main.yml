@@ -52,7 +52,7 @@ jobs:
           quotepath: "false"
           since_last_remote_commit: 'true'
           files: |
-            *.ipynb
+            **/*.ipynb
 
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
