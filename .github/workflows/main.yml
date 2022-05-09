@@ -59,7 +59,7 @@ jobs:
           git config --global core.quotepath false
 
           ## Diff HEAD with the previous commit
-          DIFF_FILES=${{ steps.changed-files.outputs.all_changed_files }}
+          DIFF_FILES=(${{ steps.changed-files.outputs.all_changed_files }})
           echo $DIFF_FILES
 
           DIFF_NOTEBOOKS=$(for n in ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
