@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          ref: ${{ github.ref }}
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -45,6 +45,13 @@ jobs:
           pip install typing_extensions  ## <3.8
           python scripts/detect_secrets.py -d -p workflows -s
 
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v14.4
+        with:
+          since_last_remote_commit: 'true'
+
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
         run: |
@@ -52,11 +59,11 @@ jobs:
           git config --global core.quotepath false
 
           ## Diff HEAD with the previous commit
-          DIFF_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
-          echo $DIFF_FILES
 
-          DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          DIFF_NOTEBOOKS=$(for n in ${{ steps.changed-files.outputs.all_changed_files }}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          echo $DIFF_NOTEBOOKS
           NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
+          echo $NOTEBOOKS
 
           NOTEBOOK_FPATHS=$( grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS" | jq -Rsc '. / "\n" - [""]' )
           echo $NOTEBOOK_FPATHS
