@@ -148,6 +148,7 @@ dmypy.json
 *.logs
 *_log.txt
 
+*.temp
 
 ## Workflows metadata
 twint/
