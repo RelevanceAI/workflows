@@ -49,7 +49,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v19
         with:
-          path: workflows
+          path: workflows/
           quotepath: "false"
           since_last_remote_commit: 'true'
           files: |
