@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 2
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -52,7 +52,7 @@ jobs:
           git config --global core.quotepath false
 
           ## Diff HEAD with the previous commit
-          DIFF_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
+          DIFF_FILES=$(git diff --name-only HEAD^ HEAD)
           echo $DIFF_FILES
 
           DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
