@@ -16,6 +16,7 @@ requirements = [
     f"transformers=={package_versions['transformers']}",
     f"vectorhub[sentence-transformers]=={package_versions['vectorhub']}",
     f"vectorhub[encoders-text-tfhub]=={package_versions['vectorhub']}",
+    "torch",
     "jupyter",
     "typing_extensions",  ## <3.8
 ]
