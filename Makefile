@@ -6,7 +6,7 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PYTHON_INTERPRETER = python3
 TEST_PATH ?= .
-ENVIRONMENT ?= development ## development/production
+ENVIRONMENT ?= sandbox## sandbox/development/production
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
