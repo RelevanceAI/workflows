@@ -6,7 +6,9 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PYTHON_INTERPRETER = python3
 TEST_PATH ?= .
-STAGE_NAME ?= dev
+ENVIRONMENT ?= sandbox## sandbox/development/production
+AWS_PROFILE ?= relevance-sandbox.AdministratorAccess
+
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
@@ -25,11 +27,14 @@ install:
 update:
 	pip install -U -q -r requirements-dev.txt
 
+# Update db
+update-db:
+	python scripts/manual_add_to_db.py
+
 ## Upload notebooks to S3 and update ds
 upload:
-	python scripts/manual_add_to_db.py
-	aws s3 cp workflows s3://relevanceai-workflows-701405094693-ap-southeast-2/$(STAGE_NAME)/ --recursive
-	aws s3 cp workflows s3://relevanceai-workflows-701405094693-us-east-1/$(STAGE_NAME)/ --recursive
+	aws s3 cp workflows s3://relevance-development-ap-southeast-2-workflows/$(ENVIRONMENT)/ --recursive
+	aws s3 cp workflows s3://relevance-development-us-east-1-workflows/$(ENVIRONMENT)/ --recursive
 
 ## Test dependencies
 test:

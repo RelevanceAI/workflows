@@ -41,7 +41,7 @@ WORKFLOWS = [
         "new": False,
         "prerequisites": ["Uploaded dataset with text or image fields"],
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb",
+        "suffix": "vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
             "stg": "s3://relevanceai-workflows/dev/vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
@@ -200,9 +200,9 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "subclustering/basic_subclustering.ipynb",
+        "suffix": "subclustering/basic_subclustering_params.ipynb",
         "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/subclustering/basic_subclustering.ipynb",
+            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/development/subclustering/basic_subclustering.ipynb",
             "stg": "s3://relevanceai-workflows/dev/subclustering/basic_subclustering.ipynb",
         },
     },
@@ -221,7 +221,7 @@ WORKFLOWS = [
         "new": True,
         "coming_soon": False,
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "impact-analysis/impact-analysis.ipynb",
+        "suffix": "impact-analysis/impact-analysis_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/impact-analysis/impact-analysis.ipynb",
             "stg": "s3://relevanceai-workflows/dev/impact-analysis/impact-analysis.ipynb",
@@ -244,7 +244,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "keyphrases/KeyPhrases_Workflow.ipynb",
+        "suffix": "keyphrases/KeyPhrases_Workflow_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/keyphrases/KeyPhrases_Workflow.ipynb",
             "stg": "s3://relevanceai-workflows/dev/keyphrases/KeyPhrases_Workflow.ipynb",
@@ -265,7 +265,7 @@ WORKFLOWS = [
             "vectorizer",
         ],
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "vector-rake/vector_rake.ipynb",
+        "suffix": "vector-rake/vector_rake_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/vector-rake/vector_rake.ipynb",
             "stg": "s3://relevanceai-workflows/dev/vector-rake/vector_rake.ipynb",
@@ -290,7 +290,7 @@ WORKFLOWS = [
         "new": True,
         "coming_soon": False,
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
+        "suffix": "most-common-words-in-clusters/most-common-words-in-clusters_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
             "stg": "s3://relevanceai-workflows/dev/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
@@ -314,7 +314,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "community-detection/Community_Detection_with_Relevance_AI.ipynb",
+        "suffix": "community-detection/Community_Detection_with_Relevance_AI_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/community-detection/Community_Detection_with_Relevance_AI.ipynb",
             "stg": "s3://relevanceai-workflows/dev/community-detection/Community_Detection_with_Relevance_AI.ipynb",
@@ -341,7 +341,7 @@ WORKFLOWS = [
         "new": True,
         "core": False,
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
+        "suffix": "media_upload/💡_Upload_Audio_Images_Videos_Flow_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
             "stg": "s3://relevanceai-workflows/dev/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
@@ -524,6 +524,7 @@ WORKFLOWS = [
         },
     },
 ]
+
 
 ds.delete()
 results = ds.upsert_documents(WORKFLOWS)
