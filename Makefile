@@ -7,6 +7,8 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PYTHON_INTERPRETER = python3
 TEST_PATH ?= .
 ENVIRONMENT ?= sandbox## sandbox/development/production
+AWS_PROFILE ?= relevance-sandbox.AdministratorAccess
+
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
