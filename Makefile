@@ -30,8 +30,8 @@ update:
 ## Upload notebooks to S3 and update ds
 upload:
 	python scripts/manual_add_to_db.py
-	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-development-ap-southeast-2-workflows/$(ENVIRONMENT)/ --recursive
-	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-development-us-east-1-workflows/$(ENVIRONMENT)/ --recursive
+	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-$(ENVIRONMENT)-ap-southeast-2-workflows/$(ENVIRONMENT)/ --recursive
+	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-$(ENVIRONMENT)-us-east-1-workflows/$(ENVIRONMENT)/ --recursive
 
 ## Test dependencies
 test:
