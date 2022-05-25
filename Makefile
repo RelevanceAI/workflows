@@ -27,6 +27,7 @@ install:
 update:
 	pip install -U -q -r requirements-dev.txt
 
+# Update db
 update-db:
 	python scripts/manual_add_to_db.py
 
