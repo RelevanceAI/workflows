@@ -6,7 +6,7 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PYTHON_INTERPRETER = python3
 TEST_PATH ?= .
-ENVIRONMENT ?= sandbox## sandbox/development/production
+ENVIRONMENT ?= sandbox ## sandbox/development/production
 AWS_PROFILE ?= relevance-sandbox.AdministratorAccess
 
 #################################################################################
@@ -33,8 +33,8 @@ update-db:
 
 ## Upload notebooks to S3 and update ds
 upload:
-	aws s3 cp workflows s3://relevance-$(ENVIRONMENT)-ap-southeast-2-workflows/workflows/ --recursive
-	aws s3 cp workflows s3://relevance-$(ENVIRONMENT)-us-east-1-workflows/workflows/ --recursive
+	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-$(ENVIRONMENT)-ap-southeast-2-workflows/workflows/notebooks/ --recursive
+	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-$(ENVIRONMENT)-us-east-1-workflows/workflows/notebooks/ --recursive
 
 ## Test dependencies
 test:
