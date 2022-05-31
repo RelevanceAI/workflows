@@ -233,6 +233,7 @@ WORKFLOWS = [
             "stg": "s3://relevanceai-workflows/dev/subclustering/basic_subclustering.ipynb",
         },
     },
+    ##### Non core workflows
     {
         "_id": "impact-analysis",
         "type": "workflow",
@@ -269,7 +270,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "keyphrases/KeyPhrases_Workflow_params.ipynb",
         "s3_url": {
@@ -285,7 +286,7 @@ WORKFLOWS = [
         "use_cases": ["auto-labeling documents"],
         "documentation_links": [],
         "video_links": [],
-        "new": True,
+        "new": False,
         "prerequisites": [
             "dataset with text field",
             "vectorized text field",
@@ -314,7 +315,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "coming_soon": False,
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "most-common-words-in-clusters/most-common-words-in-clusters_params.ipynb",
