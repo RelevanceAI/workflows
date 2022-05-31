@@ -33,8 +33,8 @@ update-db:
 
 ## Upload notebooks to S3 and update ds
 upload:
-	aws s3 cp workflows s3://relevance-development-ap-southeast-2-workflows/$(ENVIRONMENT)/ --recursive
-	aws s3 cp workflows s3://relevance-development-us-east-1-workflows/$(ENVIRONMENT)/ --recursive
+	aws s3 cp workflows s3://relevance-$(ENVIRONMENT)-ap-southeast-2-workflows/workflows/ --recursive
+	aws s3 cp workflows s3://relevance-$(ENVIRONMENT)-us-east-1-workflows/workflows/ --recursive
 
 ## Test dependencies
 test:
