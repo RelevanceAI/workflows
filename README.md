@@ -69,7 +69,7 @@ Install [`yawsso`](https://github.com/victorskl/yawsso) or similar to sync API c
 Set the `AWS_PROFILE` env var to bypass having to specify `--profile` on every AWS CLI call.
 
 ```zsh
-❯ make update
+❯ ENVIRONMENT=development AWS_PROFILE=Relevance-AI.WorkflowsAdminAccess make upload
 ```
 
 ### Testing

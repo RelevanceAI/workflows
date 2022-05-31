@@ -6,7 +6,9 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PYTHON_INTERPRETER = python3
 TEST_PATH ?= .
-STAGE_NAME ?= dev
+ENVIRONMENT ?= sandbox ## sandbox/development/production
+AWS_PROFILE ?= relevance-sandbox.AdministratorAccess
+
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
@@ -25,10 +27,14 @@ install:
 update:
 	pip install -U -q -r requirements-dev.txt
 
+# Update db
+update-db:
+	python scripts/manual_add_to_db.py
+
 ## Upload notebooks to S3 and update ds
 upload:
-	python scripts/manual_add_to_db.py
-	aws s3 cp workflows s3://relevanceai-workflows/$(STAGE_NAME)/ --recursive
+	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-$(ENVIRONMENT)-ap-southeast-2-workflows/workflows/notebooks/ --recursive
+	aws --profile $(AWS_PROFILE) s3 cp workflows s3://relevance-$(ENVIRONMENT)-us-east-1-workflows/workflows/notebooks/ --recursive
 
 ## Test dependencies
 test:
@@ -38,6 +44,7 @@ test:
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type f -name "*.log[s]" -delete
+	find . -type f -name "*.temp" -delete
 	find . -type d -name "*.coverage" -delete
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type d -name "*.egg-info" -exec rm -rf {} +

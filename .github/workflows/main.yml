@@ -45,17 +45,20 @@ jobs:
           pip install typing_extensions  ## <3.8
           python scripts/detect_secrets.py -d -p workflows -s
 
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+        with:
+          quotepath: "false"
+          since_last_remote_commit: 'true'
+          files: |
+            **/*.ipynb
+
       - id: set-notebook-fpaths
         name: Setting notebook fpath output
         run: |
-          ## Display UTF-8 characters in filenames (emojis)
-          git config --global core.quotepath false
-
-          ## Diff HEAD with the previous commit
-          DIFF_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})
-          echo $DIFF_FILES
-
-          DIFF_NOTEBOOKS=$(for n in  ${DIFF_FILES[@]}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          DIFF_NOTEBOOKS=$(for n in ${{ steps.changed-files.outputs.all_changed_files }}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          echo $DIFF_NOTEBOOKS
           NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
 
           NOTEBOOK_FPATHS=$( grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS" | jq -Rsc '. / "\n" - [""]' )
