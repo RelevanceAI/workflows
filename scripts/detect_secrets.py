@@ -120,7 +120,7 @@ def scan_file(fpath: Path, show_keys=False, clean=True):
     for api_re_match_item in api_re_match:
         API_REGEX_STR = api_re_match_item["sent_regex"]
         if fpath.endswith(".ipynb"):
-            f = json.loads(open(fpath).read())
+            f = json.loads(open(fpath, encoding="utf-8").read())
             for i, cell in enumerate(f["cells"]):
                 if bool(re.search(API_REGEX_STR, str(cell["source"]))):
                     if isinstance(cell["source"], str):
