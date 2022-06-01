@@ -11,8 +11,8 @@ long_description = (pwd / "README.md").read_text(encoding="utf-8")
 package_versions = yaml.safe_load(open(pwd / "package_versions.yaml"))
 
 requirements = [
-    #     f"RelevanceAI[notebook]=={package_versions['RelevanceAI']}",
-    #     f"sentence-transformers=={package_versions['sentence-transformers']}",
+    f"RelevanceAI[notebook]=={package_versions['RelevanceAI']}",
+    f"sentence-transformers=={package_versions['sentence-transformers']}",
     #     f"transformers=={package_versions['transformers']}",
     #     f"vectorhub[sentence-transformers]=={package_versions['vectorhub']}",
     #     f"vectorhub[encoders-text-tfhub]=={package_versions['vectorhub']}",
