@@ -24,13 +24,12 @@ COLAB_PREFIX = (
 WORKFLOWS = [
     ############### CORE WORKFLOWS
     {
-        "_id": "core-vectorize",
+        "_id": "core-vectorize-text",
         "type": "core-workflow",
-        "title": "Vectorizing with Relevance AI",
-        "description": "Vectorize your data with Relevance AI",
-        "colab_link": COLAB_PREFIX
-        + "workflows/vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb",
-        "use_cases": ["Encoding data for further downstream tasks"],
+        "title": "Vectorizing Text with Relevance AI",
+        "description": "Vectorize your unstructured text data with Relevance AI",
+        "colab_link": COLAB_PREFIX + "workflows/vectorize/Vectorize_Text.ipynb",
+        "use_cases": ["Encoding text data for further downstream tasks"],
         "documentation_links": [
             {
                 "title": "SDK Reference",
@@ -39,13 +38,28 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": False,
-        "prerequisites": ["Uploaded dataset with text or image fields"],
+        "prerequisites": ["Uploaded dataset with text"],
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
-        },
+        "suffix": "vectorize/Vectorize_Text.ipynb",
+    },
+    {
+        "_id": "core-vectorize-image",
+        "type": "core-workflow",
+        "title": "Vectorizing Images with Relevance AI",
+        "description": "Vectorize your unstructured text data with Relevance AI",
+        "colab_link": COLAB_PREFIX + "workflows/vectorize/Vectorize_Image.ipynb",
+        "use_cases": ["Encoding image data for further downstream tasks"],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/operations/vectorize.html",
+            }
+        ],
+        "video_links": [],
+        "new": False,
+        "prerequisites": ["Uploaded dataset with images"],
+        ## workflows-deploy reads notebook_path from these fields
+        "suffix": "vectorize/Vectorize_Image.ipynb",
     },
     {
         "_id": "core-dr",
@@ -155,8 +169,7 @@ WORKFLOWS = [
         "type": "workflow",
         "title": "Add Taxonomy",
         "description": "Insert your taxonomy into Relevance AI",
-        "colab_link": COLAB_PREFIX
-        + "workflows/taxonomy/Taxonomy.ipynb",
+        "colab_link": COLAB_PREFIX + "workflows/taxonomy/Taxonomy.ipynb",
         "use_cases": ["Label your data with a pre-determined taxonomy."],
         "documentation_links": [
             {
@@ -166,10 +179,7 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "prerequisites": [
-            "Taxonomy you would like to insert",
-            "Dataset with text"
-        ],
+        "prerequisites": ["Taxonomy you would like to insert", "Dataset with text"],
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "workflows/taxonomy/Taxonomy.ipynb",
         "s3_url": {
