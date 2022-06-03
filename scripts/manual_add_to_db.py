@@ -68,11 +68,7 @@ WORKFLOWS = [
         "new": False,
         "core": True,
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_params.ipynb",
-        },
+        "suffix": "dr/Reduce_Dimensions.ipynb",
     },
     {
         "_id": "core-cluster",
@@ -155,8 +151,7 @@ WORKFLOWS = [
         "type": "workflow",
         "title": "Add Taxonomy",
         "description": "Insert your taxonomy into Relevance AI",
-        "colab_link": COLAB_PREFIX
-        + "workflows/taxonomy/Taxonomy.ipynb",
+        "colab_link": COLAB_PREFIX + "workflows/taxonomy/Taxonomy.ipynb",
         "use_cases": ["Label your data with a pre-determined taxonomy."],
         "documentation_links": [
             {
@@ -166,10 +161,7 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "prerequisites": [
-            "Taxonomy you would like to insert",
-            "Dataset with text"
-        ],
+        "prerequisites": ["Taxonomy you would like to insert", "Dataset with text"],
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "workflows/taxonomy/Taxonomy.ipynb",
         "s3_url": {
