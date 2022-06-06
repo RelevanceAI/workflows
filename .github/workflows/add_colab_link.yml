@@ -49,7 +49,6 @@ jobs:
         uses: tj-actions/changed-files@v19
         with:
           quotepath: "false"
-          since_last_remote_commit: 'true'
           files: |
             **/*.ipynb
 
