@@ -234,27 +234,27 @@ WORKFLOWS = [
         },
     },
     ##### Non core workflows
-    {
-        "_id": "impact-analysis",
-        "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
-        "title": "Feature/Impact Analysis",
-        "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
-        "prerequisites": [
-            "Dataset with encoded vectors and a variable to measure importance."
-        ],
-        "use_cases": ["KPI Measurement", "Impact Analysis"],
-        "documentation_links": [],
-        "video_links": [],
-        "new": True,
-        "coming_soon": False,
-        ## workflows-deploy reads notebook_path from these fields
-        "suffix": "impact-analysis/impact-analysis_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/impact-analysis/impact-analysis.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/impact-analysis/impact-analysis.ipynb",
-        },
-    },
+#     {
+#         "_id": "impact-analysis",
+#         "type": "workflow",
+#         "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
+#         "title": "Feature/Impact Analysis",
+#         "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
+#         "prerequisites": [
+#             "Dataset with encoded vectors and a variable to measure importance."
+#         ],
+#         "use_cases": ["KPI Measurement", "Impact Analysis"],
+#         "documentation_links": [],
+#         "video_links": [],
+#         "new": True,
+#         "coming_soon": False,
+#         ## workflows-deploy reads notebook_path from these fields
+#         "suffix": "impact-analysis/impact-analysis_params.ipynb",
+#         "s3_url": {
+#             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/impact-analysis/impact-analysis.ipynb",
+#             "stg": "s3://relevanceai-workflows/dev/impact-analysis/impact-analysis.ipynb",
+#         },
+#     },
     {
         "_id": "keyphrases",
         "type": "workflow",
