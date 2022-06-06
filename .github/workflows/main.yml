@@ -35,7 +35,6 @@ jobs:
       #     pip install --upgrade pip
       #     pip install -r requirements.txt
 
-
       - name: Check for notebook output
         uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
 
@@ -70,7 +69,6 @@ jobs:
     name: Test ${{ matrix.notebook }}
     needs: setup-tests
     if: ${{ steps.changed-files.outputs.all_changed_files }}
-
     runs-on: ${{ matrix.os }}
 
     strategy:

@@ -73,7 +73,7 @@ jobs:
         with:
           quotepath: "false"
           use_fork_point: "true"
-          since_last_remote_commit: "true"
+          #since_last_remote_commit: "true"
           files: |
             **/*.ipynb
 
