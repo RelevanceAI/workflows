@@ -4,7 +4,7 @@ on:
   push:
       branches: [ main ]
   pull_request:
-    types: [ assigned, review_requested  ]
+    # types: [ assigned, review_requested  ]
 
 jobs:
   setup-notebook-diff:
@@ -12,6 +12,11 @@ jobs:
     outputs:
       notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo ${{github.event.review.state }}
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
