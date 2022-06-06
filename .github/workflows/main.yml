@@ -5,8 +5,6 @@ on:
   push:
       branches: [ main ]
   pull_request:
-    types: [ assigned ]
-  # workflow_dispatch:
 
 jobs:
   setup-tests:
