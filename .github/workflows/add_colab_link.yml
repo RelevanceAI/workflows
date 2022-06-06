@@ -8,7 +8,6 @@ on:
 
 jobs:
   setup-notebook-diff:
-    if:  ${{ github.event.pull_request.requested_reviewers }}
     runs-on: ubuntu-latest
     outputs:
       notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
@@ -18,7 +17,8 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo ${{github.event.review.state }}
 
-      - uses: actions/checkout@v2
+      - if: ${{ github.event.pull_request.requested_reviewers }}
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
