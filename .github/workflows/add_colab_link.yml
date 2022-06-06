@@ -10,7 +10,7 @@ jobs:
   check-requested-reviewers:
     runs-on: ubuntu-latest
     outputs:
-      length: ${{ steps.num-requested-reviewerss.outputs.length }}
+      length: ${{ steps.num-requested-reviewers.outputs.length }}
     steps:
       - name: Dump GitHub context
         env:
