@@ -400,7 +400,7 @@ WORKFLOWS = [
         "colab_link": COLAB_PREFIX + "workflows/explain-text-clusters/explain-text-clusters_form.ipynb",
         "title": "Explain text clusters",
         "description": "Explain text clusters",
-        "prerequisites": ["Dataset with text field"],
+        "prerequisites": ["Dataset with text field", "Ran clustering workflow"],
         "use_cases": ["Explaining text clusters"],
         "documentation_links": [
             {
