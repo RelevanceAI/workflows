@@ -2,7 +2,7 @@ name: Colab Link Comments
 
 on:
   push:
-      branches: [ main ]
+      branches: [ main, development ]
   pull_request:
     # types: [ assigned, review_requested  ]
 
