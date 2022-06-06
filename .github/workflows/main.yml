@@ -4,7 +4,8 @@ name: Workflow Update
 on:
   push:
       branches: [ main ]
-  pull_request_review:
+  pull_request:
+    types: [ assigned ]
   # workflow_dispatch:
 
 jobs:
