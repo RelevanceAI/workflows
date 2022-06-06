@@ -26,6 +26,8 @@ jobs:
           echo "length = $length"
           echo "::set-output name=length::$length"
 
+      - run: echo ${{ steps.num-requested-reviewers.outputs.length }}
+
       - if: ${{ steps.num-requested-reviewers.outputs.length }} > 0
         uses: actions/checkout@v2
         with:
@@ -65,7 +67,7 @@ jobs:
         uses: tj-actions/changed-files@v19
         with:
           quotepath: "false"
-          use_fork_point: "true"
+          # use_fork_point: "true"
           files: |
             **/*.ipynb
 
