@@ -393,6 +393,25 @@ WORKFLOWS = [
         "new": True,
         "core": False,
     },
+
+    {
+        "_id": "explain-text-clusters",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/explain-text-clusters/explain-text-clusters_form.ipynb",
+        "title": "Explain text clusters",
+        "description": "Explain text clusters",
+        "prerequisites": ["Dataset with text field"],
+        "use_cases": ["Explaining text clusters"],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/development/operations/cluster/explain_text_clusters.html" ,
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+    },
     ############### COMING SOON WORKFLOWS
     {
         "_id": "pdf-ingestion",
