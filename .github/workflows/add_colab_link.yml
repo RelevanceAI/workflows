@@ -1,0 +1,94 @@
+name: Colab Link Comments
+
+on:
+  push:
+      branches: [ main ]
+  pull_request:
+  # workflow_dispatch:
+
+jobs:
+  setup-notebook-diff:
+    runs-on: ubuntu-latest
+    outputs:
+      notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          # cache: 'pip'
+
+      - name: Cache Python deps
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('setup.py') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.pythonLocation }}-pip-
+            ${{ runner.os }}-${{ env.pythonLocation }}-
+
+      # - name: Install requirements
+      #   run: |
+      #     pip install --upgrade pip
+      #     pip install -r requirements.txt
+
+      - name: Check for notebook output
+        uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
+
+      - name: Test for API keys in docs
+        run: |
+          pip install typing_extensions  ## <3.8
+          python scripts/detect_secrets.py -d -p workflows -s
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+        with:
+          quotepath: "false"
+          since_last_remote_commit: 'true'
+          files: |
+            **/*.ipynb
+
+      - id: set-notebook-fpaths
+        name: Setting notebook fpath output
+        run: |
+          DIFF_NOTEBOOKS=$(for n in ${{ steps.changed-files.outputs.all_changed_files }}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          echo $DIFF_NOTEBOOKS
+
+          NOTEBOOK_FPATHS=$( echo $DIFF_NOTEBOOKS | jq -Rsc '. / "\n" - [""]' )
+          echo $NOTEBOOK_FPATHS
+
+          echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
+
+
+  create-colab-link-comment:
+    name: Colab link ${{ matrix.notebook }}
+    needs: setup-notebook-diff
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest]
+        python-version: [ '3.8' ]
+        # python-version: [ '3.6', '3.7', '3.8', '3.9' ]
+        notebook: ${{fromJSON(needs.setup-notebook-diff.outputs.notebook-fpaths)}}
+        include:
+          - os: ubuntu-latest
+            path: ~/.cache/pip
+          # - os: macos-latest
+          #   path: ~/Library/Caches/pip
+          # - os: windows-latest
+          #   path: ~\AppData\Local\pip\Cache
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          message: |
+            [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RelevanceAI/workflows/blob/${{ github.ref_name }}/workflows/${{ matrix.notebook }})
