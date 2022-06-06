@@ -7,29 +7,29 @@ on:
     # types: [ assigned, review_requested  ]
 
 jobs:
-  check-requested-reviewers:
-    runs-on: ubuntu-latest
-    outputs:
-      length: ${{ steps.num-requested-reviewers.outputs.length }}
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo ${{github.event.review.state }}
+  # check-requested-reviewers:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     length: ${{ steps.num-requested-reviewers.outputs.length }}
+  #   steps:
+  #     - name: Dump GitHub context
+  #       env:
+  #         GITHUB_CONTEXT: ${{ toJson(github) }}
+  #       run: echo ${{github.event.review.state }}
 
-      - name: Get requested reviewers
-        id: num-requested-reviewers
-        env:
-          requested_reviewers: ${{ toJson(github.event.pull_request.requested_reviewers) }}
-        run: |
-          length=$(echo $requested_reviewers | jq '. | length')
-          echo "length = $length"
-          echo "::set-output name=length::$length"
+  #     - name: Get requested reviewers
+  #       id: num-requested-reviewers
+  #       env:
+  #         requested_reviewers: ${{ toJson(github.event.pull_request.requested_reviewers) }}
+  #       run: |
+  #         length=$(echo $requested_reviewers | jq '. | length')
+  #         echo "length = $length"
+  #         echo "::set-output name=length::$length"
 
   setup-notebook-diff:
     runs-on: ubuntu-latest
-    needs: check-requested-reviewers
-    if: ${{ steps.num-requested-reviewers.outputs.length }} > 0
+    # needs: check-requested-reviewers
+    # if: ${{ steps.num-requested-reviewers.outputs.length }} > 0
 
     outputs:
       notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
@@ -106,10 +106,7 @@ jobs:
         include:
           - os: ubuntu-latest
             path: ~/.cache/pip
-          # - os: macos-latest
-          #   path: ~/Library/Caches/pip
-          # - os: windows-latest
-          #   path: ~\AppData\Local\pip\Cache
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
