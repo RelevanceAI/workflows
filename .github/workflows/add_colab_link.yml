@@ -7,10 +7,10 @@ on:
     # types: [ assigned, review_requested  ]
 
 jobs:
-  setup-notebook-diff:
+  check-requested-reviewers:
     runs-on: ubuntu-latest
     outputs:
-      notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
+      length: ${{ steps.num-requested-reviewerss.outputs.length }}
     steps:
       - name: Dump GitHub context
         env:
@@ -26,9 +26,15 @@ jobs:
           echo "length = $length"
           echo "::set-output name=length::$length"
 
-      - run: echo ${{ steps.num-requested-reviewers.outputs.length }}
+  setup-notebook-diff:
+    runs-on: ubuntu-latest
+    needs: check-requested-reviewers
+    if: ${{ steps.num-requested-reviewers.outputs.length }} > 0
 
-      - if: ${{ steps.num-requested-reviewers.outputs.length }} > 0
+    outputs:
+      notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
