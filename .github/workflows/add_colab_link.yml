@@ -64,7 +64,7 @@ jobs:
         if:  ${{ steps.changed-files.outputs.all_changed_files }}
         name: Setting notebook fpath output
         run: |
-          DIFF_NOTEBOOKS=${{ steps.changed-files.outputs.all_changed_files }}
+          DIFF_NOTEBOOKS=(${{ steps.changed-files.outputs.all_changed_files }})
           echo $DIFF_NOTEBOOKS
 
           NOTEBOOK_FPATHS=$( for n in $DIFF_NOTEBOOKS; do echo $n; done | jq -Rsc '. / "\n" - [""]' )
