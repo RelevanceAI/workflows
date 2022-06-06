@@ -91,4 +91,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           message: |
-            [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RelevanceAI/workflows/blob/${{ github.ref_name }}/workflows/${{ matrix.notebook }})
+            Changes detected in
+            https://github.com/RelevanceAI/workflows/blob/${{ github.head_ref }}/workflows/${{ matrix.notebook }})
+
+            [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RelevanceAI/workflows/blob/${{ github.head_ref }}/workflows/${{ matrix.notebook }})
