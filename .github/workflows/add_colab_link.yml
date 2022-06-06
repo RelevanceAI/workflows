@@ -64,10 +64,11 @@ jobs:
         if:  ${{ steps.changed-files.outputs.all_changed_files }}
         name: Setting notebook fpath output
         run: |
-          DIFF_NOTEBOOKS=$(for n in ${{ steps.changed-files.outputs.all_changed_files }}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
+          DIFF_NOTEBOOKS=$(for n in ${{ steps.changed-files.outputs.all_changed_files }}; do echo $n; done | sed  s/'workflows\/'//g )
           echo $DIFF_NOTEBOOKS
 
-          NOTEBOOK_FPATHS=$( $DIFF_NOTEBOOKS | jq -Rsc '. / "\n" - [""]' )
+          # NOTEBOOK_FPATHS=$( $DIFF_NOTEBOOKS | jq -Rsc '. / "\n" - [""]' )
+          NOTEBOOK_FPATHS=${{ toJSON(steps.changed-files.outputs.all_changed_files) }}
           echo $NOTEBOOK_FPATHS
 
           echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
