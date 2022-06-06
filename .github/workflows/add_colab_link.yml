@@ -8,6 +8,7 @@ on:
 
 jobs:
   setup-notebook-diff:
+    if:  ${{ github.event.pull_request.requested_reviewers }}
     runs-on: ubuntu-latest
     outputs:
       notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
@@ -66,7 +67,7 @@ jobs:
           DIFF_NOTEBOOKS=$(for n in ${{ steps.changed-files.outputs.all_changed_files }}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
           echo $DIFF_NOTEBOOKS
 
-          NOTEBOOK_FPATHS=$( echo $DIFF_NOTEBOOKS | jq -Rsc '. / "\n" - [""]' )
+          NOTEBOOK_FPATHS=$( $DIFF_NOTEBOOKS | jq -Rsc '. / "\n" - [""]' )
           echo $NOTEBOOK_FPATHS
 
           echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
