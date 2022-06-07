@@ -40,8 +40,12 @@ jobs:
         aws-secret-access-key: ${{ steps.set-environment.outputs.aws_secret_access_key }}
         aws-region: ${{ secrets.AWS_REGION }}
 
+
     - name: Upload to S3
       run: |
+        ENVIRONMENT=${{ steps.set-environment.outputs.environment }}
+        echo "Uploading notebooks to S3"
+
         aws s3 cp workflows s3://relevance-${ENVIRONMENT}-ap-southeast-2-workflows/workflows/notebooks/ --recursive
 
         if [[ $ENVIRONMENT == "prod" ]]; then
