@@ -37,12 +37,13 @@ jobs:
         echo "::set-output name=aws_access_key_id::$(echo $AWS_ACCESS_KEY_ID)"
         echo "::set-output name=aws_secret_access_key::$(echo $AWS_SECRET_ACCESS_KEY)"
 
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ steps.set-environment.outputs.aws_access_key_id }}
         aws-secret-access-key: ${{ steps.set-environment.outputs.aws_secret_access_key }}
-        aws-region: ${{ matrix.region }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Upload to S3
       run: |
