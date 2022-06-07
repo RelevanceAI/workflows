@@ -40,12 +40,8 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Uploaded dataset with text or image fields"],
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
-        },
     },
     {
         "_id": "core-dr",
@@ -67,12 +63,8 @@ WORKFLOWS = [
         ],
         "new": False,
         "core": True,
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/dr/Reduce_the_Dimensions_of_Your_Data_with_Relevance_AI_params.ipynb",
-        },
     },
     {
         "_id": "core-cluster",
@@ -91,12 +83,8 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Vectorised some fields in your data"],
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "cluster/Cluster_Your_Data_with_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/cluster/Cluster_Your_Data_with_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/cluster/Cluster_Your_Data_with_Relevance_AI_params.ipynb",
-        },
     },
     {
         "_id": "core-subclustering",
@@ -114,12 +102,8 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "prerequisites": ["Vectorised text or image fields in your dataset"],
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "subclustering/core_subclustering_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/subclustering/core_subclustering_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/subclustering/core_subclustering_params.ipynb",
-        },
     },
     ############### NEW WORKFLOWS
     {
@@ -143,20 +127,15 @@ WORKFLOWS = [
             "List of data items (images/text) to vectorize",
             "Vectorizer",
         ],
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
-        },
     },
     {
         "_id": "taxonomy",
         "type": "workflow",
         "title": "Add Taxonomy",
         "description": "Insert your taxonomy into Relevance AI",
-        "colab_link": COLAB_PREFIX
-        + "workflows/taxonomy/Taxonomy.ipynb",
+        "colab_link": COLAB_PREFIX + "workflows/taxonomy/Taxonomy.ipynb",
         "use_cases": ["Label your data with a pre-determined taxonomy."],
         "documentation_links": [
             {
@@ -166,16 +145,9 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "prerequisites": [
-            "Taxonomy you would like to insert",
-            "Dataset with text"
-        ],
-        ## workflows-deploy reads notebook_path from these fields
+        "prerequisites": ["Taxonomy you would like to insert", "Dataset with text"],
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "workflows/taxonomy/Taxonomy.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/taxonomy/Taxonomy.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/taxonomy/Taxonomy.ipynb",
-        },
     },
     {
         "_id": "cluster-reports",
@@ -200,12 +172,8 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
-        },
     },
     {
         "_id": "subclustering",
@@ -226,35 +194,27 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "subclustering/basic_subclustering_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/development/subclustering/basic_subclustering.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/subclustering/basic_subclustering.ipynb",
-        },
     },
     ##### Non core workflows
-#     {
-#         "_id": "impact-analysis",
-#         "type": "workflow",
-#         "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
-#         "title": "Feature/Impact Analysis",
-#         "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
-#         "prerequisites": [
-#             "Dataset with encoded vectors and a variable to measure importance."
-#         ],
-#         "use_cases": ["KPI Measurement", "Impact Analysis"],
-#         "documentation_links": [],
-#         "video_links": [],
-#         "new": True,
-#         "coming_soon": False,
-#         ## workflows-deploy reads notebook_path from these fields
-#         "suffix": "impact-analysis/impact-analysis_params.ipynb",
-#         "s3_url": {
-#             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/impact-analysis/impact-analysis.ipynb",
-#             "stg": "s3://relevanceai-workflows/dev/impact-analysis/impact-analysis.ipynb",
-#         },
-#     },
+    #     {
+    #         "_id": "impact-analysis",
+    #         "type": "workflow",
+    #         "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
+    #         "title": "Feature/Impact Analysis",
+    #         "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
+    #         "prerequisites": [
+    #             "Dataset with encoded vectors and a variable to measure importance."
+    #         ],
+    #         "use_cases": ["KPI Measurement", "Impact Analysis"],
+    #         "documentation_links": [],
+    #         "video_links": [],
+    #         "new": True,
+    #         "coming_soon": False,
+    #         ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
+    #         "suffix": "impact-analysis/impact-analysis_params.ipynb"
+    #     },
     {
         "_id": "keyphrases",
         "type": "workflow",
@@ -271,12 +231,8 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": False,
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "keyphrases/KeyPhrases_Workflow_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/keyphrases/KeyPhrases_Workflow.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/keyphrases/KeyPhrases_Workflow.ipynb",
-        },
     },
     {
         "_id": "vector-rake",
@@ -292,12 +248,8 @@ WORKFLOWS = [
             "vectorized text field",
             "vectorizer",
         ],
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "vector-rake/vector_rake_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/vector-rake/vector_rake.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/vector-rake/vector_rake.ipynb",
-        },
     },
     {
         "_id": "most-common-words-in-clusters",
@@ -317,12 +269,8 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "coming_soon": False,
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "most-common-words-in-clusters/most-common-words-in-clusters_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/most-common-words-in-clusters/most-common-words-in-clusters.ipynb",
-        },
     },
     {
         "_id": "community-detection",
@@ -341,12 +289,8 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "community-detection/Community_Detection_with_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/community-detection/Community_Detection_with_Relevance_AI.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/community-detection/Community_Detection_with_Relevance_AI.ipynb",
-        },
     },
     {
         "_id": "media-upload",
@@ -368,12 +312,8 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "core": False,
-        ## workflows-deploy reads notebook_path from these fields
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "media_upload/💡_Upload_Audio_Images_Videos_Flow_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/media_upload/💡_Upload_Audio_Images_Videos_Flow.ipynb",
-        },
     },
     {
         "_id": "sentiment",
@@ -393,11 +333,11 @@ WORKFLOWS = [
         "new": True,
         "core": False,
     },
-
     {
         "_id": "explain-text-clusters",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/explain-text-clusters/explain-text-clusters_form.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/explain-text-clusters/explain-text-clusters_form.ipynb",
         "title": "Explain text clusters",
         "description": "Explain text clusters",
         "prerequisites": ["Dataset with text field", "Ran clustering workflow"],
@@ -405,7 +345,7 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/development/operations/cluster/explain_text_clusters.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/development/operations/cluster/explain_text_clusters.html",
             }
         ],
         "video_links": [],
@@ -438,7 +378,6 @@ WORKFLOWS = [
         #             "video_links": [],
         #             "new": True,
         "coming_soon": True,
-        # "s3_url": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/keyphrases/KeyPhrases_Workflow.ipynb",
     },
     {
         "_id": "video-search",
@@ -456,7 +395,6 @@ WORKFLOWS = [
         # "video_links": [],
         # "new": True,
         "coming_soon": True,
-        # "s3_url": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/keyphrases/KeyPhrases_Workflow.ipynb",
     },
     ############### RECIPES
     {
@@ -478,10 +416,6 @@ WORKFLOWS = [
         "new": True,
         "core": False,
         "suffix": "dummy-datasets/Dummy_Datasets_Workflow.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/dummy-datasets/Dummy_Datasets_Workflow.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/dummy-datasets/Dummy_Datasets_Workflow.ipynb",
-        },
     },
     {
         "_id": "pdf-search",
@@ -565,10 +499,6 @@ WORKFLOWS = [
         "recipe_url": "https://relevance.ai",
         "logo_url": "https://www.svgrepo.com/show/22159/twitter.svg",
         "suffix": "twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/twitter-analysis/AI_Twitter_Analysis_by_Relevance_AI.ipynb",
-        },
     },
 ]
 
