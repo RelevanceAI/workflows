@@ -50,3 +50,4 @@ jobs:
 
         if [[ $ENVIRONMENT == "prod" ]]; then
           aws s3 cp workflows s3://relevance-${ENVIRONMENT}-us-east-1-workflows/workflows/notebooks/ --recursive
+        fi
