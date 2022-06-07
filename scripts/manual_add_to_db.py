@@ -151,6 +151,33 @@ WORKFLOWS = [
         },
     },
     {
+        "_id": "taxonomy",
+        "type": "workflow",
+        "title": "Add Taxonomy",
+        "description": "Insert your taxonomy into Relevance AI",
+        "colab_link": COLAB_PREFIX
+        + "workflows/taxonomy/Taxonomy.ipynb",
+        "use_cases": ["Label your data with a pre-determined taxonomy."],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/development/operations/label.html",
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "prerequisites": [
+            "Taxonomy you would like to insert",
+            "Dataset with text"
+        ],
+        ## workflows-deploy reads notebook_path from these fields
+        "suffix": "workflows/taxonomy/Taxonomy.ipynb",
+        "s3_url": {
+            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/taxonomy/Taxonomy.ipynb",
+            "stg": "s3://relevanceai-workflows/dev/taxonomy/Taxonomy.ipynb",
+        },
+    },
+    {
         "_id": "cluster-reports",
         "colab_link": COLAB_PREFIX
         + "workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb",
@@ -206,6 +233,7 @@ WORKFLOWS = [
             "stg": "s3://relevanceai-workflows/dev/subclustering/basic_subclustering.ipynb",
         },
     },
+    ##### Non core workflows
     {
         "_id": "impact-analysis",
         "type": "workflow",
@@ -242,7 +270,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "keyphrases/KeyPhrases_Workflow_params.ipynb",
         "s3_url": {
@@ -258,7 +286,7 @@ WORKFLOWS = [
         "use_cases": ["auto-labeling documents"],
         "documentation_links": [],
         "video_links": [],
-        "new": True,
+        "new": False,
         "prerequisites": [
             "dataset with text field",
             "vectorized text field",
@@ -287,7 +315,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "coming_soon": False,
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "most-common-words-in-clusters/most-common-words-in-clusters_params.ipynb",
