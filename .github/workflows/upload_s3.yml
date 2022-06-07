@@ -5,7 +5,6 @@ on:
       branches: [ main, development ]
   pull_request:
 
-
 jobs:
   upload:
     name: Upload to s3
@@ -27,13 +26,12 @@ jobs:
           export ENVIRONMENT="dev"
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        else
-          export ENVIRONMENT="sandbox"
-          export AWS_ACCESS_KEY_ID=${{ secrets.SANDBOX_AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.SANDBOX_AWS_SECRET_ACCESS_KEY }}
-        fi
+
 
         echo $ENVIRONMENT
+        export ENVIRONMENT="dev"
+        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
         echo "##[set-output name=environment;]$(echo $ENVIRONMENT)"
         echo "::set-output name=short-sha::$(git rev-parse --short ${{ github.sha }})"
