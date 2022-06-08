@@ -212,7 +212,7 @@ WORKFLOWS = [
         "type": "workflow",
         "colab_link": COLAB_PREFIX
         + "workflows/subclustering/basic_subclustering.ipynb",
-        "title": "Subclustering",
+        "title": "Advanced Subclustering",
         "description": "Clustering within clusters",
         "prerequisites": ["A dataset with vectors and clusters"],
         "use_cases": [
@@ -379,7 +379,7 @@ WORKFLOWS = [
         "_id": "sentiment",
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/sentiment/Sentiment.ipynb",
-        "title": "Sentiment",
+        "title": "Advanced Sentiment",
         "description": "Add positive/negative/neutral sentiment to your text fields.",
         "prerequisites": ["Dataset with text field"],
         "use_cases": ["Sentiment analysis."],
