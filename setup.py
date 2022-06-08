@@ -14,7 +14,7 @@ requirements = [
     f"RelevanceAI[notebook]=={package_versions['RelevanceAI']}",
     f"sentence-transformers=={package_versions['sentence-transformers']}",
     #     f"transformers=={package_versions['transformers']}",
-    #     f"vectorhub[sentence-transformers]=={package_versions['vectorhub']}",
+    f"vectorhub[sentence-transformers]=={package_versions['vectorhub']}",
     #     f"vectorhub[encoders-text-tfhub]=={package_versions['vectorhub']}",
     #     f"vectorhub[clip]=={package_versions['vectorhub']}",
     "jupyter",
