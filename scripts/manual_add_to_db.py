@@ -155,8 +155,7 @@ WORKFLOWS = [
         "type": "workflow",
         "title": "Add Taxonomy",
         "description": "Insert your taxonomy into Relevance AI",
-        "colab_link": COLAB_PREFIX
-        + "workflows/taxonomy/Taxonomy.ipynb",
+        "colab_link": COLAB_PREFIX + "workflows/taxonomy/Taxonomy.ipynb",
         "use_cases": ["Label your data with a pre-determined taxonomy."],
         "documentation_links": [
             {
@@ -166,12 +165,9 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
-        "prerequisites": [
-            "Taxonomy you would like to insert",
-            "Dataset with text"
-        ],
+        "prerequisites": ["Taxonomy you would like to insert", "Dataset with text"],
         ## workflows-deploy reads notebook_path from these fields
-        "suffix": "workflows/taxonomy/Taxonomy.ipynb",
+        "suffix": "workflows/taxonomy/Taxonomy_Core_params.ipynb",
         "s3_url": {
             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/taxonomy/Taxonomy.ipynb",
             "stg": "s3://relevanceai-workflows/dev/taxonomy/Taxonomy.ipynb",
@@ -234,27 +230,27 @@ WORKFLOWS = [
         },
     },
     ##### Non core workflows
-#     {
-#         "_id": "impact-analysis",
-#         "type": "workflow",
-#         "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
-#         "title": "Feature/Impact Analysis",
-#         "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
-#         "prerequisites": [
-#             "Dataset with encoded vectors and a variable to measure importance."
-#         ],
-#         "use_cases": ["KPI Measurement", "Impact Analysis"],
-#         "documentation_links": [],
-#         "video_links": [],
-#         "new": True,
-#         "coming_soon": False,
-#         ## workflows-deploy reads notebook_path from these fields
-#         "suffix": "impact-analysis/impact-analysis_params.ipynb",
-#         "s3_url": {
-#             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/impact-analysis/impact-analysis.ipynb",
-#             "stg": "s3://relevanceai-workflows/dev/impact-analysis/impact-analysis.ipynb",
-#         },
-#     },
+    #     {
+    #         "_id": "impact-analysis",
+    #         "type": "workflow",
+    #         "colab_link": COLAB_PREFIX + "workflows/impact-analysis/impact-analysis.ipynb",
+    #         "title": "Feature/Impact Analysis",
+    #         "description": "Analyse the impact of your features and directly assess how important they are and their local/global impact on the KPI or metric.",
+    #         "prerequisites": [
+    #             "Dataset with encoded vectors and a variable to measure importance."
+    #         ],
+    #         "use_cases": ["KPI Measurement", "Impact Analysis"],
+    #         "documentation_links": [],
+    #         "video_links": [],
+    #         "new": True,
+    #         "coming_soon": False,
+    #         ## workflows-deploy reads notebook_path from these fields
+    #         "suffix": "impact-analysis/impact-analysis_params.ipynb",
+    #         "s3_url": {
+    #             "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/impact-analysis/impact-analysis.ipynb",
+    #             "stg": "s3://relevanceai-workflows/dev/impact-analysis/impact-analysis.ipynb",
+    #         },
+    #     },
     {
         "_id": "keyphrases",
         "type": "workflow",
@@ -393,11 +389,11 @@ WORKFLOWS = [
         "new": True,
         "core": False,
     },
-
     {
         "_id": "explain-text-clusters",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/explain-text-clusters/explain-text-clusters_form.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/explain-text-clusters/explain-text-clusters_form.ipynb",
         "title": "Explain text clusters",
         "description": "Explain text clusters",
         "prerequisites": ["Dataset with text field", "Ran clustering workflow"],
@@ -405,18 +401,18 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/development/operations/cluster/explain_text_clusters.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/development/operations/cluster/explain_text_clusters.html",
             }
         ],
         "video_links": [],
         "new": True,
         "core": False,
     },
-
     {
         "_id": "fit-to-smaller-dataset",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/filter_to_smaller_dataset/Filter_To_Smaller_Dataset.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/filter_to_smaller_dataset/Filter_To_Smaller_Dataset.ipynb",
         "title": "Filter to smaller dataset",
         "description": "Speed up dashboards as operations run on smaller amounts of data. They can also be great for testing functions really quickly.",
         "prerequisites": ["Datase"],
@@ -424,7 +420,7 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
