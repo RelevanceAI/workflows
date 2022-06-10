@@ -419,11 +419,30 @@ WORKFLOWS = [
         "colab_link": COLAB_PREFIX + "workflows/filter_to_smaller_dataset/Filter_To_Smaller_Dataset.ipynb",
         "title": "Filter to smaller dataset",
         "description": "Speed up dashboards as operations run on smaller amounts of data. They can also be great for testing functions really quickly.",
-        "prerequisites": ["Datase"],
+        "prerequisites": ["Dataset"],
         "use_cases": ["Faster dashboards", "Bigger Focus", "Testing"],
         "documentation_links": [
             {
                 "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+    },
+
+     {
+        "_id": "bulk-apply",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/bulk_apply/Bulk_Apply.ipynb",
+        "title": "Bulk Apply",
+        "description": "Process documents incredibly fast with Relevance AI",
+        "prerequisites": ["Dataset"],
+        "use_cases": ["Dataset"],
+        "documentation_links": [
+            {
+                "title": "Process documents incredibly fast with Relevance AI",
                 "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
             }
         ],
