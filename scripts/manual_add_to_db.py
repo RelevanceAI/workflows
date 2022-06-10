@@ -412,6 +412,25 @@ WORKFLOWS = [
         "new": True,
         "core": False,
     },
+
+    {
+        "_id": "fit-to-smaller-dataset",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/filter_to_smaller_dataset/Filter_To_Smaller_Dataset.ipynb",
+        "title": "Filter to smaller dataset",
+        "description": "Speed up dashboards as operations run on smaller amounts of data. They can also be great for testing functions really quickly.",
+        "prerequisites": ["Datase"],
+        "use_cases": ["Faster dashboards", "Bigger Focus", "Testing"],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+    },
     ############### COMING SOON WORKFLOWS
     {
         "_id": "pdf-ingestion",
