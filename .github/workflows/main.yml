@@ -57,7 +57,7 @@ jobs:
         run: |
           DIFF_NOTEBOOKS=$(for n in ${{ steps.changed-files.outputs.all_changed_files }}; do echo $n; done | grep '.ipynb' | sed  s/'workflows\/'//g )
           echo $DIFF_NOTEBOOKS
-          NOTEBOOKS=$(grep -v '#' 'workflows/ignore-workflows.txt' )
+          NOTEBOOKS=$(cat 'workflows/.workflowsignore' | grep '#' | sed 's/# //g')
 
           NOTEBOOK_FPATHS=$( grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS" | jq -Rsc '. / "\n" - [""]' )
           echo $NOTEBOOK_FPATHS
