@@ -450,6 +450,24 @@ WORKFLOWS = [
         "new": True,
         "core": False,
     },
+    {
+        "_id": "sentiment-wordbubbles",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/sentiment_wordbubbles/sentiment_wordbubbles.ipynb",
+        "title": "Sentiment Wordbubbles",
+        "description": "Sentiment wordbubbles help you quickly identify which groups to dive further into",
+        "prerequisites": ["Dataset with sentiment field - must have run sentiment workflow."],
+        "use_cases": ["A sentiment overview to identify areas to explore more into."],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+    },
 
 
      {
