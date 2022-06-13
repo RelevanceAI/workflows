@@ -453,7 +453,7 @@ WORKFLOWS = [
     {
         "_id": "sentiment-wordbubbles",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/sentiment_wordbubbles/sentiment_wordbubbles.ipynb",
+        "colab_link": COLAB_PREFIX + "workflows/sentiment_wordbubbles/sentiment_word_bubbles.ipynb",
         "title": "Sentiment Wordbubbles",
         "description": "Sentiment wordbubbles help you quickly identify which groups to dive further into",
         "prerequisites": ["Dataset with sentiment field - must have run sentiment workflow."],
