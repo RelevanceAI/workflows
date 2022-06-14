@@ -59,11 +59,11 @@ def get_paths(WORKFLOWS_PATH: Path) -> List[Path]:
     """
     Get paths of all of the Jupyter Notebooks that will be tested.
     """
-    with open(WORKFLOWS_PATH / Path("ignore-workflows.txt")) as file:
+    with open(WORKFLOWS_PATH / Path(".workflowsignore")) as file:
         ignored_notebooks = set(
             WORKFLOWS_PATH / Path(notebook.replace("#", "").strip())
             for notebook in file.readlines()
-            if notebook.startswith("#")
+            if not notebook.startswith("#")
             and any(nb_path_string in notebook for nb_path_string in ["/", "ipynb"])
             and "workflow" not in notebook
         )
