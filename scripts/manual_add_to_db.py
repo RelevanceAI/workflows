@@ -471,7 +471,7 @@ WORKFLOWS = [
       {
         "_id": "byo-clusters",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/insertion/byo_cluster.ipynb",
+        "colab_link": COLAB_PREFIX + "workflows/insertion/byo_cluster/byo_cluster.ipynb",
         "title": "BYO Clusters",
         "description": "Bring your own clusters into Relevance AI and unlock all powerful functionality",
         "prerequisites": ["Vector field", "Your own categories"],
