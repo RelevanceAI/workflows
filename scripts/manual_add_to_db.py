@@ -122,34 +122,34 @@ WORKFLOWS = [
         },
     },
     ############### NEW WORKFLOWS
-    {
-        "_id": "bias-detection",
-        "type": "workflow",
-        "title": "Bias Detection",
-        "description": "Detect bias in your vectorizers",
-        "colab_link": COLAB_PREFIX
-        + "workflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
-        "use_cases": ["Gender bias", "Category bias", "Unsupervised bias detection"],
-        "documentation_links": [
-            {
-                "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/autoapi/relevanceai/utils/bias_detection/bias_plot/index.html",
-            }
-        ],
-        "video_links": [],
-        "new": True,
-        "prerequisites": [
-            "List of bias categories",
-            "List of data items (images/text) to vectorize",
-            "Vectorizer",
-        ],
-        ## workflows-deploy reads notebook_path from these fields
-        "suffix": "bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
-        },
-    },
+    # {
+    #     "_id": "bias-detection",
+    #     "type": "workflow",
+    #     "title": "Bias Detection",
+    #     "description": "Detect bias in your vectorizers",
+    #     "colab_link": COLAB_PREFIX
+    #     + "workflows/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI.ipynb",
+    #     "use_cases": ["Gender bias", "Category bias", "Unsupervised bias detection"],
+    #     "documentation_links": [
+    #         {
+    #             "title": "SDK Reference",
+    #             "url": "https://relevanceai.readthedocs.io/en/latest/autoapi/relevanceai/utils/bias_detection/bias_plot/index.html",
+    #         }
+    #     ],
+    #     "video_links": [],
+    #     "new": False,
+    #     "prerequisites": [
+    #         "List of bias categories",
+    #         "List of data items (images/text) to vectorize",
+    #         "Vectorizer",
+    #     ],
+    #     ## workflows-deploy reads notebook_path from these fields
+    #     "suffix": "bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
+    #     "s3_url": {
+    #         "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
+    #         "stg": "s3://relevanceai-workflows/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
+    #     },
+    # },
     {
         "_id": "taxonomy",
         "type": "workflow",
@@ -177,36 +177,36 @@ WORKFLOWS = [
             "stg": "s3://relevanceai-workflows/dev/taxonomy/Taxonomy.ipynb",
         },
     },
-    {
-        "_id": "cluster-reports",
-        "colab_link": COLAB_PREFIX
-        + "workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb",
-        "type": "workflow",
-        "title": "Cluster Evaluation Report",
-        "description": "Automatically analyse your clusters using a variety of metrics to improve cluster performance",
-        "prerequisites": [
-            "A dataset with vectors and clusters OR",
-            "An X array with cluster labels and clustering model",
-        ],
-        "use_cases": [
-            "Ensuring proper topics are extracted",
-            "Ensuring customers are properly segmented",
-        ],
-        "documentation_links": [
-            {
-                "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/operations/cluster/report.html",
-            }
-        ],
-        "video_links": [],
-        "new": True,
-        ## workflows-deploy reads notebook_path from these fields
-        "suffix": "cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
-        "s3_url": {
-            "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
-            "stg": "s3://relevanceai-workflows/dev/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
-        },
-    },
+    # {
+    #     "_id": "cluster-reports",
+    #     "colab_link": COLAB_PREFIX
+    #     + "workflows/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI.ipynb",
+    #     "type": "workflow",
+    #     "title": "Cluster Evaluation Report",
+    #     "description": "Automatically analyse your clusters using a variety of metrics to improve cluster performance",
+    #     "prerequisites": [
+    #         "A dataset with vectors and clusters OR",
+    #         "An X array with cluster labels and clustering model",
+    #     ],
+    #     "use_cases": [
+    #         "Ensuring proper topics are extracted",
+    #         "Ensuring customers are properly segmented",
+    #     ],
+    #     "documentation_links": [
+    #         {
+    #             "title": "SDK Reference",
+    #             "url": "https://relevanceai.readthedocs.io/en/latest/operations/cluster/report.html",
+    #         }
+    #     ],
+    #     "video_links": [],
+    #     "new": False,
+    #     ## workflows-deploy reads notebook_path from these fields
+    #     "suffix": "cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
+    #     "s3_url": {
+    #         "dev": "s3://relevanceai-workflows-701405094693-ap-southeast-2/dev/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
+    #         "stg": "s3://relevanceai-workflows/dev/cluster-reporting/👍_Cluster_Reports_With_Relevance_AI_params.ipynb",
+    #     },
+    # },
     {
         "_id": "subclustering",
         "type": "workflow",
@@ -225,7 +225,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "subclustering/basic_subclustering_params.ipynb",
         "s3_url": {
@@ -340,7 +340,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         ## workflows-deploy reads notebook_path from these fields
         "suffix": "community-detection/Community_Detection_with_Relevance_AI_params.ipynb",
         "s3_url": {
@@ -390,7 +390,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
 
@@ -409,7 +409,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
 
@@ -428,7 +428,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
 
@@ -502,7 +502,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
     ############### COMING SOON WORKFLOWS
