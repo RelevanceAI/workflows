@@ -485,7 +485,26 @@ WORKFLOWS = [
         "video_links": [],
         "new": True,
         "core": False,
-        "suffix": "insertion/byo_cluster/byo_cluster.ipynb",
+        # "suffix": "insertion/byo_cluster/byo_cluster.ipynb",
+    },
+      {
+        "_id": "insert-excel",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/insertion/inserting_excel_files/inserting_excel_files.ipynb",
+        "title": "Inserting Excel File",
+        "description": "Bring your own clusters into Relevance AI and unlock all our powerful functionality",
+        "prerequisites": ["Excel file"],
+        "use_cases": ["Insert an Excel file with Relevance AI"],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+        # "suffix": "insertion//byo_cluster.ipynb",
     },
      {
         "_id": "bulk-apply",
