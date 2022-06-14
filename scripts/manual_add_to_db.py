@@ -468,8 +468,25 @@ WORKFLOWS = [
         "new": True,
         "core": False,
     },
-
-
+      {
+        "_id": "byo-clusters",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/insertion/byo_cluster.ipynb",
+        "title": "BYO Clusters",
+        "description": "Bring your own clusters into Relevance AI and unlock all powerful functionality",
+        "prerequisites": ["Vector field", "Your own categories"],
+        "use_cases": ["Bring your own clusters to view breakdowns of your own data!"],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+        "suffix": "insertion/byo_cluster/byo_cluster.ipynb",
+    },
      {
         "_id": "bulk-apply",
         "type": "workflow",
