@@ -454,7 +454,7 @@ WORKFLOWS = [
         "_id": "automated-taxonomy-builder-advaned",
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase_advanced.ipynb",
-        "title": "Automated Taxonomy Builder",
+        "title": "Advanced Automated Taxonomy Builder",
         "description": "An advanced automated taxonomy builder without requiring an input list.",
         "prerequisites": ["Dataset with text fields"],
         "use_cases": ["Allow data to drive insights automatically based on keyphrase extraction"],
