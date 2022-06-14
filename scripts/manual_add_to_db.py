@@ -492,7 +492,7 @@ WORKFLOWS = [
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/insertion/inserting_excel_files/inserting_excel_files.ipynb",
         "title": "Inserting Excel File",
-        "description": "Bring your own clusters into Relevance AI and unlock all our powerful functionality",
+        "description": "Insert an .xlsx file or other type of Excel file.",
         "prerequisites": ["Excel file"],
         "use_cases": ["Insert an Excel file with Relevance AI"],
         "documentation_links": [
