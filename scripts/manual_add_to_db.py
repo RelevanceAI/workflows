@@ -150,7 +150,7 @@ WORKFLOWS = [
         "new": True,
         "prerequisites": ["Taxonomy you would like to insert", "Dataset with text"],
         ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
-        "suffix": "workflows/taxonomy/Taxonomy.ipynb",
+        "suffix": "workflows/taxonomy/Taxonomy_Core_params.ipynb",
     },
     # {
     #     "_id": "cluster-reports",
