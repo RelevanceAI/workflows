@@ -14,15 +14,14 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set branch name in PR
-      if: github.event.pull_request.merged != true
-      run: |
-        echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
-
-    - name: Set branch name out of PR
-      if: github.event.pull_request.merged == true
+    - name: Set branch name
       run: |
         echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+
+    - name: Set branch name in PR
+      if: ${{ github.event_name == "pull_request" }}
+      run: |
+        echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
 
     - name: Set environment var based on branch name
       id: set-environment
