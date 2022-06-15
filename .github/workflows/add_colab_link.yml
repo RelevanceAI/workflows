@@ -72,8 +72,8 @@ jobs:
         uses: tj-actions/changed-files@v19
         with:
           quotepath: "false"
-          use_fork_point: "true"
-          #since_last_remote_commit: "true"
+          # use_fork_point: "true"
+          since_last_remote_commit: "true"
           files: |
             **/*.ipynb
 
