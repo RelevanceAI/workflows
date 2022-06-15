@@ -14,30 +14,33 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set Github env var based on branch name
+    - name: Set branch name in PR
+      if: github.event.pull_request.merged != true
+      run: |
+        echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+
+    - name: Set branch name out of PR
+      if: github.event.pull_request.merged == true
+      run: |
+        echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+
+    - name: Set environment var based on branch name
       id: set-environment
       run: |
-        BRANCH_NAME=${{ github.head_ref }}
         echo $BRANCH_NAME
         if [[ $BRANCH_NAME == "main" ]]; then
           export ENVIRONMENT="prod"
-          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         else
           export ENVIRONMENT="development"
-          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         fi
 
         echo "##[set-output name=environment;]$(echo $ENVIRONMENT)"
-        echo "::set-output name=aws_access_key_id::$(echo $AWS_ACCESS_KEY_ID)"
-        echo "::set-output name=aws_secret_access_key::$(echo $AWS_SECRET_ACCESS_KEY)"
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ steps.set-environment.outputs.aws_access_key_id }}
-        aws-secret-access-key: ${{ steps.set-environment.outputs.aws_secret_access_key }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
 

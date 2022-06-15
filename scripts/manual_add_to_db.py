@@ -105,7 +105,6 @@ WORKFLOWS = [
         ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "subclustering/core_subclustering_params.ipynb",
     },
-
     # {
     #     "_id": "bias-detection",
     #     "type": "workflow",
@@ -134,7 +133,6 @@ WORKFLOWS = [
     #         "stg": "s3://relevanceai-workflows/dev/bias-detection/✨Vector_Based_Bias_Detection_With_Relevance_AI_params.ipynb",
     #     },
     # },
-
     {
         "_id": "taxonomy",
         "type": "workflow",
@@ -154,7 +152,6 @@ WORKFLOWS = [
         ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "workflows/taxonomy/Taxonomy.ipynb",
     },
-
     # {
     #     "_id": "cluster-reports",
     #     "colab_link": COLAB_PREFIX
@@ -342,6 +339,7 @@ WORKFLOWS = [
         "video_links": [],
         "new": False,
         "core": False,
+        "suffix": "sentiment/Sentiment_core_params.ipynb",
     },
     {
         "_id": "explain-text-clusters",
@@ -362,11 +360,11 @@ WORKFLOWS = [
         "new": False,
         "core": False,
     },
-
     {
         "_id": "fit-to-smaller-dataset",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/filter_to_smaller_dataset/Filter_To_Smaller_Dataset.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/filter_to_smaller_dataset/Filter_To_Smaller_Dataset.ipynb",
         "title": "Filter to smaller dataset",
         "description": "Speed up dashboards as operations run on smaller amounts of data. They can also be great for testing functions really quickly.",
         "prerequisites": ["Dataset"],
@@ -374,26 +372,28 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
         "new": False,
         "core": False,
     },
-
     {
         "_id": "automated-taxonomy-builder",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase.ipynb",
         "title": "Automated Taxonomy Builder",
         "description": "An automated taxonomy builder without requiring an input list.",
         "prerequisites": ["Dataset with text fields"],
-        "use_cases": ["Allow data to drive insights automatically based on keyphrase extraction"],
+        "use_cases": [
+            "Allow data to drive insights automatically based on keyphrase extraction"
+        ],
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
@@ -403,15 +403,18 @@ WORKFLOWS = [
     {
         "_id": "automated-taxonomy-builder-advaned",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase_advanced.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase_advanced.ipynb",
         "title": "Advanced Automated Taxonomy Builder",
         "description": "An advanced automated taxonomy builder without requiring an input list.",
         "prerequisites": ["Dataset with text fields"],
-        "use_cases": ["Allow data to drive insights automatically based on keyphrase extraction"],
+        "use_cases": [
+            "Allow data to drive insights automatically based on keyphrase extraction"
+        ],
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
@@ -421,25 +424,29 @@ WORKFLOWS = [
     {
         "_id": "sentiment-wordbubbles",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/sentiment_wordbubbles/sentiment_word_bubbles.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/sentiment_wordbubbles/sentiment_word_bubbles.ipynb",
         "title": "Sentiment Wordbubbles",
         "description": "Sentiment wordbubbles help you quickly identify which groups to dive further into",
-        "prerequisites": ["Dataset with sentiment field - must have run sentiment workflow."],
+        "prerequisites": [
+            "Dataset with sentiment field - must have run sentiment workflow."
+        ],
         "use_cases": ["A sentiment overview to identify areas to explore more into."],
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
         "new": True,
         "core": False,
     },
-      {
+    {
         "_id": "byo-clusters",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/insertion/byo_cluster/byo_cluster.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/insertion/byo_cluster/byo_cluster.ipynb",
         "title": "BYO Clusters",
         "description": "Bring your own clusters into Relevance AI and unlock all our powerful functionality",
         "prerequisites": ["Vector field", "Your own categories"],
@@ -447,7 +454,7 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
@@ -455,10 +462,11 @@ WORKFLOWS = [
         "core": False,
         # "suffix": "insertion/byo_cluster/byo_cluster.ipynb",
     },
-      {
+    {
         "_id": "insert-excel",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/insertion/inserting_excel_files/inserting_excel_files.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/insertion/inserting_excel_files/inserting_excel_files.ipynb",
         "title": "Inserting Excel File",
         "description": "Insert an .xlsx file or other type of Excel file.",
         "prerequisites": ["Excel file"],
@@ -466,7 +474,7 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
@@ -474,7 +482,7 @@ WORKFLOWS = [
         "core": False,
         # "suffix": "insertion//byo_cluster.ipynb",
     },
-     {
+    {
         "_id": "bulk-apply",
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/bulk_apply/Bulk_Apply.ipynb",
@@ -485,7 +493,7 @@ WORKFLOWS = [
         "documentation_links": [
             {
                 "title": "Process documents incredibly fast with Relevance AI",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
             }
         ],
         "video_links": [],
