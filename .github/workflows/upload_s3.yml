@@ -27,6 +27,7 @@ jobs:
       id: set-environment
       run: |
         echo $BRANCH_NAME
+        BRANCH_NAME == "main"
         if [[ $BRANCH_NAME == "main" ]]; then
           export ENVIRONMENT="prod"
         else
