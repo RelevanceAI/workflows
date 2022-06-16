@@ -1,0 +1,123 @@
+name: Colab Link Comments
+
+on:
+  push:
+      branches: [ main, development ]
+  pull_request:
+    # types: [ assigned, review_requested  ]
+
+jobs:
+  # check-requested-reviewers:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     length: ${{ steps.num-requested-reviewers.outputs.length }}
+  #   steps:
+  #     - name: Dump GitHub context
+  #       env:
+  #         GITHUB_CONTEXT: ${{ toJson(github) }}
+  #       run: echo ${{github.event.review.state }}
+
+  #     - name: Get requested reviewers
+  #       id: num-requested-reviewers
+  #       env:
+  #         requested_reviewers: ${{ toJson(github.event.pull_request.requested_reviewers) }}
+  #       run: |
+  #         length=$(echo $requested_reviewers | jq '. | length')
+  #         echo "length = $length"
+  #         echo "::set-output name=length::$length"
+
+  setup-notebook-diff:
+    runs-on: ubuntu-latest
+    # needs: check-requested-reviewers
+    # if: ${{ steps.num-requested-reviewers.outputs.length }} > 0
+
+    outputs:
+      notebook-fpaths: ${{ steps.set-notebook-fpaths.outputs.notebook-fpaths }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          # cache: 'pip'
+
+      - name: Cache Python deps
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-${{ env.pythonLocation }}-pip-${{ hashFiles('setup.py') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.pythonLocation }}-pip-
+            ${{ runner.os }}-${{ env.pythonLocation }}-
+
+      # - name: Install requirements
+      #   run: |
+      #     pip install --upgrade pip
+      #     pip install -r requirements.txt
+
+      - name: Check for notebook output
+        uses: ResearchSoftwareActions/EnsureCleanNotebooksAction@1.1
+
+      - name: Test for API keys in docs
+        run: |
+          pip install typing_extensions  ## <3.8
+          python scripts/detect_secrets.py -d -p workflows -s
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+        with:
+          quotepath: "false"
+          # use_fork_point: "true"
+          since_last_remote_commit: "true"
+          files: |
+            **/*.ipynb
+
+      - id: set-notebook-fpaths
+        if:  ${{ steps.changed-files.outputs.all_changed_files }}
+        name: Setting notebook fpath output
+        run: |
+          DIFF_NOTEBOOKS=(${{ steps.changed-files.outputs.all_changed_files }})
+          echo $DIFF_NOTEBOOKS
+
+          NOTEBOOK_FPATHS=$( for n in ${DIFF_NOTEBOOKS[@]}; do echo $n; done | jq -Rsc '. / "\n" - [""]' )
+          echo $NOTEBOOK_FPATHS
+
+          echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
+
+
+  create-colab-link-comment:
+    name: Colab link ${{ matrix.notebook }}
+    needs: setup-notebook-diff
+    if: ${{ needs.setup-notebook-diff.outputs.notebook-fpaths }}
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest]
+        python-version: [ '3.8' ]
+        # python-version: [ '3.6', '3.7', '3.8', '3.9' ]
+        notebook: ${{fromJSON(needs.setup-notebook-diff.outputs.notebook-fpaths)}}
+        include:
+          - os: ubuntu-latest
+            path: ~/.cache/pip
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Comment PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          hide_and_recreate: true
+          hide_classify: "OUTDATED"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          message: |
+            Changes detected in
+            [/workflows/${{ matrix.notebook }}](https://github.com/RelevanceAI/workflows/blob/${{ github.head_ref }}/${{ matrix.notebook }})
+
+            [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RelevanceAI/workflows/blob/${{ github.head_ref }}/${{ matrix.notebook }})
