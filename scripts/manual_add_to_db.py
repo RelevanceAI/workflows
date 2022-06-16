@@ -342,7 +342,7 @@ WORKFLOWS = [
         "suffix": "sentiment/Sentiment_core_params.ipynb",
     },
     {
-        "_id": "emotion",
+        "_id": "explain-text-clusters",
         "type": "workflow",
         "colab_link": COLAB_PREFIX
         + "workflows/explain-text-clusters/explain-text-clusters_form.ipynb",
@@ -440,6 +440,7 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": True,
+        "core": False,
     },
     {
         "_id": "byo-clusters",
