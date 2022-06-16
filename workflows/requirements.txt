@@ -1,1 +1,1 @@
-RelevanceAI==2.1.8
+RelevanceAI==2.3.6
