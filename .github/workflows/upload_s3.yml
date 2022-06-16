@@ -14,27 +14,14 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set branch name in PR
-      if: github.event.pull_request.merged != true
-      run: |
-        echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
-
-    - name: Set branch name out of PR
-      if: github.event.pull_request.merged == true
+    - name: Set branch name
       run: |
         echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
-    - name: Set environment var based on branch name
-      id: set-environment
+    - name: Set branch name in PR
+      if: ${{ github.event.pull_request }}
       run: |
-        echo $BRANCH_NAME
-        if [[ $BRANCH_NAME == "main" ]]; then
-          export ENVIRONMENT="prod"
-        else
-          export ENVIRONMENT="development"
-        fi
-
-        echo "##[set-output name=environment;]$(echo $ENVIRONMENT)"
+        echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -43,14 +30,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-
-    - name: Upload to S3
+    - name: Set environment var based on branch name
+      id: set-environment
       run: |
-        ENVIRONMENT=${{ steps.set-environment.outputs.environment }}
-        echo "Uploading notebooks to S3"
-
-        aws s3 cp workflows s3://relevance-${ENVIRONMENT}-ap-southeast-2-workflows/workflows/notebooks/ --recursive
-
-        if [[ $ENVIRONMENT == "prod" ]]; then
-          aws s3 cp workflows s3://relevance-${ENVIRONMENT}-us-east-1-workflows/workflows/notebooks/ --recursive
+        echo $BRANCH_NAME
+        if [[ $BRANCH_NAME == "main" ]]; then
+          aws s3 cp workflows s3://relevance-prod-ap-southeast-2-workflows/workflows/notebooks/ --recursive
+          aws s3 cp workflows s3://relevance-prod-us-east-1-workflows/workflows/notebooks/ --recursive
+        else
+          aws s3 cp workflows s3://relevance-development-ap-southeast-2-workflows/workflows/notebooks/ --recursive
         fi
+
+        echo "##[set-output name=environment;]$(echo $ENVIRONMENT)"
