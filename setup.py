@@ -19,6 +19,7 @@ requirements = [
     #     f"vectorhub[clip]=={package_versions['vectorhub']}",
     "jupyter",
     "typing_extensions",  ## <3.8
+    f"keybert=={package_versions['keybert']}"
 ]
 
 notebook_test_requirements = [
