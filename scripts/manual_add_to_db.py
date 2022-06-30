@@ -341,25 +341,25 @@ WORKFLOWS = [
         "core": False,
         "suffix": "sentiment/Sentiment_core_params.ipynb",
     },
-    {
-        "_id": "emotion",
-        "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/emotion/emotion_form.ipynb",
-        "title": "Extract Emotion",
-        "description": "Extract emotion from text field",
-        "prerequisites": ["Dataset with text field"],
-        "use_cases": ["Extracting emotion from text fields"],
-        "documentation_links": [
-            {
-                "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/autoapi/relevanceai/operations_new/ops/index.html?highlight=extract_ner#relevanceai.operations_new.ops.Operations.extract_emotion",
-            }
-        ],
-        "video_links": [],
-        "new": True,
-        "core": False,
-        "suffix": "emotion/emotion_params.ipynb",
-    },
+    # {
+    #     "_id": "emotion",
+    #     "type": "workflow",
+    #     "colab_link": COLAB_PREFIX + "workflows/emotion/emotion_form.ipynb",
+    #     "title": "Extract Emotion",
+    #     "description": "Extract emotion from text field",
+    #     "prerequisites": ["Dataset with text field"],
+    #     "use_cases": ["Extracting emotion from text fields"],
+    #     "documentation_links": [
+    #         {
+    #             "title": "SDK Reference",
+    #             "url": "https://relevanceai.readthedocs.io/en/latest/autoapi/relevanceai/operations_new/ops/index.html?highlight=extract_ner#relevanceai.operations_new.ops.Operations.extract_emotion",
+    #         }
+    #     ],
+    #     "video_links": [],
+    #     "new": True,
+    #     "core": False,
+    #     "suffix": "emotion/emotion_params.ipynb",
+    # },
     {
         "_id": "explain-text-clusters",
         "type": "workflow",
