@@ -147,7 +147,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "prerequisites": ["Taxonomy you would like to insert", "Dataset with text"],
         ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "workflows/taxonomy/Taxonomy_Core_params.ipynb",
@@ -317,7 +317,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
         ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "media_upload/💡_Upload_Audio_Images_Videos_Flow_params.ipynb",
@@ -416,7 +416,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
     {
@@ -437,7 +437,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
     {
@@ -458,7 +458,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
     {
@@ -477,7 +477,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
         # "suffix": "insertion/byo_cluster/byo_cluster.ipynb",
     },
@@ -497,7 +497,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
         # "suffix": "insertion//byo_cluster.ipynb",
     },
@@ -593,7 +593,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
         "suffix": "dummy-datasets/Dummy_Datasets_Workflow.ipynb",
     },
@@ -672,7 +672,7 @@ WORKFLOWS = [
         ],  # not needed in future
         "documentation_links": [],  # not needed in future
         "video_links": [],  # not needed in future
-        "new": True,
+        "new": False,
         "recipe": True,  # Required for recipes
         "feature_image_url": "https://relevance.ai/wp-content/uploads/2022/03/image-6.png",
         "blog_link": "https://relevance.ai/twitter-data-workflow-how-to-run-twitter-account-data-analysis/",
