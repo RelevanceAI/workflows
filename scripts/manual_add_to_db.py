@@ -502,6 +502,24 @@ WORKFLOWS = [
         # "suffix": "insertion//byo_cluster.ipynb",
     },
     {
+        "_id": "csv-insert",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/insertion/insert_csvs/Insert_CSV_Workflow.ipynb",
+        "title": "Insert CSV with Colab",
+        "description": "Insert CSV",
+        "prerequisites": ["Dataset"],
+        "use_cases": ["Dataset"],
+        "documentation_links": [
+            {
+                "title": "Insert CSV",
+                "url": "https://sdk.relevance.ai/docs/inserting-files",
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+    },
+    {
         "_id": "bulk-apply",
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/bulk_apply/Bulk_Apply.ipynb",
