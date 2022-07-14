@@ -506,9 +506,9 @@ WORKFLOWS = [
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/insertion/insert_csvs/Insert_CSV_Workflow.ipynb",
         "title": "Insert CSV with Colab",
-        "description": "Insert CSV",
-        "prerequisites": ["Dataset"],
-        "use_cases": ["Dataset"],
+        "description": "Insert a CSV reliably using Colab. This can be used as an alternative way to uploading via the UI.",
+        "prerequisites": ["A CSV file"],
+        "use_cases": [],
         "documentation_links": [
             {
                 "title": "Insert CSV",
@@ -526,7 +526,7 @@ WORKFLOWS = [
         "title": "Bulk Apply",
         "description": "Process documents incredibly fast with Relevance AI",
         "prerequisites": ["Dataset"],
-        "use_cases": ["Dataset"],
+        "use_cases": [],
         "documentation_links": [
             {
                 "title": "Process documents incredibly fast with Relevance AI",
