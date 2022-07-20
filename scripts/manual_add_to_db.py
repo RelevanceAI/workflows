@@ -419,6 +419,25 @@ WORKFLOWS = [
         "new": False,
         "core": False,
     },
+
+    {
+        "_id": "text-cleaning",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/text/clean_text/Text_Cleaning.ipynb",
+        "title": "Clean Text",
+        "description": "Clean text quickly with accelerated workflows",
+        "prerequisites": ["Dataset with text fields"],
+        "use_cases": ["Get clean text data to analyze"],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html" ,
+            }
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+    },
     {
         "_id": "automated-taxonomy-builder-advaned",
         "type": "workflow",
