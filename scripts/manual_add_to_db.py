@@ -537,6 +537,19 @@ WORKFLOWS = [
         "new": False,
         "core": False,
     },
+    {
+        "_id": "export-to-csv",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/export/Export_to_CSV.ipynb",
+        "title": "Export to CSV",
+        "description": "Export datasets to CSV.",
+        "prerequisites": ["Dataset"],
+        "use_cases": [],
+        "documentation_links": [],
+        "video_links": [],
+        "new": True,
+        "core": False,
+    },
     ############### COMING SOON WORKFLOWS
     {
         "_id": "pdf-ingestion",
