@@ -398,48 +398,48 @@ WORKFLOWS = [
         "new": False,
         "core": False,
     },
-    {
-        "_id": "automated-taxonomy-builder",
-        "type": "workflow",
-        "colab_link": COLAB_PREFIX
-        + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase.ipynb",
-        "title": "Automated Taxonomy Builder",
-        "description": "An automated taxonomy builder without requiring an input list.",
-        "prerequisites": ["Dataset with text fields"],
-        "use_cases": [
-            "Allow data to drive insights automatically based on keyphrase extraction"
-        ],
-        "documentation_links": [
-            {
-                "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
-            }
-        ],
-        "video_links": [],
-        "new": False,
-        "core": False,
-    },
-    {
-        "_id": "automated-taxonomy-builder-advaned",
-        "type": "workflow",
-        "colab_link": COLAB_PREFIX
-        + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase_advanced.ipynb",
-        "title": "Advanced Automated Taxonomy Builder",
-        "description": "An advanced automated taxonomy builder without requiring an input list.",
-        "prerequisites": ["Dataset with text fields"],
-        "use_cases": [
-            "Allow data to drive insights automatically based on keyphrase extraction"
-        ],
-        "documentation_links": [
-            {
-                "title": "SDK Reference",
-                "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
-            }
-        ],
-        "video_links": [],
-        "new": False,
-        "core": False,
-    },
+    # {
+    #     "_id": "automated-taxonomy-builder",
+    #     "type": "workflow",
+    #     "colab_link": COLAB_PREFIX
+    #     + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase.ipynb",
+    #     "title": "Automated Taxonomy Builder",
+    #     "description": "An automated taxonomy builder without requiring an input list.",
+    #     "prerequisites": ["Dataset with text fields"],
+    #     "use_cases": [
+    #         "Allow data to drive insights automatically based on keyphrase extraction"
+    #     ],
+    #     "documentation_links": [
+    #         {
+    #             "title": "SDK Reference",
+    #             "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
+    #         }
+    #     ],
+    #     "video_links": [],
+    #     "new": False,
+    #     "core": False,
+    # },
+    # {
+    #     "_id": "automated-taxonomy-builder-advaned",
+    #     "type": "workflow",
+    #     "colab_link": COLAB_PREFIX
+    #     + "workflows/automated_taxonomy_builder_keyphrase/auto_taxonomy_builder_keyphrase_advanced.ipynb",
+    #     "title": "Advanced Automated Taxonomy Builder",
+    #     "description": "An advanced automated taxonomy builder without requiring an input list.",
+    #     "prerequisites": ["Dataset with text fields"],
+    #     "use_cases": [
+    #         "Allow data to drive insights automatically based on keyphrase extraction"
+    #     ],
+    #     "documentation_links": [
+    #         {
+    #             "title": "SDK Reference",
+    #             "url": "https://relevanceai.readthedocs.io/en/latest/core/dataset/useful_utilities.html",
+    #         }
+    #     ],
+    #     "video_links": [],
+    #     "new": False,
+    #     "core": False,
+    # },
     {
         "_id": "sentiment-wordbubbles",
         "type": "workflow",
