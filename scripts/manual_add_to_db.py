@@ -341,6 +341,21 @@ WORKFLOWS = [
         "core": False,
         "suffix": "sentiment/Sentiment_core_params.ipynb",
     },
+        {
+        "_id": "tag-comparison-export",
+        "type": "workflow",
+        "colab_link": COLAB_PREFIX + "workflows/export/Tag_Comparison_Export.ipynb",
+        "title": "Tag Comparison Export",
+        "description": "Export for tag comparison",
+        "prerequisites": ["Dataset with tags"],
+        "use_cases": ["QResearch Tag Comparisons"],
+        "documentation_links": [
+        ],
+        "video_links": [],
+        "new": True,
+        "core": False,
+        # "suffix": "sentiment/Sentiment_core_params.ipynb",
+    },
     # {
     #     "_id": "emotion",
     #     "type": "workflow",
