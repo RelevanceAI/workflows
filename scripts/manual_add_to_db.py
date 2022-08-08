@@ -352,7 +352,7 @@ WORKFLOWS = [
         "documentation_links": [
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
         # "suffix": "sentiment/Sentiment_core_params.ipynb",
     },
@@ -531,7 +531,7 @@ WORKFLOWS = [
             }
         ],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
     {
@@ -562,7 +562,7 @@ WORKFLOWS = [
         "use_cases": [],
         "documentation_links": [],
         "video_links": [],
-        "new": True,
+        "new": False,
         "core": False,
     },
     ############### COMING SOON WORKFLOWS
