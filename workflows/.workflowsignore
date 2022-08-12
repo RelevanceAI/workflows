@@ -41,8 +41,8 @@ most-common-words-in-clusters/most-common-words-in-clusters_params.ipynb
 
 # quickstart_workflow/☘️_Relevance_AI_Quickstart.ipynb
 
-# subclustering/basic_subclustering.ipynb
-# subclustering/core_subclustering.ipynb
+subclustering/basic_subclustering.ipynb
+subclustering/core_subclustering.ipynb
 subclustering/core_subclustering_params.ipynb
 
 sentiment/Sentiment.ipynb
