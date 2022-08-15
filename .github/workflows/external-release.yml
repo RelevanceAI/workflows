@@ -1,0 +1,51 @@
+name: "Push external package to Octopus"
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  push-package:
+    # BUG: this doesn't work and returns null. Find the other way how we can
+    #      verify that we only run this job for the main branch
+    #      for now, we assume, that we push v* tags only to the main branch
+
+    # if: github.event.base_ref == 'refs/heads/main'
+    name: "Push package"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate version number
+        id: version
+        run: |
+          #!/bin/bash
+
+          set -e
+          set -o pipefail
+          set -u
+
+          version=${GITHUB_REF/refs\/tags\//}
+          version=${version#v}
+          echo "Package version is $version"
+          echo "::set-output name=version_number::$version"
+
+      - name: Archive and push
+        env:
+          octopus_api_key: ${{ secrets.OCTOPUS_API_KEY }}
+          octopus_url: ${{ secrets.OCTOPUS_URL }}
+          package_name: relevance.workflows
+          version: ${{ steps.version.outputs.version_number }}
+        run: |
+          #!/bin/bash
+
+          set -e
+          set -o pipefail
+          set -u
+
+          cd workflows
+          zip -r ${package_name}.${version}.zip .
+          curl -X POST https://$octopus_url/api/packages/raw -H "X-Octopus-ApiKey: ${octopus_api_key}" -F "data=@${package_name}.${version}.zip" > /dev/null 2>&1
+          rm -f ${package_name}.${version}.zip

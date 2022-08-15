@@ -1,0 +1,47 @@
+name: "Push internal package to Octopus"
+
+on: pull_request
+
+jobs:
+  push-package:
+    name: "Push package"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate version number
+        id: version
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          #!/bin/bash
+
+          set -e
+          set -o pipefail
+          set -u
+
+          commit_sha=${COMMIT_SHA:0:7}
+          let days=($(date -d 'today 00:00:00' '+%s') - $(date -d '20220701 00:00:00' '+%s'))/86400
+          let seconds=($(date '+%s') - $(date -d 'today 00:00:00' '+%s'))
+          version="0.$days.$seconds-$commit_sha"
+          echo "Package version is $version"
+          echo "::set-output name=version_number::$version"
+
+      - name: Archive and push
+        env:
+          octopus_api_key: ${{ secrets.OCTOPUS_API_KEY }}
+          octopus_url: ${{ secrets.OCTOPUS_URL }}
+          package_name: relevance.workflows
+          version: ${{ steps.version.outputs.version_number }}
+        run: |
+          #!/bin/bash
+
+          set -e
+          set -o pipefail
+          set -u
+
+          cd workflows
+          zip -r ${package_name}.${version}.zip .
+          curl -X POST https://$octopus_url/api/packages/raw -H "X-Octopus-ApiKey: ${octopus_api_key}" -F "data=@${package_name}.${version}.zip" > /dev/null 2>&1
+          rm -f ${package_name}.${version}.zip
