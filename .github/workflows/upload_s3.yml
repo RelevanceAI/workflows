@@ -38,7 +38,7 @@ jobs:
           aws s3 cp workflows s3://relevance-production-ap-southeast-2-workflows/workflows/notebooks/ --recursive
           aws s3 cp workflows s3://relevance-production-us-east-1-workflows/workflows/notebooks/ --recursive
         else
-          aws s3 cp workflows s3://relevance-development-ap-southeast-2-workflows/workflows/notebooks/ --recursive
+          aws s3 cp private_workflows s3://workflows-1e3042/workflows/notebooks/ --recursive
         fi
 
         echo "##[set-output name=environment;]$(echo $ENVIRONMENT)"
