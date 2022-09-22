@@ -24,12 +24,12 @@ COLAB_PREFIX = (
 WORKFLOWS = [
     ############### CORE WORKFLOWS
     {
-        "_id": "core-vectorize",
+        "_id": "core-vectorize-text",
         "type": "core-workflow",
-        "title": "Vectorizing with Relevance AI",
+        "title": "Vectorizing Text with Relevance AI",
         "description": "Vectorize your data with Relevance AI",
         "colab_link": COLAB_PREFIX
-        + "workflows/vectorize/Vectorize_Your_Data_with_Relevance_AI.ipynb",
+        + "workflows/vectorize/Vectorize_Your_Unstructured_Text_Data_with_Relevance_AI.ipynb",
         "use_cases": ["Encoding data for further downstream tasks"],
         "documentation_links": [
             {
@@ -39,7 +39,27 @@ WORKFLOWS = [
         ],
         "video_links": [],
         "new": False,
-        "prerequisites": ["Uploaded dataset with text or image fields"],
+        "prerequisites": ["Uploaded dataset with text fields"],
+        ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
+        "suffix": "vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
+    },
+    {
+        "_id": "core-vectorize-image",
+        "type": "core-workflow",
+        "title": "Vectorizing Images with Relevance AI",
+        "description": "Vectorize your data with Relevance AI",
+        "colab_link": COLAB_PREFIX
+        + "workflows/vectorize/Vectorize_Your_Unstructured_Image_Data_with_Relevance_AI.ipynb",
+        "use_cases": ["Encoding data for further downstream tasks"],
+        "documentation_links": [
+            {
+                "title": "SDK Reference",
+                "url": "https://relevanceai.readthedocs.io/en/latest/operations/vectorize.html",
+            }
+        ],
+        "video_links": [],
+        "new": False,
+        "prerequisites": ["Uploaded dataset with image fields"],
         ## https://api-dev.ap-southeast-2.relevance.ai/latest/documentation#tag/workflows `notebook_path` parameter refers to `suffix`
         "suffix": "vectorize/Vectorize_Your_Data_with_Relevance_AI_params.ipynb",
     },
@@ -341,7 +361,7 @@ WORKFLOWS = [
         "core": False,
         "suffix": "sentiment/Sentiment_core_params.ipynb",
     },
-        {
+    {
         "_id": "tag-comparison-export",
         "type": "workflow",
         "colab_link": COLAB_PREFIX + "workflows/export/Tag_Comparison_Export.ipynb",
@@ -349,8 +369,7 @@ WORKFLOWS = [
         "description": "Export for tag comparison",
         "prerequisites": ["Dataset with tags"],
         "use_cases": ["QResearch Tag Comparisons"],
-        "documentation_links": [
-        ],
+        "documentation_links": [],
         "video_links": [],
         "new": False,
         "core": False,
@@ -519,7 +538,8 @@ WORKFLOWS = [
     {
         "_id": "csv-insert",
         "type": "workflow",
-        "colab_link": COLAB_PREFIX + "workflows/insertion/insert_csvs/Insert_CSV_Workflow.ipynb",
+        "colab_link": COLAB_PREFIX
+        + "workflows/insertion/insert_csvs/Insert_CSV_Workflow.ipynb",
         "title": "Insert CSV with Colab",
         "description": "Insert a CSV reliably using Colab. This can be used as an alternative way to uploading via the UI.",
         "prerequisites": ["A CSV file"],
