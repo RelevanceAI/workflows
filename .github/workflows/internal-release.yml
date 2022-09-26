@@ -13,7 +13,7 @@ jobs:
       - name: Generate version number
         id: version
         env:
-          COMMIT_SHA: ${{ github.sha }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           #!/bin/bash
 
