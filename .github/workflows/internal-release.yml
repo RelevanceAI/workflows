@@ -26,7 +26,7 @@ jobs:
           let seconds=($(date '+%s') - $(date -d 'today 00:00:00' '+%s'))
           version="0.$days.$seconds-$commit_sha"
           echo "Package version is $version"
-          echo "::set-output name=version_number::$version"
+          echo "version_number=$version" >> $GITHUB_OUTPUT
 
       - name: Archive and push
         env:

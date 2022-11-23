@@ -39,4 +39,4 @@ jobs:
           aws s3 cp workflows s3://relevance-production-us-east-1-workflows/workflows/notebooks/ --recursive
         fi
 
-        echo "##[set-output name=environment;]$(echo $ENVIRONMENT)"
+        echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT

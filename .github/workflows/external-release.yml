@@ -30,7 +30,7 @@ jobs:
           version=${GITHUB_REF/refs\/tags\//}
           version=${version#v}
           echo "Package version is $version"
-          echo "::set-output name=version_number::$version"
+          echo "version_number=$version" >> $GITHUB_OUTPUT
 
       - name: Archive and push
         env:
