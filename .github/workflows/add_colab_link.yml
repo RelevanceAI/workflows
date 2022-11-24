@@ -24,7 +24,7 @@ jobs:
   #       run: |
   #         length=$(echo $requested_reviewers | jq '. | length')
   #         echo "length = $length"
-  #         echo "::set-output name=length::$length"
+  #         echo "length=$length" >> $GITHUB_OUTPUT
 
   setup-notebook-diff:
     runs-on: ubuntu-latest
@@ -87,7 +87,7 @@ jobs:
           NOTEBOOK_FPATHS=$( for n in ${DIFF_NOTEBOOKS[@]}; do echo $n; done | jq -Rsc '. / "\n" - [""]' )
           echo $NOTEBOOK_FPATHS
 
-          echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
+          echo "notebook-fpaths=$NOTEBOOK_FPATHS" >> $GITHUB_OUTPUT
 
 
   create-colab-link-comment:

@@ -62,7 +62,7 @@ jobs:
           NOTEBOOK_FPATHS=$( grep -Fx "$NOTEBOOKS" <<< "$DIFF_NOTEBOOKS" | jq -Rsc '. / "\n" - [""]' )
           echo $NOTEBOOK_FPATHS
 
-          echo "::set-output name=notebook-fpaths::$NOTEBOOK_FPATHS"
+          echo "notebook-fpaths=$NOTEBOOK_FPATHS" >> $GITHUB_OUTPUT
 
 
   test-notebooks:
